@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyiforts.mapper.FortMapper">
+    <resultMap type="TokenApplyForms" id="TokenApplyFormResult">
+        <result property="applyStatus"    column="apply_status"    />
+        <result property="openDate"    column="open_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="addway"    column="addway"    />
+        <result property="openIncident"    column="open_incident"    />
+        <result property="openIncidentId"    column="open_incident_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="applycount"    column="applycount"    />
+        <result property="uniquenesscode"    column="uniquenesscode"    />
+        <result property="seqno"    column="seqno"    />
+        <result property="otherSystem"    column="other_system"    />
+        <result property="approvalStatus"    column="approval_status"    />
+        <result property="reserved1"    column="reserved1"    />
+        <result property="reserved2"    column="reserved2"    />
+        <result property="validDate"    column="valid_date"    />
+        <result property="reserved3"    column="reserved3"    />
+        <result property="openDistinct"    column="open_distinct"    />
+        <result property="systemName"    column="system_name"    />
+        <result property="applyEnvironment"    column="apply_environment"    />
+        <result property="proposer"    column="proposer"    />
+        <result property="applyDate"    column="apply_date"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="tokenId"    column="token_id"    />
+        <result property="openInstructions"    column="open_instructions"    />
+    </resultMap>
+
+    <select id="selectApplyAndResult" parameterType="java.lang.String" resultType="java.util.HashMap">
+      select af.*, dv.user_name, dv.password from token_apply_form af
+      left join token_distinct_vpn dv on af.uniquenesscode = dv.uniquenesscode
+      where af.EMPLOYEE_ID = #{employeeId}
+      order by af.token_id desc
+    </select>
+
+    <insert id="insertTokenApplyForm" parameterType="TokenApplyForms">
+        <selectKey keyProperty="tokenId" resultType="long" order="BEFORE">
+            SELECT seq_token_apply_form.NEXTVAL as tokenId FROM DUAL
+        </selectKey>
+        insert into token_apply_form
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="applyStatus != null  and applyStatus != ''">apply_status,</if>
+            <if test="openDate != null ">open_date,</if>
+            <if test="endDate != null ">end_date,</if>
+            <if test="addway != null  and addway != ''">addway,</if>
+            <if test="openIncident != null  and openIncident != ''">open_incident,</if>
+            <if test="openIncidentId != null  and openIncidentId != ''">open_incident_id,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="applycount != null  and applycount != ''">applycount,</if>
+            <if test="uniquenesscode != null  and uniquenesscode != ''">uniquenesscode,</if>
+            <if test="seqno != null  and seqno != ''">seqno,</if>
+            <if test="otherSystem != null  and otherSystem != ''">other_system,</if>
+            <if test="approvalStatus != null  and approvalStatus != ''">approval_status,</if>
+            <if test="reserved1 != null  and reserved1 != ''">reserved1,</if>
+            <if test="reserved2 != null  and reserved2 != ''">reserved2,</if>
+            <if test="validDate != null  and validDate != ''">valid_date,</if>
+            <if test="reserved3 != null  and reserved3 != ''">reserved3,</if>
+            <if test="openDistinct != null  and openDistinct != ''">open_distinct,</if>
+            <if test="systemName != null  and systemName != ''">system_name,</if>
+            <if test="applyEnvironment != null  and applyEnvironment != ''">apply_environment,</if>
+            <if test="proposer != null  and proposer != ''">proposer,</if>
+            <if test="applyDate != null ">apply_date,</if>
+            <if test="employeeId != null  and employeeId != ''">employee_id,</if>
+            <if test="tokenId != null ">token_id,</if>
+            <if test="openInstructions != null  and openInstructions != ''">open_instructions,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="applyStatus != null  and applyStatus != ''">#{applyStatus},</if>
+            <if test="openDate != null ">to_date(#{openDate},'YYYY-MM-DD HH24:MI:SS'),</if>
+            <if test="endDate != null ">to_date(#{endDate},'YYYY-MM-DD HH24:MI:SS'),</if>
+            <if test="addway != null  and addway != ''">#{addway},</if>
+            <if test="openIncident != null  and openIncident != ''">#{openIncident},</if>
+            <if test="openIncidentId != null  and openIncidentId != ''">#{openIncidentId},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="applycount != null  and applycount != ''">#{applycount},</if>
+            <if test="uniquenesscode != null  and uniquenesscode != ''">#{uniquenesscode},</if>
+            <if test="seqno != null  and seqno != ''">#{seqno},</if>
+            <if test="otherSystem != null  and otherSystem != ''">#{otherSystem},</if>
+            <if test="approvalStatus != null  and approvalStatus != ''">#{approvalStatus},</if>
+            <if test="reserved1 != null  and reserved1 != ''">#{reserved1},</if>
+            <if test="reserved2 != null  and reserved2 != ''">#{reserved2},</if>
+            <if test="validDate != null  and validDate != ''">#{validDate},</if>
+            <if test="reserved3 != null  and reserved3 != ''">#{reserved3},</if>
+            <if test="openDistinct != null  and openDistinct != ''">#{openDistinct},</if>
+            <if test="systemName != null  and systemName != ''">#{systemName},</if>
+            <if test="applyEnvironment != null  and applyEnvironment != ''">#{applyEnvironment},</if>
+            <if test="proposer != null  and proposer != ''">#{proposer},</if>
+            <if test="applyDate != null ">to_date(#{applyDate},'YYYY-MM-DD HH24:MI:SS'),</if>
+            <if test="employeeId != null  and employeeId != ''">#{employeeId},</if>
+            <if test="tokenId != null ">#{tokenId},</if>
+            <if test="openInstructions != null  and openInstructions != ''">#{openInstructions},</if>
+        </trim>
+    </insert>
+
+    <select id="getCommonLanguage" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from token_common_language where 1 = 1
+        <if test="singId != null and singId != ''">
+        and sign_id = #{singId}
+        </if>
+    </select>
+
+    <select id = "getTwoOrgInfomation" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select user_id,user_name,t.duty from token_xkstaff_department t
+        where t.duty != '16015' and
+        two_dept_org =
+        (select two_dept_org from token_xkstaff_department where user_id = #{userId})
+        start with t.duty != (select duty from token_xkstaff_department where user_Id = #{userId})
+        connect by nocycle t.duty = prior t.duty
+    </select>
+
+    <select id = "getLikeSystem" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select system_name from token_system_inventory
+        where instr(','||maintain_user_id||',',concat(concat(',', #{userId}), ','))>0
+        <if test="systemName != null and systemName != ''">
+            and system_name like concat(concat('%', #{systemName}), '%')
+        </if>
+    </select>
+
+    <select id="vpnInformation" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from token_distinct_vpn
+        <if test="userName != null and userName != ''">
+        where user_name = #{userName}
+        </if>
+    </select>
+
+    <insert id="addVpnInfo">
+        insert into token_distinct_vpn (ID,USER_NAME,PASSWORD,ACCOUNT_STATUS,USE_NUM,EMPLOYEEID,UNIQUENESSCODE) VALUES
+        (seq_token_distinct_vpn.NEXTVAL,#{userName},#{password},#{accountStatus},#{useNum},
+        #{employeeId},#{uniqueness})
+    </insert>
+
+    <select id="getAllSystemName" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select system_name from token_system_inventory
+        <if test="systemName != null and systemName != ''">
+            WHERE system_name like concat(concat('%', #{systemName}), '%')
+        </if>
+    </select>
+
+    <update id="updateVpnInfo">
+        update token_distinct_vpn set user_name = #{userName},password = #{password},
+        account_status = #{accountStatus},use_num = #{useNum} where id = #{id}
+    </update>
+
+    <select id="selectMaxCount" resultType="java.lang.String">
+        select max(use_num) from token_distinct_vpn
+    </select>
+
+    <select id="selectApprovalInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from TOKEN_APPLY_FORM where seqno = #{seNo}
+    </select>
+    
+    <update id="updateApprovalInfo">
+        update TOKEN_APPLY_FORM set APPROVAL_STATUS = #{approvalStatus},UNIQUENESSCODE = #{uniquenessCode},
+        REMARK = #{remark},RESERVED1 = #{approvalName},APPLY_STATUS = #{applyStatus}
+        where seqno = #{seNo}
+    </update>
+
+    <update id="updateApprovalInfoTask">
+        update TOKEN_APPLY_FORM set APPROVAL_STATUS = #{approvalStatus},UNIQUENESSCODE = #{uniquenessCode},
+        REMARK = #{remark},RESERVED1 = #{approvalName},APPLY_STATUS = #{applyStatus},SEQNO = #{seqNo}
+        where seqno = #{seNo}
+    </update>
+    
+    <select id="selectSearchSystem" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from TOKEN_SEARCHSYSTEM_USER where user_id = #{userId}
+    </select>
+    
+    <select id="isLeaderSend" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from token_xkstaff_department where duty != '16015' and user_id = #{leaderId}
+    </select>
+    
+    <select id="selectPhone" parameterType="java.lang.String" resultType="java.lang.String">
+        select PHONE from TOKEN_XKSTAFF_DEPARTMENT where user_id = #{userId}
+    </select>
+    
+    <select id="getInfoByStaff" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select distinct REGEXP_SUBSTR(MAINTAIN_USER_ID, '[^,]+', 1,level) MAINTAIN_USER_ID,
+        REGEXP_SUBSTR(use_maintain_staff, '[^、]+', 1,level) USE_MAINTAIN_STAFF
+        from TOKEN_SYSTEM_INVENTORY where SCIENCE_CHARGE_TEAM = #{chargeTeam}
+        connect by level &lt;= regexp_count(MAINTAIN_USER_ID,'[^,]+')
+        and rowId = prior ROWID
+        and prior dbms_random.value is not null
+        order by MAINTAIN_USER_ID
+    </select>
+    
+    <select id="selectInfoBySeqno" parameterType="java.lang.String" resultType="java.util.HashMap">
+      select af.*, dv.user_name, dv.password from token_apply_form af
+      left join token_distinct_vpn dv on af.uniquenesscode = dv.uniquenesscode
+      where AF.SEQNO = #{seqNo}
+    </select>
+    
+    <select id="getSystemInfo" parameterType="java.util.List" resultType="java.util.HashMap">
+      select s.system_name ,s.use_maintain_staff,s.maintain_user_id,
+      (select listagg(x.phone,',') within group (order by x.user_id)
+      from token_xkstaff_department x
+      where instr(','||s.maintain_user_id||',',concat(concat(',', '0'||x.user_id), ','))>0
+      ) phone from token_system_inventory s
+      where s.system_id in
+      <foreach item="item" collection="array" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+    </select>
+
+    <select id="getEmployeeNo" parameterType="java.lang.String" resultType="java.lang.String">
+        select maintain_user_id from token_system_inventory where system_id = #{systemId}
+    </select>
+</mapper>

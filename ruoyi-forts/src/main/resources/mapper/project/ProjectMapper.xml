@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.weeklySchedule.mobilleTerminal.mapper.ProjectMapper">
+
+    <resultMap type="WeeklyProjectScheduel" id="WeeklyProjectScheduelResult">
+        <result property="id"    column="id"    />
+        <result property="projectName"    column="project_name"    />
+        <result property="hostTeam"    column="host_team"    />
+        <result property="hostTeamId"    column="host_team_id"    />
+        <result property="projectManager"    column="project_manager"    />
+        <result property="projectManagerId"    column="project_manager_id"    />
+        <result property="demandDept"    column="demand_dept"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="plannedProductionTime"    column="planned_production_time"    />
+        <result property="currentGeneration"    column="current_generation"    />
+        <result property="finishedPhase"    column="finished_phase"    />
+        <result property="finishThisWeek"    column="finish_this_week"    />
+        <result property="risksDifficulties"    column="risks_difficulties"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="serialNo"    column="serial_no"    />
+    </resultMap>
+
+    <sql id="selectWeeklyProjectScheduelVo">
+        select id, project_name, host_team, host_team_id, project_manager, project_manager_id, demand_dept, start_time, planned_production_time, current_generation, finished_phase, finish_this_week, risks_difficulties, remarks, serial_no from weekly_project_scheduel
+    </sql>
+
+    <select id="selectWeeklyProjectScheduelList" parameterType="WeeklyProjectScheduel" resultMap="WeeklyProjectScheduelResult">
+        <include refid="selectWeeklyProjectScheduelVo"/>
+        <where>
+            <if test="projectName != null  and projectName != ''"> and project_name like concat(concat('%', #{projectName}), '%')</if>
+            <if test="hostTeam != null  and hostTeam != ''"> and host_team like concat(concat('%', #{hostTeam}), '%')</if>
+            <if test="hostTeamId != null  and hostTeamId != ''"> and host_team_id = #{hostTeamId}</if>
+            <if test="projectManager != null  and projectManager != ''"> and project_manager like concat(concat('%', #{projectManager}), '%')</if>
+            <if test="projectManagerId != null  and projectManagerId != ''"> and project_manager_id = #{projectManagerId}</if>
+            <if test="demandDept != null  and demandDept != ''"> and demand_dept = #{demandDept}</if>
+            <if test="startTime != null  and startTime != ''"> and start_time = #{startTime}</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''"> and planned_production_time = #{plannedProductionTime}</if>
+            <if test="currentGeneration != null  and currentGeneration != ''"> and current_generation = #{currentGeneration}</if>
+            <if test="finishedPhase != null  and finishedPhase != ''"> and finished_phase = #{finishedPhase}</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''"> and finish_this_week = #{finishThisWeek}</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''"> and risks_difficulties = #{risksDifficulties}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="serialNo != null  and serialNo != ''"> and serial_no = #{serialNo}</if>
+        </where>
+    </select>
+
+    <select id="selectWeeklyProjectScheduelById" parameterType="Long" resultMap="WeeklyProjectScheduelResult">
+        <include refid="selectWeeklyProjectScheduelVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertWeeklyProjectScheduel" parameterType="WeeklyProjectScheduel">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_weekly_project_scheduel.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into weekly_project_scheduel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="projectName != null  and projectName != ''">project_name,</if>
+            <if test="hostTeam != null  and hostTeam != ''">host_team,</if>
+            <if test="hostTeamId != null  and hostTeamId != ''">host_team_id,</if>
+            <if test="projectManager != null  and projectManager != ''">project_manager,</if>
+            <if test="projectManagerId != null  and projectManagerId != ''">project_manager_id,</if>
+            <if test="demandDept != null  and demandDept != ''">demand_dept,</if>
+            <if test="startTime != null  and startTime != ''">start_time,</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''">planned_production_time,</if>
+            <if test="currentGeneration != null  and currentGeneration != ''">current_generation,</if>
+            <if test="finishedPhase != null  and finishedPhase != ''">finished_phase,</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''">finish_this_week,</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''">risks_difficulties,</if>
+            <if test="remarks != null  and remarks != ''">remarks,</if>
+            <if test="serialNo != null  and serialNo != ''">serial_no,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="projectName != null  and projectName != ''">#{projectName},</if>
+            <if test="hostTeam != null  and hostTeam != ''">#{hostTeam},</if>
+            <if test="hostTeamId != null  and hostTeamId != ''">#{hostTeamId},</if>
+            <if test="projectManager != null  and projectManager != ''">#{projectManager},</if>
+            <if test="projectManagerId != null  and projectManagerId != ''">#{projectManagerId},</if>
+            <if test="demandDept != null  and demandDept != ''">#{demandDept},</if>
+            <if test="startTime != null  and startTime != ''">#{startTime},</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''">#{plannedProductionTime},</if>
+            <if test="currentGeneration != null  and currentGeneration != ''">#{currentGeneration},</if>
+            <if test="finishedPhase != null  and finishedPhase != ''">#{finishedPhase},</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''">#{finishThisWeek},</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''">#{risksDifficulties},</if>
+            <if test="remarks != null  and remarks != ''">#{remarks},</if>
+            <if test="serialNo != null  and serialNo != ''">#{serialNo},</if>
+        </trim>
+    </insert>
+
+    <select id="selectHostTeam" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select min(id) as id,host_team from WEEKLY_PROJECT_SCHEDUEL
+        where 1 = 1
+        <if test="hostTeamId != null and hostTeamId != ''">
+        and host_team_id = #{hostTeamId}
+        </if>
+        group by host_team order by nlssort(host_team,'NLS_SORT = SCHINESE_PINYIN_M')
+    </select>
+
+    <select id="selectDemandInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_PROJECT_SCHEDUEL w where host_team = #{hostTeam})
+        where rn = 1 and current_generation != '项目完成' order by id desc
+    </select>
+
+    <select id="selectDemandInfoFinish" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_PROJECT_SCHEDUEL w where host_team = #{hostTeam} and current_generation = '项目完成')
+        where rn = 1 order by id desc
+    </select>
+
+    <select id="selectManagerId" parameterType="java.lang.String" resultType="java.lang.String">
+        select distinct host_team_id from WEEKLY_PROJECT_SCHEDUEL
+        where instr(','||project_manager_id||',',concat(concat(',',#{hostManagerId}),','))>0
+    </select>
+
+    <select id="selectTwoDeptId" parameterType="java.lang.String" resultType="java.lang.String">
+        select TWO_DEPT_ORG from TOKEN_XKSTAFF_DEPARTMENT where user_id = #{userId}
+    </select>
+    
+    <delete id="deleteProjectBySerialNo" parameterType="java.lang.String">
+        delete from weekly_project_scheduel where serial_no = #{serialNo}
+    </delete>
+
+    <select id="getHostTeamId" parameterType="java.lang.String" resultType="java.lang.String">
+        select distinct host_team_id from weekly_project_scheduel where host_team = #{hostTeam}
+    </select>
+
+</mapper>

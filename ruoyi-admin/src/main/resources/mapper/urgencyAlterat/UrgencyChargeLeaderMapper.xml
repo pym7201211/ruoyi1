@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.urgencyAlterat.mapper.UrgencyChargeLeaderMapper">
+    
+    <resultMap type="UrgencyChargeLeader" id="UrgencyChargeLeaderResult">
+        <result property="leaderId"    column="leader_id"    />
+        <result property="leaderName"    column="leader_name"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectUrgencyChargeLeaderVo">
+        select leader_id, leader_name, dept_id, dept_name, create_time, update_time, id from urgency_charge_leader
+    </sql>
+
+    <select id="selectUrgencyChargeLeaderList" parameterType="UrgencyChargeLeader" resultMap="UrgencyChargeLeaderResult">
+        <include refid="selectUrgencyChargeLeaderVo"/>
+        <where>  
+            <if test="leaderId != null  and leaderId != ''"> and leader_id = #{leaderId}</if>
+            <if test="leaderName != null  and leaderName != ''"> and leader_name like concat(concat('%', #{leaderName}), '%')</if>
+            <if test="deptId != null  and deptId != ''"> and dept_id = #{deptId}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name like concat(concat('%', #{deptName}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectUrgencyChargeLeaderById" parameterType="Long" resultMap="UrgencyChargeLeaderResult">
+        <include refid="selectUrgencyChargeLeaderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertUrgencyChargeLeader" parameterType="UrgencyChargeLeader">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_urgency_charge_leader.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into urgency_charge_leader
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="leaderId != null  and leaderId != ''">leader_id,</if>
+            <if test="leaderName != null  and leaderName != ''">leader_name,</if>
+            <if test="deptId != null  and deptId != ''">dept_id,</if>
+            <if test="deptName != null  and deptName != ''">dept_name,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="id != null ">id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="leaderId != null  and leaderId != ''">#{leaderId},</if>
+            <if test="leaderName != null  and leaderName != ''">#{leaderName},</if>
+            <if test="deptId != null  and deptId != ''">#{deptId},</if>
+            <if test="deptName != null  and deptName != ''">#{deptName},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="id != null ">#{id},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUrgencyChargeLeader" parameterType="UrgencyChargeLeader">
+        update urgency_charge_leader
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="leaderId != null  and leaderId != ''">leader_id = #{leaderId},</if>
+            <if test="leaderName != null  and leaderName != ''">leader_name = #{leaderName},</if>
+            <if test="deptId != null  and deptId != ''">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''">dept_name = #{deptName},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUrgencyChargeLeaderById" parameterType="Long">
+        delete from urgency_charge_leader where id = #{id}
+    </delete>
+
+    <delete id="deleteUrgencyChargeLeaderByIds" parameterType="String">
+        delete from urgency_charge_leader where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

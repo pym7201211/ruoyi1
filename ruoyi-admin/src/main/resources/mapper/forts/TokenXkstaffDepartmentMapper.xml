@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.forts.mapper.TokenXkstaffDepartmentMapper">
+    
+    <resultMap type="TokenXkstaffDepartment" id="TokenXkstaffDepartmentResult">
+        <result property="deptId"    column="dept_id"    />
+        <result property="extend10"    column="extend10"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="sex"    column="sex"    />
+        <result property="userType"    column="user_type"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="orgCode"    column="org_code"    />
+        <result property="oneDeptOrg"    column="one_dept_org"    />
+        <result property="twoDeptOrg"    column="two_dept_org"    />
+        <result property="positionCode"    column="position_code"    />
+        <result property="pinyinName"    column="pinyin_name"    />
+        <result property="qualification"    column="qualification"    />
+        <result property="dFlag"    column="d_flag"    />
+        <result property="maintainOr"    column="maintain_or"    />
+        <result property="maintainDate"    column="maintain_date"    />
+        <result property="phone"    column="phone"    />
+        <result property="duty"    column="duty"    />
+        <result property="lineDept"    column="line_dept"    />
+        <result property="rFlag"    column="r_flag"    />
+        <result property="extend1"    column="extend1"    />
+        <result property="extend2"    column="extend2"    />
+        <result property="extend3"    column="extend3"    />
+        <result property="extend4"    column="extend4"    />
+        <result property="extend5"    column="extend5"    />
+        <result property="extend6"    column="extend6"    />
+        <result property="extend7"    column="extend7"    />
+        <result property="extend8"    column="extend8"    />
+        <result property="extend9"    column="extend9"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectTokenXkstaffDepartmentVo">
+        select dept_id, extend10, user_id, user_name, sex, user_type, id_card, org_code, one_dept_org, two_dept_org, position_code, pinyin_name, qualification, d_flag, maintain_or, maintain_date, phone, duty, line_dept, r_flag, extend1, extend2, extend3, extend4, extend5, extend6, extend7, extend8, extend9, id from token_xkstaff_department
+    </sql>
+
+    <select id="selectTokenXkstaffDepartmentList" parameterType="TokenXkstaffDepartment" resultMap="TokenXkstaffDepartmentResult">
+        <include refid="selectTokenXkstaffDepartmentVo"/>
+        <where>  
+            <if test="extend10 != null  and extend10 != ''"> and extend10 = #{extend10}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat(concat('%', #{userName}), '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="userType != null  and userType != ''"> and user_type = #{userType}</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+            <if test="orgCode != null  and orgCode != ''"> and org_code = #{orgCode}</if>
+            <if test="oneDeptOrg != null  and oneDeptOrg != ''"> and one_dept_org = #{oneDeptOrg}</if>
+            <if test="twoDeptOrg != null  and twoDeptOrg != ''"> and two_dept_org = #{twoDeptOrg}</if>
+            <if test="positionCode != null  and positionCode != ''"> and position_code = #{positionCode}</if>
+            <if test="pinyinName != null  and pinyinName != ''"> and pinyin_name like concat(concat('%', #{pinyinName}), '%')</if>
+            <if test="qualification != null  and qualification != ''"> and qualification = #{qualification}</if>
+            <if test="dFlag != null  and dFlag != ''"> and d_flag = #{dFlag}</if>
+            <if test="maintainOr != null  and maintainOr != ''"> and maintain_or = #{maintainOr}</if>
+            <if test="maintainDate != null  and maintainDate != ''"> and maintain_date = #{maintainDate}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="duty != null  and duty != ''"> and duty = #{duty}</if>
+            <if test="lineDept != null  and lineDept != ''"> and line_dept = #{lineDept}</if>
+            <if test="rFlag != null  and rFlag != ''"> and r_flag = #{rFlag}</if>
+            <if test="extend1 != null  and extend1 != ''"> and extend1 = #{extend1}</if>
+            <if test="extend2 != null  and extend2 != ''"> and extend2 = #{extend2}</if>
+            <if test="extend3 != null  and extend3 != ''"> and extend3 = #{extend3}</if>
+            <if test="extend4 != null  and extend4 != ''"> and extend4 = #{extend4}</if>
+            <if test="extend5 != null  and extend5 != ''"> and extend5 = #{extend5}</if>
+            <if test="extend6 != null  and extend6 != ''"> and extend6 = #{extend6}</if>
+            <if test="extend7 != null  and extend7 != ''"> and extend7 = #{extend7}</if>
+            <if test="extend8 != null  and extend8 != ''"> and extend8 = #{extend8}</if>
+            <if test="extend9 != null  and extend9 != ''"> and extend9 = #{extend9}</if>
+        </where>
+    </select>
+    
+    <select id="selectTokenXkstaffDepartmentById" parameterType="Long" resultMap="TokenXkstaffDepartmentResult">
+        <include refid="selectTokenXkstaffDepartmentVo"/>
+        where dept_id = #{deptId}
+    </select>
+        
+    <insert id="insertTokenXkstaffDepartment" parameterType="TokenXkstaffDepartment">
+        insert into token_xkstaff_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deptId != null ">dept_id,</if>
+            <if test="extend10 != null  and extend10 != ''">extend10,</if>
+            <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="sex != null  and sex != ''">sex,</if>
+            <if test="userType != null  and userType != ''">user_type,</if>
+            <if test="idCard != null  and idCard != ''">id_card,</if>
+            <if test="orgCode != null  and orgCode != ''">org_code,</if>
+            <if test="oneDeptOrg != null  and oneDeptOrg != ''">one_dept_org,</if>
+            <if test="twoDeptOrg != null  and twoDeptOrg != ''">two_dept_org,</if>
+            <if test="positionCode != null  and positionCode != ''">position_code,</if>
+            <if test="pinyinName != null  and pinyinName != ''">pinyin_name,</if>
+            <if test="qualification != null  and qualification != ''">qualification,</if>
+            <if test="dFlag != null  and dFlag != ''">d_flag,</if>
+            <if test="maintainOr != null  and maintainOr != ''">maintain_or,</if>
+            <if test="maintainDate != null  and maintainDate != ''">maintain_date,</if>
+            <if test="phone != null  and phone != ''">phone,</if>
+            <if test="duty != null  and duty != ''">duty,</if>
+            <if test="lineDept != null  and lineDept != ''">line_dept,</if>
+            <if test="rFlag != null  and rFlag != ''">r_flag,</if>
+            <if test="extend1 != null  and extend1 != ''">extend1,</if>
+            <if test="extend2 != null  and extend2 != ''">extend2,</if>
+            <if test="extend3 != null  and extend3 != ''">extend3,</if>
+            <if test="extend4 != null  and extend4 != ''">extend4,</if>
+            <if test="extend5 != null  and extend5 != ''">extend5,</if>
+            <if test="extend6 != null  and extend6 != ''">extend6,</if>
+            <if test="extend7 != null  and extend7 != ''">extend7,</if>
+            <if test="extend8 != null  and extend8 != ''">extend8,</if>
+            <if test="extend9 != null  and extend9 != ''">extend9,</if>
+            <if test="id != null  and id != ''">id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deptId != null ">#{deptId},</if>
+            <if test="extend10 != null  and extend10 != ''">#{extend10},</if>
+            <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="sex != null  and sex != ''">#{sex},</if>
+            <if test="userType != null  and userType != ''">#{userType},</if>
+            <if test="idCard != null  and idCard != ''">#{idCard},</if>
+            <if test="orgCode != null  and orgCode != ''">#{orgCode},</if>
+            <if test="oneDeptOrg != null  and oneDeptOrg != ''">#{oneDeptOrg},</if>
+            <if test="twoDeptOrg != null  and twoDeptOrg != ''">#{twoDeptOrg},</if>
+            <if test="positionCode != null  and positionCode != ''">#{positionCode},</if>
+            <if test="pinyinName != null  and pinyinName != ''">#{pinyinName},</if>
+            <if test="qualification != null  and qualification != ''">#{qualification},</if>
+            <if test="dFlag != null  and dFlag != ''">#{dFlag},</if>
+            <if test="maintainOr != null  and maintainOr != ''">#{maintainOr},</if>
+            <if test="maintainDate != null  and maintainDate != ''">to_date(#{maintainDate},'YYYYMMDD'),</if>
+            <if test="phone != null  and phone != ''">#{phone},</if>
+            <if test="duty != null  and duty != ''">#{duty},</if>
+            <if test="lineDept != null  and lineDept != ''">#{lineDept},</if>
+            <if test="rFlag != null  and rFlag != ''">#{rFlag},</if>
+            <if test="extend1 != null  and extend1 != ''">#{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''">#{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''">#{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''">#{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''">#{extend5},</if>
+            <if test="extend6 != null  and extend6 != ''">#{extend6},</if>
+            <if test="extend7 != null  and extend7 != ''">#{extend7},</if>
+            <if test="extend8 != null  and extend8 != ''">#{extend8},</if>
+            <if test="extend9 != null  and extend9 != ''">#{extend9},</if>
+            <if test="id != null  and id != ''">#{id},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTokenXkstaffDepartment" parameterType="TokenXkstaffDepartment">
+        update token_xkstaff_department
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="extend10 != null  and extend10 != ''">extend10 = #{extend10},</if>
+            <if test="userId != null  and userId != ''">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+            <if test="sex != null  and sex != ''">sex = #{sex},</if>
+            <if test="userType != null  and userType != ''">user_type = #{userType},</if>
+            <if test="idCard != null  and idCard != ''">id_card = #{idCard},</if>
+            <if test="orgCode != null  and orgCode != ''">org_code = #{orgCode},</if>
+            <if test="oneDeptOrg != null  and oneDeptOrg != ''">one_dept_org = #{oneDeptOrg},</if>
+            <if test="twoDeptOrg != null  and twoDeptOrg != ''">two_dept_org = #{twoDeptOrg},</if>
+            <if test="positionCode != null  and positionCode != ''">position_code = #{positionCode},</if>
+            <if test="pinyinName != null  and pinyinName != ''">pinyin_name = #{pinyinName},</if>
+            <if test="qualification != null  and qualification != ''">qualification = #{qualification},</if>
+            <if test="dFlag != null  and dFlag != ''">d_flag = #{dFlag},</if>
+            <if test="maintainOr != null  and maintainOr != ''">maintain_or = #{maintainOr},</if>
+            <if test="maintainDate != null  and maintainDate != ''">maintain_date = to_date(#{maintainDate},'YYYYMMDD'),</if>
+            <if test="phone != null  and phone != ''">phone = #{phone},</if>
+            <if test="duty != null  and duty != ''">duty = #{duty},</if>
+            <if test="lineDept != null  and lineDept != ''">line_dept = #{lineDept},</if>
+            <if test="rFlag != null  and rFlag != ''">r_flag = #{rFlag},</if>
+            <if test="extend1 != null  and extend1 != ''">extend1 = #{extend1},</if>
+            <if test="extend2 != null  and extend2 != ''">extend2 = #{extend2},</if>
+            <if test="extend3 != null  and extend3 != ''">extend3 = #{extend3},</if>
+            <if test="extend4 != null  and extend4 != ''">extend4 = #{extend4},</if>
+            <if test="extend5 != null  and extend5 != ''">extend5 = #{extend5},</if>
+            <if test="extend6 != null  and extend6 != ''">extend6 = #{extend6},</if>
+            <if test="extend7 != null  and extend7 != ''">extend7 = #{extend7},</if>
+            <if test="extend8 != null  and extend8 != ''">extend8 = #{extend8},</if>
+            <if test="extend9 != null  and extend9 != ''">extend9 = #{extend9},</if>
+            <if test="id != null  and id != ''">id = #{id},</if>
+        </trim>
+        where dept_id = #{deptId}
+    </update>
+
+    <delete id="deleteTokenXkstaffDepartmentById" parameterType="Long">
+        delete from token_xkstaff_department where dept_id = #{deptId}
+    </delete>
+
+    <delete id="deleteTokenXkstaffDepartmentByIds" parameterType="String">
+        delete from token_xkstaff_department where dept_id in 
+        <foreach item="deptId" collection="array" open="(" separator="," close=")">
+            #{deptId}
+        </foreach>
+    </delete>
+
+    <select id="selectisExistUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from TOKEN_XKSTAFF_DEPARTMENT where user_id = #{userId}
+    </select>
+    
+</mapper>

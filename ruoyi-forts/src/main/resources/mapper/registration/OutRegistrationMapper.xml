@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.outRegistration.mapper.OutRegistrationMapper">
+    
+    <resultMap type="OutRegistration" id="OutRegistrationResult">
+        <result property="departureSite"    column="departure_site"    />
+        <result property="projectManager"    column="project_manager"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="staffName"    column="staff_name"    />
+        <result property="id"    column="id"    />
+        <result property="destination"    column="destination"    />
+        <result property="burningTime"    column="burning_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="cause"    column="cause"    />
+        <result property="remark"    column="remark"    />
+        <result property="otherDeparture"    column="OTHER_DEPARTURE"    />
+        <result property="otherDestination"    column="OTHER_DESTINATION"    />
+        <result property="otherCause"    column="OTHER_CAUSE"    />
+        <result property="operatorId"    column="OPERATOR_ID"    />
+    </resultMap>
+
+    <sql id="selectOutRegistrationVo">
+        select departure_site, project_manager, company_name, staff_name, id, destination, burning_time, end_time, start_time, cause, remark, OTHER_DEPARTURE, OTHER_DESTINATION, OTHER_CAUSE, OPERATOR_ID from out_registration
+    </sql>
+
+    <select id="selectOutRegistrationList" parameterType="OutRegistration" resultMap="OutRegistrationResult">
+        select departure_site, project_manager, company_name, staff_name, id, destination, burning_time, end_time, start_time, cause, remark, OTHER_DEPARTURE, OTHER_DESTINATION, OTHER_CAUSE, OPERATOR_ID from out_registration
+        where OPERATOR_ID = #{operatorId} order by id desc
+    </select>
+
+    <select id="selectRegistrationList" parameterType="OutRegistration" resultMap="OutRegistrationResult">
+        <include refid="selectOutRegistrationVo"/>
+        <where>
+            <if test="departureSite != null  and departureSite != ''"> and departure_site = #{departureSite}</if>
+            <if test="projectManager != null  and projectManager != ''"> and project_manager = #{projectManager}</if>
+            <if test="companyName != null  and companyName != ''"> and company_name like concat(concat('%', #{companyName}), '%')</if>
+            <if test="staffName != null  and staffName != ''"> and staff_name like concat(concat('%', #{staffName}), '%')</if>
+            <if test="destination != null  and destination != ''"> and destination = #{destination}</if>
+            <if test="burningTime != null  and burningTime != ''"> and burning_time = #{burningTime}</if>
+            <if test="endTime != null  and endTime != ''"> and end_time = #{endTime}</if>
+            <if test="startTime != null  and startTime != ''"> and start_time = #{startTime}</if>
+            <if test="cause != null  and cause != ''"> and cause = #{cause}</if>
+            <if test="otherDeparture != null  and otherDeparture != ''"> and OTHER_DEPARTURE = #{otherDeparture}</if>
+            <if test="otherDestination != null  and otherDestination != ''"> and OTHER_DESTINATION = #{otherDestination}</if>
+            <if test="otherCause != null  and otherCause != ''"> and OTHER_CAUSE = #{otherCause}</if>
+            <if test="operatorId != null  and operatorId != ''"> and OPERATOR_ID = #{operatorId}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectOutRegistrationById" parameterType="Long" resultMap="OutRegistrationResult">
+        <include refid="selectOutRegistrationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOutRegistration" parameterType="OutRegistration">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_out_registration.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into out_registration
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="departureSite != null  and departureSite != ''">departure_site,</if>
+            <if test="projectManager != null  and projectManager != ''">project_manager,</if>
+            <if test="companyName != null  and companyName != ''">company_name,</if>
+            <if test="staffName != null  and staffName != ''">staff_name,</if>
+            <if test="id != null ">id,</if>
+            <if test="destination != null  and destination != ''">destination,</if>
+            <if test="burningTime != null  and burningTime != ''">burning_time,</if>
+            <if test="endTime != null  and endTime != ''">end_time,</if>
+            <if test="startTime != null  and startTime != ''">start_time,</if>
+            <if test="cause != null  and cause != ''">cause,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="otherDeparture != null  and otherDeparture != ''">OTHER_DEPARTURE,</if>
+            <if test="otherDestination != null  and otherDestination != ''">OTHER_DESTINATION,</if>
+            <if test="otherCause != null  and otherCause != ''">OTHER_CAUSE,</if>
+            <if test="operatorId != null  and operatorId != ''">OPERATOR_ID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="departureSite != null  and departureSite != ''">#{departureSite},</if>
+            <if test="projectManager != null  and projectManager != ''">#{projectManager},</if>
+            <if test="companyName != null  and companyName != ''">#{companyName},</if>
+            <if test="staffName != null  and staffName != ''">#{staffName},</if>
+            <if test="id != null ">#{id},</if>
+            <if test="destination != null  and destination != ''">#{destination},</if>
+            <if test="burningTime != null  and burningTime != ''">#{burningTime},</if>
+            <if test="endTime != null  and endTime != ''">#{endTime},</if>
+            <if test="startTime != null  and startTime != ''">#{startTime},</if>
+            <if test="cause != null  and cause != ''">#{cause},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="otherDeparture != null  and otherDeparture != ''">#{otherDeparture},</if>
+            <if test="otherDestination != null  and otherDestination != ''">#{otherDestination},</if>
+            <if test="otherCause != null  and otherCause != ''">#{otherCause},</if>
+            <if test="operatorId != null  and operatorId != ''">#{operatorId},</if>
+         </trim>
+    </insert>
+
+    <insert id="insertRegistration" parameterType="OutRegistration">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_out_registration.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into out_registration
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="departureSite != null  and departureSite != ''">departure_site,</if>
+            <if test="projectManager != null  and projectManager != ''">project_manager,</if>
+            <if test="companyName != null  and companyName != ''">company_name,</if>
+            <if test="staffName != null  and staffName != ''">staff_name,</if>
+            <if test="id != null ">id,</if>
+            <if test="destination != null  and destination != ''">destination,</if>
+            <if test="burningTime != null  and burningTime != ''">burning_time,</if>
+            <if test="endTime != null  and endTime != ''">end_time,</if>
+            <if test="startTime != null  and startTime != ''">start_time,</if>
+            <if test="cause != null  and cause != ''">cause,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="otherDeparture != null  and otherDeparture != ''">OTHER_DEPARTURE,</if>
+            <if test="otherDestination != null  and otherDestination != ''">OTHER_DESTINATION,</if>
+            <if test="otherCause != null  and otherCause != ''">OTHER_CAUSE,</if>
+            <if test="operatorId != null  and operatorId != ''">OPERATOR_ID,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="departureSite != null  and departureSite != ''">#{departureSite},</if>
+            <if test="projectManager != null  and projectManager != ''">#{projectManager},</if>
+            <if test="companyName != null  and companyName != ''">#{companyName},</if>
+            <if test="staffName != null  and staffName != ''">#{staffName},</if>
+            <if test="id != null ">#{id},</if>
+            <if test="destination != null  and destination != ''">#{destination},</if>
+            <if test="burningTime != null  and burningTime != ''">#{burningTime},</if>
+            <if test="endTime != null  and endTime != ''">#{endTime},</if>
+            <if test="startTime != null  and startTime != ''">#{startTime},</if>
+            <if test="cause != null  and cause != ''">#{cause},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="otherDeparture != null  and otherDeparture != ''">#{otherDeparture},</if>
+            <if test="otherDestination != null  and otherDestination != ''">#{otherDestination},</if>
+            <if test="otherCause != null  and otherCause != ''">#{otherCause},</if>
+            <if test="operatorId != null  and operatorId != ''">#{operatorId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOutRegistration" parameterType="OutRegistration">
+        update out_registration
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="departureSite != null  and departureSite != ''">departure_site = #{departureSite},</if>
+            <if test="projectManager != null  and projectManager != ''">project_manager = #{projectManager},</if>
+            <if test="companyName != null  and companyName != ''">company_name = #{companyName},</if>
+            <if test="staffName != null  and staffName != ''">staff_name = #{staffName},</if>
+            <if test="destination != null  and destination != ''">destination = #{destination},</if>
+            <if test="burningTime != null  and burningTime != ''">burning_time = #{burningTime},</if>
+            <if test="endTime != null  and endTime != ''">end_time = #{endTime},</if>
+            <if test="startTime != null  and startTime != ''">start_time = #{startTime},</if>
+            <if test="cause != null  and cause != ''">cause = #{cause},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="otherDeparture != null  and otherDeparture != ''">OTHER_DEPARTURE = #{otherDeparture},</if>
+            <if test="otherDestination != null  and otherDestination != ''">OTHER_DESTINATION = #{otherDestination},</if>
+            <if test="otherCause != null  and otherCause != ''">OTHER_CAUSE = #{otherCause},</if>
+            <if test="operatorId != null  and operatorId != ''">OPERATOR_ID = #{operatorId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOutRegistrationById" parameterType="Long">
+        delete from out_registration where id = #{id}
+    </delete>
+
+    <delete id="deleteOutRegistrationByIds" parameterType="String">
+        delete from out_registration where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

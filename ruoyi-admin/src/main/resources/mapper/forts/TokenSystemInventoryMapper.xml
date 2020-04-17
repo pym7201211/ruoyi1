@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.forts.mapper.TokenSystemInventoryMapper">
+
+    <resultMap type="TokenSystemInventory" id="TokenSystemInventoryResult">
+        <result property="id"    column="id"    />
+        <result property="gradeClassify"    column="grade_classify"    />
+        <result property="type"    column="type"    />
+        <result property="systemName"    column="system_name"    />
+        <result property="systemAbbreviation"    column="system_abbreviation"    />
+        <result property="businessChargeDepartment"    column="business_charge_department"    />
+        <result property="scienceChargeTeam"    column="science_charge_team"    />
+        <result property="useMaintainStaff"    column="use_maintain_staff"    />
+        <result property="serviceDate"    column="service_date"    />
+        <result property="productionDate"    column="production_date"    />
+        <result property="maintainUserId"    column="maintain_user_id"    />
+        <result property="departmentId"    column="department_id"    />
+        <result property="systemId"    column="system_id"    />
+        <result property="leaderId"    column="leader_id"    />
+        <result property="leaderName"    column="leader_name"    />
+    </resultMap>
+
+    <sql id="selectTokenSystemInventoryVo">
+        select id, grade_classify, type, system_name, system_abbreviation, business_charge_department,
+        science_charge_team, use_maintain_staff, service_date, production_date, maintain_user_id,
+        department_id, system_id, leader_id, leader_name from token_system_inventory
+    </sql>
+
+    <select id="selectTokenSystemInventoryList" parameterType="TokenSystemInventory" resultMap="TokenSystemInventoryResult">
+        <include refid="selectTokenSystemInventoryVo"/>
+        <where>
+            <if test="gradeClassify != null  and gradeClassify != ''"> and grade_classify = #{gradeClassify}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="systemName != null  and systemName != ''"> and system_name like concat(concat('%', #{systemName}), '%')</if>
+            <if test="systemAbbreviation != null  and systemAbbreviation != ''"> and system_abbreviation = #{systemAbbreviation}</if>
+            <if test="businessChargeDepartment != null  and businessChargeDepartment != ''"> and business_charge_department = #{businessChargeDepartment}</if>
+            <if test="scienceChargeTeam != null  and scienceChargeTeam != ''"> and science_charge_team = #{scienceChargeTeam}</if>
+            <if test="useMaintainStaff != null  and useMaintainStaff != ''"> and use_maintain_staff like concat(concat('%', #{useMaintainStaff}), '%')</if>
+            <if test="serviceDate != null  and serviceDate != ''"> and service_date = #{serviceDate}</if>
+            <if test="productionDate != null "> and production_date = #{productionDate}</if>
+            <if test="maintainUserId != null  and maintainUserId != ''"> and maintain_user_id like concat(concat('%', #{maintainUserId}), '%')</if>
+            <if test="departmentId != null  and departmentId != ''"> and department_id = #{departmentId}</if>
+            <if test="systemId != null  and systemId != ''"> and system_id = #{systemId}</if>
+            <if test="params.baseType != null and params.baseType != '' and params.baseType == '0'.toString()">
+                and type in ('网络','安全', '运行', '系统')
+            </if>
+            <if test="params.baseType != null and params.baseType != '' and params.baseType == '1'.toString()">
+                and type not in ('网络','安全', '运行', '系统')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectTokenSystemInventoryById" parameterType="Long" resultMap="TokenSystemInventoryResult">
+        <include refid="selectTokenSystemInventoryVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTokenSystemInventory" parameterType="TokenSystemInventory">
+        insert into token_system_inventory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="gradeClassify != null  and gradeClassify != ''">grade_classify,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="systemName != null  and systemName != ''">system_name,</if>
+            <if test="systemAbbreviation != null  and systemAbbreviation != ''">system_abbreviation,</if>
+            <if test="businessChargeDepartment != null  and businessChargeDepartment != ''">business_charge_department,</if>
+            <if test="scienceChargeTeam != null  and scienceChargeTeam != ''">science_charge_team,</if>
+            <if test="useMaintainStaff != null  and useMaintainStaff != ''">use_maintain_staff,</if>
+            <if test="serviceDate != null  and serviceDate != ''">service_date,</if>
+            <if test="productionDate != null ">production_date,</if>
+            <if test="maintainUserId != null  and maintainUserId != ''">maintain_user_id,</if>
+            <if test="departmentId != null  and departmentId != ''">department_id,</if>
+            <if test="systemId != null  and systemId != ''">system_id,</if>
+            <if test="leaderId != null  and leaderId != ''">leader_id,</if>
+            <if test="leaderName != null  and leaderName != ''">leader_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="gradeClassify != null  and gradeClassify != ''">#{gradeClassify},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="systemName != null  and systemName != ''">#{systemName},</if>
+            <if test="systemAbbreviation != null  and systemAbbreviation != ''">#{systemAbbreviation},</if>
+            <if test="businessChargeDepartment != null  and businessChargeDepartment != ''">#{businessChargeDepartment},</if>
+            <if test="scienceChargeTeam != null  and scienceChargeTeam != ''">#{scienceChargeTeam},</if>
+            <if test="useMaintainStaff != null  and useMaintainStaff != ''">#{useMaintainStaff},</if>
+            <if test="serviceDate != null  and serviceDate != ''">#{serviceDate},</if>
+            <if test="productionDate != null ">#{productionDate},</if>
+            <if test="maintainUserId != null  and maintainUserId != ''">#{maintainUserId},</if>
+            <if test="departmentId != null  and departmentId != ''">#{departmentId},</if>
+            <if test="systemId != null  and systemId != ''">#{systemId},</if>
+            <if test="leaderId != null  and leaderId != ''">#{leaderId},</if>
+            <if test="leaderName != null  and leaderName != ''">#{leaderName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTokenSystemInventory" parameterType="TokenSystemInventory">
+        update token_system_inventory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="gradeClassify != null  and gradeClassify != ''">grade_classify = #{gradeClassify},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="systemName != null  and systemName != ''">system_name = #{systemName},</if>
+            <if test="systemAbbreviation != null  and systemAbbreviation != ''">system_abbreviation = #{systemAbbreviation},</if>
+            <if test="businessChargeDepartment != null  and businessChargeDepartment != ''">business_charge_department = #{businessChargeDepartment},</if>
+            <if test="scienceChargeTeam != null  and scienceChargeTeam != ''">science_charge_team = #{scienceChargeTeam},</if>
+            <if test="useMaintainStaff != null  and useMaintainStaff != ''">use_maintain_staff = #{useMaintainStaff},</if>
+            <if test="serviceDate != null  and serviceDate != ''">service_date = #{serviceDate},</if>
+            <if test="productionDate != null ">production_date = #{productionDate},</if>
+            <if test="maintainUserId != null  and maintainUserId != ''">maintain_user_id = #{maintainUserId},</if>
+            <if test="departmentId != null  and departmentId != ''">department_id = #{departmentId},</if>
+            <if test="systemId != null  and systemId != ''">system_id = #{systemId},</if>
+            <if test="leaderId != null  and leaderId != ''">leader_id = #{leaderId},</if>
+            <if test="leaderName != null  and leaderName != ''">leader_name = #{leaderName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTokenSystemInventoryById" parameterType="Long">
+        delete from token_system_inventory where id = #{id}
+    </delete>
+
+    <delete id="deleteTokenSystemInventoryByIds" parameterType="String">
+        delete from token_system_inventory where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--biaozhunhuaqingdang-->
+    <select id="selectTokenSystemInventoryLi" parameterType="TokenSystemInventorySo" resultMap="TokenSystemInventoryResult">
+        <include refid="selectTokenSystemInventoryVo"/>
+        <where>
+            <if test="gradeClassifys !=null and gradeClassifys.size() > 0 ">
+                and grade_classify in
+                <foreach collection="gradeClassifys" index="index" item="gradeClassify" open="(" separator="," close=")" >
+                    #{gradeClassify}
+                </foreach>
+            </if>
+            <if test="types !=null and types.size() > 0 ">
+                and type in
+                <foreach collection="types" index="index" item="type" open="(" separator="," close=")" >
+                    #{type}
+                </foreach>
+            </if>
+            <if test="maintainUserId != null  and maintainUserId != ''">  and maintain_user_id like concat(concat('%', #{maintainUserId}), '%')</if>
+        </where>
+    </select>
+
+    <select id="seletescienceChargeTeamorperson" parameterType="TokenSystemInventory" resultMap="TokenSystemInventoryResult">
+        <include refid="selectTokenSystemInventoryVo"/>
+        <where>
+            <if test="scienceChargeTeam != null  and scienceChargeTeam != ''">science_charge_team = #{scienceChargeTeam}</if>
+            <if test="systemName != null  and systemName != ''">  and  (system_name like concat(concat('%', #{systemName}), '%')
+                or use_maintain_staff like concat(concat('%', #{useMaintainStaff}), '%')
+                or system_abbreviation like concat(concat('%', #{systemAbbreviation}), '%'))</if>
+        </where>
+    </select>
+
+    <select id="selectNameInventoryList" parameterType="TokenSystemInventory" resultMap="TokenSystemInventoryResult">
+        <include refid="selectTokenSystemInventoryVo"/>
+        <where>
+            <if test="gradeClassify != null  and gradeClassify != ''"> and grade_classify = #{gradeClassify}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="systemName != null  and systemName != ''"> and system_name = #{systemName}</if>
+            <if test="systemAbbreviation != null  and systemAbbreviation != ''"> and system_abbreviation = #{systemAbbreviation}</if>
+            <if test="businessChargeDepartment != null  and businessChargeDepartment != ''"> and business_charge_department = #{businessChargeDepartment}</if>
+            <if test="scienceChargeTeam != null  and scienceChargeTeam != ''"> and science_charge_team = #{scienceChargeTeam}</if>
+            <if test="useMaintainStaff != null  and useMaintainStaff != ''"> and use_maintain_staff like concat(concat('%', #{useMaintainStaff}), '%')</if>
+            <if test="serviceDate != null  and serviceDate != ''"> and service_date = #{serviceDate}</if>
+            <if test="productionDate != null "> and production_date = #{productionDate}</if>
+            <if test="maintainUserId != null  and maintainUserId != ''"> and maintain_user_id like concat(concat('%', #{maintainUserId}), '%')</if>
+            <if test="departmentId != null  and departmentId != ''"> and department_id = #{departmentId}</if>
+            <if test="systemId != null  and systemId != ''"> and system_id = #{systemId}</if>
+        </where>
+    </select>
+
+</mapper>

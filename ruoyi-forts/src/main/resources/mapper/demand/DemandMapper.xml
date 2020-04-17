@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.weeklySchedule.mobilleTerminal.mapper.DemandMapper">
+    
+    <resultMap type="WeeklyDemandScheduel" id="WeeklyDemandScheduelResult">
+        <result property="id"    column="id"    />
+        <result property="demandName"    column="demand_name"    />
+        <result property="hostTeam"    column="host_team"    />
+        <result property="hostTeamId"    column="host_team_id"    />
+        <result property="hostManager"    column="host_manager"    />
+        <result property="hostManagerId"    column="host_manager_id"    />
+        <result property="demandDept"    column="demand_dept"    />
+        <result property="demandDeptId"    column="demand_dept_id"    />
+        <result property="processingTime"    column="processing_time"    />
+        <result property="plannedProductionTime"    column="planned_production_time"    />
+        <result property="planRdCompletionTime"    column="plan_rd_completion_time"    />
+        <result property="currentGeneration"    column="current_generation"    />
+        <result property="finishedPhase"    column="finished_phase"    />
+        <result property="finishThisWeek"    column="finish_this_week"    />
+        <result property="risksDifficulties"    column="risks_difficulties"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="demandDeptFullName"    column="demand_dept_full_name"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectWeeklyDemandScheduelVo">
+        select id, demand_name, host_team, host_team_id, host_manager, host_manager_id, demand_dept, demand_dept_id, processing_time, planned_production_time, plan_rd_completion_time, current_generation, finished_phase, finish_this_week, risks_difficulties, remarks, serial_no from weekly_demand_scheduel
+    </sql>
+
+    <select id="selectWeeklyDemandScheduelList" parameterType="WeeklyDemandScheduel" resultMap="WeeklyDemandScheduelResult">
+        <include refid="selectWeeklyDemandScheduelVo"/>
+        <where>  
+            <if test="demandName != null  and demandName != ''"> and demand_name like concat(concat('%', #{demandName}), '%')</if>
+            <if test="hostTeam != null  and hostTeam != ''"> and host_team like concat(concat('%', #{hostTeam}), '%')</if>
+            <if test="hostTeamId != null  and hostTeamId != ''"> and host_team_id = #{hostTeamId}</if>
+            <if test="hostManager != null  and hostManager != ''"> and host_manager like concat(concat('%', #{hostManager}), '%')</if>
+            <if test="hostManagerId != null  and hostManagerId != ''"> and host_manager_id = #{hostManagerId}</if>
+            <if test="demandDept != null  and demandDept != ''"> and demand_dept = #{demandDept}</if>
+            <if test="demandDeptId != null  and demandDeptId != ''"> and demand_dept_id = #{demandDeptId}</if>
+            <if test="processingTime != null  and processingTime != ''"> and processing_time = #{processingTime}</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''"> and planned_production_time = #{plannedProductionTime}</if>
+            <if test="planRdCompletionTime != null  and planRdCompletionTime != ''"> and plan_rd_completion_time = #{planRdCompletionTime}</if>
+            <if test="currentGeneration != null  and currentGeneration != ''"> and current_generation = #{currentGeneration}</if>
+            <if test="finishedPhase != null  and finishedPhase != ''"> and finished_phase = #{finishedPhase}</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''"> and finish_this_week = #{finishThisWeek}</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''"> and risks_difficulties = #{risksDifficulties}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="serialNo != null  and serialNo != ''"> and serial_no = #{serialNo}</if>
+        </where>
+    </select>
+    
+    <select id="selectWeeklyDemandScheduelById" parameterType="Long" resultMap="WeeklyDemandScheduelResult">
+        <include refid="selectWeeklyDemandScheduelVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWeeklyDemandScheduel" parameterType="WeeklyDemandScheduel">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_weekly_demand_scheduel.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into weekly_demand_scheduel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="demandName != null  and demandName != ''">demand_name,</if>
+            <if test="hostTeam != null  and hostTeam != ''">host_team,</if>
+            <if test="hostTeamId != null  and hostTeamId != ''">host_team_id,</if>
+            <if test="hostManager != null  and hostManager != ''">host_manager,</if>
+            <if test="hostManagerId != null  and hostManagerId != ''">host_manager_id,</if>
+            <if test="demandDept != null  and demandDept != ''">demand_dept,</if>
+            <if test="demandDeptId != null  and demandDeptId != ''">demand_dept_id,</if>
+            <if test="processingTime != null  and processingTime != ''">processing_time,</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''">planned_production_time,</if>
+            <if test="planRdCompletionTime != null  and planRdCompletionTime != ''">plan_rd_completion_time,</if>
+            <if test="currentGeneration != null  and currentGeneration != ''">current_generation,</if>
+            <if test="finishedPhase != null  and finishedPhase != ''">finished_phase,</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''">finish_this_week,</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''">risks_difficulties,</if>
+            <if test="remarks != null  and remarks != ''">remarks,</if>
+            <if test="serialNo != null  and serialNo != ''">serial_no,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="demandName != null  and demandName != ''">#{demandName},</if>
+            <if test="hostTeam != null  and hostTeam != ''">#{hostTeam},</if>
+            <if test="hostTeamId != null  and hostTeamId != ''">#{hostTeamId},</if>
+            <if test="hostManager != null  and hostManager != ''">#{hostManager},</if>
+            <if test="hostManagerId != null  and hostManagerId != ''">#{hostManagerId},</if>
+            <if test="demandDept != null  and demandDept != ''">#{demandDept},</if>
+            <if test="demandDeptId != null  and demandDeptId != ''">#{demandDeptId},</if>
+            <if test="processingTime != null  and processingTime != ''">#{processingTime},</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''">#{plannedProductionTime},</if>
+            <if test="planRdCompletionTime != null  and planRdCompletionTime != ''">#{planRdCompletionTime},</if>
+            <if test="currentGeneration != null  and currentGeneration != ''">#{currentGeneration},</if>
+            <if test="finishedPhase != null  and finishedPhase != ''">#{finishedPhase},</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''">#{finishThisWeek},</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''">#{risksDifficulties},</if>
+            <if test="remarks != null  and remarks != ''">#{remarks},</if>
+            <if test="serialNo != null  and serialNo != ''">#{serialNo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWeeklyDemandScheduel" parameterType="WeeklyDemandScheduel">
+        update weekly_demand_scheduel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="demandName != null  and demandName != ''">demand_name = #{demandName},</if>
+            <if test="hostTeam != null  and hostTeam != ''">host_team = #{hostTeam},</if>
+            <if test="hostTeamId != null  and hostTeamId != ''">host_team_id = #{hostTeamId},</if>
+            <if test="hostManager != null  and hostManager != ''">host_manager = #{hostManager},</if>
+            <if test="hostManagerId != null  and hostManagerId != ''">host_manager_id = #{hostManagerId},</if>
+            <if test="demandDept != null  and demandDept != ''">demand_dept = #{demandDept},</if>
+            <if test="demandDeptId != null  and demandDeptId != ''">demand_dept_id = #{demandDeptId},</if>
+            <if test="processingTime != null  and processingTime != ''">processing_time = #{processingTime},</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''">planned_production_time = #{plannedProductionTime},</if>
+            <if test="planRdCompletionTime != null  and planRdCompletionTime != ''">plan_rd_completion_time = #{planRdCompletionTime},</if>
+            <if test="currentGeneration != null  and currentGeneration != ''">current_generation = #{currentGeneration},</if>
+            <if test="finishedPhase != null  and finishedPhase != ''">finished_phase = #{finishedPhase},</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''">finish_this_week = #{finishThisWeek},</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''">risks_difficulties = #{risksDifficulties},</if>
+            <if test="remarks != null  and remarks != ''">remarks = #{remarks},</if>
+            <if test="serialNo != null  and serialNo != ''">serial_no = #{serialNo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="selectHostTeam" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select min(id) as id,host_team from WEEKLY_DEMAND_SCHEDUEL
+        where 1 = 1
+        <if test="hostTeamId != null and hostTeamId != ''">
+        and host_team_id = #{hostTeamId}
+        </if>
+        group by host_team order by nlssort(host_team,'NLS_SORT = SCHINESE_PINYIN_M')
+    </select>
+    
+    <select id="selectDemandInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_DEMAND_SCHEDUEL w where host_team = #{hostTeam})
+        where rn = 1  and current_generation != '已完成' order by id desc
+    </select>
+
+    <select id="selectDemandInfoFinish" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_DEMAND_SCHEDUEL w where host_team = #{hostTeam} and current_generation = '已完成')
+        where rn = 1 order by id desc
+    </select>
+
+    <select id="selectManagerId" parameterType="java.lang.String" resultType="java.lang.String">
+         select distinct host_team_id from WEEKLY_DEMAND_SCHEDUEL
+         where instr(','||host_manager_id||',',concat(concat(',',#{userId}),','))>0
+    </select>
+    
+    <select id="selectTwoDeptId" parameterType="java.lang.String" resultType="java.lang.String">
+        select TWO_DEPT_ORG from TOKEN_XKSTAFF_DEPARTMENT where user_id = #{userId}
+    </select>
+    
+    <delete id="deleteDemandBySerialNo" parameterType="java.lang.String">
+        delete from weekly_demand_scheduel where serial_no = #{serialNo}
+    </delete>
+    
+    <select id="getHostTeamId" parameterType="java.lang.String" resultType="java.lang.String">
+        select distinct host_team_id from weekly_demand_scheduel where host_team = #{hostTeam}
+    </select>
+
+    <select id="selectDataByDemandDept" resultType="java.util.HashMap">
+        select name,num,name1,num_demand from
+        (select a.demand_dept as name,round((a.num_demand / b.total),2) * 100 as num FROM
+        (select demand_dept,count(DISTINCT serial_no) as num_demand from WEEKLY_PROJECT_SCHEDUEL group by DEMAND_DEPT) a,
+        (select count(DISTINCT serial_no) as total from WEEKLY_PROJECT_SCHEDUEL) b) w1
+        full join
+        (select a.demand_dept as name1,a.num_demand FROM
+        (select demand_dept,count(DISTINCT serial_no) as num_demand from WEEKLY_DEMAND_SCHEDUEL group by DEMAND_DEPT) a) w2
+        on w1.name = w2.name1
+    </select>
+
+    <select id="selectDataByMonth" resultType="java.util.HashMap">
+        select name,num,name1,num_demand from
+        (select a.time1 as name,round((a.num_demand / b.total),2) * 100 as num FROM
+        (select  to_char(to_date(planned_production_time,'yyyy-MM-dd'),'yyyy-MM') as time1,
+				count(DISTINCT serial_no) as num_demand from
+					WEEKLY_PROJECT_SCHEDUEL group by  to_char(to_date(planned_production_time,'yyyy-MM-dd'),'yyyy-MM')) a,
+        (select count(DISTINCT serial_no) as total from WEEKLY_PROJECT_SCHEDUEL) b) w1
+        full join
+        (select a.time2 as name1,a.num_demand FROM
+        (select  to_char(to_date(planned_production_time,'yyyy-MM-dd'),'yyyy-MM') as time2,
+					count(DISTINCT serial_no) as num_demand from
+					WEEKLY_DEMAND_SCHEDUEL group by  to_char(to_date(planned_production_time,'yyyy-MM-dd'),'yyyy-MM')) a) w2
+        on w1.name = w2.name1
+    </select>
+    
+    <select id="getManagerId" parameterType="java.lang.String" resultType="java.lang.String">
+        select distinct '0'||user_id from TOKEN_XKSTAFF_DEPARTMENT where user_name = #{userName}
+    </select>
+
+    <select id="selectDendrogramData" resultType="java.util.HashMap">
+        SELECT
+        NAME,
+        SUM (addNum) AS addNum,
+        SUM (cum) AS cum,
+        SUM (week) AS week,
+        SUM (valueNum) AS valueNum,
+        SUM (valueNum - cum) AS chat,
+        ROUND (
+        (
+        (SUM(cum) + SUM(week)) / SUM (valueNum)
+        ),
+        2
+        ) * 100 AS pro
+        FROM
+        (
+        (
+        SELECT
+        NVL (A . NAME, 0) AS NAME,
+        NVL (A .valueNum, 0) AS valueNum,
+        NVL (b.cum, 0) AS cum,
+        NVL (c.addNum, 0) AS addNum,
+        NVL (D .week, 0) AS week
+        FROM
+        (
+        select demand_dept AS NAME,count(*) AS valueNum from
+        (select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_DEMAND_SCHEDUEL w )
+        where rn = 1 )
+        group by demand_dept
+        ) A
+        LEFT JOIN (
+        select demand_dept AS NAME,count(*)  AS cum from
+        (select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_DEMAND_SCHEDUEL w
+        WHERE
+        current_generation = '已完成'
+        )
+        where rn = 1 )
+        group by demand_dept
+        ) b ON A . NAME = b. NAME
+        LEFT JOIN (
+        select demand_dept AS NAME,count(*)  AS addNum from
+        (select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_DEMAND_SCHEDUEL w
+        WHERE
+        CREATE_TIME &gt;= TRUNC (NEXT_DAY(SYSDATE - 8, 1) + 1)
+        AND CREATE_TIME &lt; TRUNC(NEXT_DAY(SYSDATE - 8, 1) + 7) + 1)
+        where rn = 1 )
+        GROUP BY
+        demand_dept
+        ) c ON A . NAME = c. NAME
+        LEFT JOIN (
+        select demand_dept AS NAME,count(*)  AS week from
+        (select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_DEMAND_SCHEDUEL w
+        WHERE
+        UPDATE_TIME &gt;= TRUNC (NEXT_DAY(SYSDATE - 8, 1) + 1)
+        AND UPDATE_TIME &lt; TRUNC(NEXT_DAY(SYSDATE - 8, 1) + 7) + 1
+        AND current_generation = '已完成')
+        where rn = 1 )
+        group by demand_dept
+        ) D ON A . NAME = D . NAME
+        )
+        UNION ALL
+        (
+        SELECT
+        NVL (A . NAME, 0) AS NAME,
+        NVL (A .valueNum, 0) AS valueNum,
+        NVL (b.cum, 0) AS cum,
+        NVL (c.addNum, 0) AS addNum,
+        NVL (D .week, 0) AS week
+        FROM
+        (
+        select demand_dept AS NAME,count(*) AS valueNum from
+        (select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from weekly_project_scheduel w )
+        where rn = 1 )
+        group by demand_dept
+        ) A
+        LEFT JOIN (
+        select demand_dept AS NAME,count(*)  AS cum from
+        (select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from weekly_project_scheduel w
+        WHERE
+        current_generation = '项目完成'
+        )
+        where rn = 1 )
+        group by demand_dept
+        ) b ON A . NAME = b. NAME
+        LEFT JOIN (
+        select demand_dept AS NAME,count(*)  AS addNum from
+        (select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from weekly_project_scheduel w
+        WHERE
+        CREATE_TIME &gt;= TRUNC (NEXT_DAY(SYSDATE - 8, 1) + 1)
+        AND CREATE_TIME &lt; TRUNC(NEXT_DAY(SYSDATE - 8, 1) + 7) + 1)
+        where rn = 1 )
+        GROUP BY
+        demand_dept
+        ) c ON A . NAME = c. NAME
+        LEFT JOIN (
+        select demand_dept AS NAME,count(*)  AS week from
+        (select * from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from weekly_project_scheduel w
+        WHERE
+        UPDATE_TIME &gt;= TRUNC (NEXT_DAY(SYSDATE - 8, 1) + 1)
+        AND UPDATE_TIME &lt; TRUNC(NEXT_DAY(SYSDATE - 8, 1) + 7) + 1
+        AND current_generation = '项目完成')
+        where rn = 1 )
+        group by demand_dept
+        ) D ON A . NAME = D . NAME
+        )
+        )
+        GROUP BY
+        NAME
+        ORDER BY DECODE(NAME, '公司',1,'零售',2,'运管',3,'小企业',4,'卡部',5,'其他',6)
+    </select>
+    
+
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.urgencyforts.mapper.UrgencyVerifyMapper">
+    
+    <resultMap type="UrgencyAlteratVerifys" id="UrgencyAlteratVerifyResult">
+        <result property="id"    column="id"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="changeTime"    column="change_time"    />
+        <result property="isHalt"    column="is_halt"    />
+        <result property="haltRange"    column="halt_range"    />
+        <result property="haltTime"    column="halt_time"    />
+        <result property="verifyDate"    column="verify_date"    />
+        <result property="verifyScheme"    column="verify_scheme"    />
+        <result property="inforMost"    column="infor_most"    />
+        <result property="urgencySendDept"    column="urgency_send_dept"    />
+        <result property="verifyStatus"    column="verify_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="startTime"     column="start_time"  />
+        <result property="endTime"      column="end_time" />
+    </resultMap>
+
+    <sql id="selectUrgencyAlteratVerifyVo">
+        select id, order_num, change_time, is_halt, halt_range, halt_time, verify_date, verify_scheme, infor_most, urgency_send_dept, verify_status, create_time, update_time from urgency_alterat_verify
+    </sql>
+
+    <select id="selectUrgencyAlteratVerifyList" parameterType="UrgencyAlteratVerify" resultMap="UrgencyAlteratVerifyResult">
+        <include refid="selectUrgencyAlteratVerifyVo"/>
+        <where>  
+            <if test="orderNum != null  and orderNum != ''"> and order_num = #{orderNum}</if>
+            <if test="changeTime != null  and changeTime != ''"> and change_time = #{changeTime}</if>
+            <if test="isHalt != null  and isHalt != ''"> and is_halt = #{isHalt}</if>
+            <if test="haltRange != null  and haltRange != ''"> and halt_range = #{haltRange}</if>
+            <if test="haltTime != null  and haltTime != ''"> and halt_time = #{haltTime}</if>
+            <if test="verifyDate != null  and verifyDate != ''"> and verify_date = #{verifyDate}</if>
+            <if test="verifyScheme != null  and verifyScheme != ''"> and verify_scheme = #{verifyScheme}</if>
+            <if test="inforMost != null  and inforMost != ''"> and infor_most = #{inforMost}</if>
+            <if test="urgencySendDept != null  and urgencySendDept != ''"> and urgency_send_dept = #{urgencySendDept}</if>
+            <if test="verifyStatus != null  and verifyStatus != ''"> and verify_status = #{verifyStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectUrgencyAlteratVerifyById" parameterType="Long" resultMap="UrgencyAlteratVerifyResult">
+        <include refid="selectUrgencyAlteratVerifyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertUrgencyAlteratVerify" parameterType="UrgencyAlteratVerifys">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_urgency_alterat_verify.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into urgency_alterat_verify
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="orderNum != null  and orderNum != ''">order_num,</if>
+            <if test="changeTime != null  and changeTime != ''">change_time,</if>
+            <if test="isHalt != null  and isHalt != ''">is_halt,</if>
+            <if test="haltRange != null  and haltRange != ''">halt_range,</if>
+            <if test="haltTime != null  and haltTime != ''">halt_time,</if>
+            <if test="verifyDate != null  and verifyDate != ''">verify_date,</if>
+            <if test="verifyScheme != null  and verifyScheme != ''">verify_scheme,</if>
+            <if test="inforMost != null  and inforMost != ''">infor_most,</if>
+            <if test="urgencySendDept != null  and urgencySendDept != ''">urgency_send_dept,</if>
+            <if test="verifyStatus != null  and verifyStatus != ''">verify_status,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="startTime != null  and startTime != ''">start_time,</if>
+            <if test="endTime != null  and endTime != ''">end_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="orderNum != null  and orderNum != ''">#{orderNum},</if>
+            <if test="changeTime != null  and changeTime != ''">#{changeTime},</if>
+            <if test="isHalt != null  and isHalt != ''">#{isHalt},</if>
+            <if test="haltRange != null  and haltRange != ''">#{haltRange},</if>
+            <if test="haltTime != null  and haltTime != ''">#{haltTime},</if>
+            <if test="verifyDate != null  and verifyDate != ''">#{verifyDate},</if>
+            <if test="verifyScheme != null  and verifyScheme != ''">#{verifyScheme},</if>
+            <if test="inforMost != null  and inforMost != ''">#{inforMost},</if>
+            <if test="urgencySendDept != null  and urgencySendDept != ''">#{urgencySendDept},</if>
+            <if test="verifyStatus != null  and verifyStatus != ''">#{verifyStatus},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="startTime != null  and startTime != ''">#{startTime},</if>
+            <if test="endTime != null  and endTime != ''">#{endTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateUrgencyAlteratVerify" parameterType="UrgencyAlteratVerifys">
+        update urgency_alterat_verify
+        <trim prefix="SET" suffixOverrides=",">
+            <!--<if test="orderNum != null  and orderNum != ''">order_num = #{orderNum},</if>-->
+            <if test="changeTime != null  and changeTime != ''">change_time = #{changeTime},</if>
+            <if test="isHalt != null  and isHalt != ''">is_halt = #{isHalt},</if>
+            <if test="haltRange != null  and haltRange != ''">halt_range = #{haltRange},</if>
+            <if test="haltTime != null  and haltTime != ''">halt_time = #{haltTime},</if>
+            <if test="verifyDate != null  and verifyDate != ''">verify_date = #{verifyDate},</if>
+            <if test="verifyScheme != null  and verifyScheme != ''">verify_scheme = #{verifyScheme},</if>
+            <if test="inforMost != null  and inforMost != ''">infor_most = #{inforMost},</if>
+            <if test="urgencySendDept != null  and urgencySendDept != ''">urgency_send_dept = #{urgencySendDept},</if>
+            <if test="verifyStatus != null  and verifyStatus != ''">verify_status = #{verifyStatus},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="startTime != null  and startTime != ''">start_time = #{startTime},</if>
+            <if test="endTime != null  and endTime != ''">end_time = #{endTime},</if>
+        </trim>
+        where order_Num = #{orderNum}
+    </update>
+    
+    <select id="getVerifyData" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from URGENCY_ALTERAT_VERIFY where order_num = #{orderNum}
+    </select>
+
+    <update id="updateverifyStatus" parameterType="java.lang.String">
+        update URGENCY_ALTERAT_VERIFY set verify_status = '2' where order_num = #{orderNum}
+    </update>
+    
+</mapper>

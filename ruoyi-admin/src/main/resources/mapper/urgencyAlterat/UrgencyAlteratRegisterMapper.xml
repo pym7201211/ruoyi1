@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.urgencyAlterat.mapper.UrgencyAlteratRegisterMapper">
+    
+    <resultMap type="UrgencyAlteratRegister" id="UrgencyAlteratRegisterResult">
+        <result property="id"    column="id"    />
+        <result property="systemName"    column="system_name"    />
+        <result property="operatorId"    column="operator_id"    />
+        <result property="operator"    column="operator"    />
+        <result property="reviewerId"    column="reviewer_id"    />
+        <result property="reviewer"    column="reviewer"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="urgencyDate"    column="urgency_date"    />
+        <result property="executor"    column="executor"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="urgencyFunDescribe"    column="urgency_fun_describe"    />
+        <result property="cooperateItems"    column="cooperate_items"    />
+        <result property="codeAudit"    column="code_audit"    />
+        <result property="finishTheTest"    column="finish_the_test"    />
+        <result property="pressureTest"    column="pressure_test"    />
+        <result property="businessOperation"    column="business_operation"    />
+        <result property="handbookUpdate"    column="handbook_update"    />
+        <result property="riskDescribe"    column="risk_describe"    />
+        <result property="sendBackScheme"    column="send_back_scheme"    />
+        <result property="urgencySponsorDept"    column="urgency_sponsor_dept"    />
+        <result property="internetUrgency"    column="internet_urgency"    />
+        <result property="securityTeam"    column="security_team"    />
+        <result property="dataUrgency"    column="data_urgency"    />
+        <result property="bigDataTeam"    column="big_data_team"    />
+        <result property="involveSystem"    column="involve_system"    />
+        <result property="involveSystemIllustrate"    column="involve_system_illustrate"    />
+        <result property="status"    column="status"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="teamCharge"    column="team_charge"    />
+        <result property="teamBranched"    column="team_branched"    />
+        <result property="chargeLeader"    column="charge_leader"    />
+        <result property="manageStatus"    column="manage_status"    />
+        <result property="currentTask"    column="current_task"    />
+        <result property="executorId"    column="executor_id"    />
+        <result property="teamBranchedId"    column="team_branched_id"    />
+        <result property="chargeLeaderId"    column="charge_leader_id"    />
+        <result property="teamChargeStatus"    column="team_charge_status"    />
+        <result property="teamBranchedStatus"    column="team_branched_status"    />
+        <result property="chargeLeaderStatus"    column="charge_leader_status"    />
+        <result property="teamChargeId"    column="team_charge_id"    />
+        <result property="securityTeamId"    column="security_team_id"    />
+        <result property="bigDataTeamId"    column="big_data_team_id"    />
+        <result property="reviewerStatus"    column="reviewer_status"    />
+        <result property="scienceChargeTeam"    column="science_charge_team"    />
+    </resultMap>
+
+    <sql id="selectUrgencyAlteratRegisterVo">
+        select id, system_name, operator_id, operator, reviewer_id, reviewer, order_num, urgency_date, executor, start_time, end_time, urgency_fun_describe, cooperate_items, code_audit, finish_the_test, pressure_test, business_operation, handbook_update, risk_describe, send_back_scheme, urgency_sponsor_dept, internet_urgency, security_team, data_urgency, big_data_team, involve_system, involve_system_illustrate, status, order_no, team_charge, team_branched, charge_leader, manage_status, current_task, executor_id, team_branched_id, charge_leader_id, team_charge_status, team_branched_status, charge_leader_status, team_charge_id, security_team_id, big_data_team_id, reviewer_status from urgency_alterat_register
+    </sql>
+
+    <select id="selectUrgencyAlteratRegisterList" parameterType="UrgencyAlteratRegister" resultMap="UrgencyAlteratRegisterResult">
+        select distinct a.id, a.system_name, operator_id, operator, reviewer_id, reviewer, order_num,
+        urgency_date, executor, start_time, end_time, urgency_fun_describe, cooperate_items,
+        code_audit, finish_the_test, pressure_test, business_operation, handbook_update,
+        risk_describe, send_back_scheme, urgency_sponsor_dept, internet_urgency, security_team,
+        data_urgency, big_data_team, involve_system, involve_system_illustrate, status, order_no,
+        team_charge, team_branched, charge_leader, manage_status, current_task, executor_id,
+        team_branched_id, charge_leader_id, team_charge_status, team_branched_status,
+        charge_leader_status, team_charge_id, security_team_id, big_data_team_id, reviewer_status,science_charge_team
+        from urgency_alterat_register a
+        left join token_xkstaff_department x
+        on a.operator_id = '0'||x.user_id
+        left join token_system_inventory s
+        on x.two_dept_org = s.department_id
+        <where>  
+            <if test="systemName != null  and systemName != ''"> and a.system_name like concat(concat('%', #{systemName}), '%')</if>
+            <if test="operatorId != null  and operatorId != ''"> and operator_id = #{operatorId}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="reviewerId != null  and reviewerId != ''"> and reviewer_id = #{reviewerId}</if>
+            <if test="reviewer != null  and reviewer != ''"> and reviewer = #{reviewer}</if>
+            <if test="orderNum != null  and orderNum != ''"> and order_num = #{orderNum}</if>
+            <!--<if test="urgencyDate != null  and urgencyDate != ''"> and urgency_date = #{urgencyDate}</if>-->
+            <if test="params.beginUrgencyDate != null and params.beginUrgencyDate != ''">
+                and (to_date(urgency_date,'yyyy-MM-dd HH24:mi:ss')) &gt;= to_date(#{params.beginUrgencyDate},'yyyy-MM-dd HH24:mi:ss')
+            </if>
+            <if test="params.endUrgencyDate != null and params.endUrgencyDate != ''">
+                and (to_date(urgency_date,'yyyy-MM-dd HH24:mi:ss')) &lt;= to_date(#{params.endUrgencyDate},'yyyy-MM-dd HH24:mi:ss')
+            </if>
+            <if test="executor != null  and executor != ''"> and executor = #{executor}</if>
+            <if test="params.startRegisterTime != null  and params.startRegisterTime != ''">
+            and to_char(to_date(start_time,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd') = #{params.startRegisterTime}
+            </if>
+            <if test="params.endRegisterTime != null  and params.endRegisterTime != ''">
+            and to_char(to_date(end_Time,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd') = #{params.endRegisterTime}
+            </if>
+            <if test="urgencyFunDescribe != null  and urgencyFunDescribe != ''"> and urgency_fun_describe = #{urgencyFunDescribe}</if>
+            <if test="cooperateItems != null  and cooperateItems != ''"> and cooperate_items = #{cooperateItems}</if>
+            <if test="codeAudit != null  and codeAudit != ''"> and code_audit = #{codeAudit}</if>
+            <if test="finishTheTest != null  and finishTheTest != ''"> and finish_the_test = #{finishTheTest}</if>
+            <if test="pressureTest != null  and pressureTest != ''"> and pressure_test = #{pressureTest}</if>
+            <if test="businessOperation != null  and businessOperation != ''"> and business_operation = #{businessOperation}</if>
+            <if test="handbookUpdate != null  and handbookUpdate != ''"> and handbook_update = #{handbookUpdate}</if>
+            <if test="riskDescribe != null  and riskDescribe != ''"> and risk_describe = #{riskDescribe}</if>
+            <if test="sendBackScheme != null  and sendBackScheme != ''"> and send_back_scheme = #{sendBackScheme}</if>
+            <if test="urgencySponsorDept != null  and urgencySponsorDept != ''"> and urgency_sponsor_dept = #{urgencySponsorDept}</if>
+            <if test="internetUrgency != null  and internetUrgency != ''"> and internet_urgency = #{internetUrgency}</if>
+            <if test="securityTeam != null  and securityTeam != ''"> and security_team = #{securityTeam}</if>
+            <if test="dataUrgency != null  and dataUrgency != ''"> and data_urgency = #{dataUrgency}</if>
+            <if test="bigDataTeam != null  and bigDataTeam != ''"> and big_data_team = #{bigDataTeam}</if>
+            <if test="involveSystem != null  and involveSystem != ''"> and involve_system = #{involveSystem}</if>
+            <if test="involveSystemIllustrate != null  and involveSystemIllustrate != ''"> and involve_system_illustrate = #{involveSystemIllustrate}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="teamCharge != null  and teamCharge != ''"> and team_charge = #{teamCharge}</if>
+            <if test="teamBranched != null  and teamBranched != ''"> and team_branched = #{teamBranched}</if>
+            <if test="chargeLeader != null  and chargeLeader != ''"> and charge_leader = #{chargeLeader}</if>
+            <if test="manageStatus != null  and manageStatus != ''"> and manage_status = #{manageStatus}</if>
+            <if test="currentTask != null  and currentTask != ''"> and current_task = #{currentTask}</if>
+            <if test="executorId != null  and executorId != ''"> and executor_id = #{executorId}</if>
+            <if test="teamBranchedId != null  and teamBranchedId != ''"> and team_branched_id = #{teamBranchedId}</if>
+            <if test="chargeLeaderId != null  and chargeLeaderId != ''"> and charge_leader_id = #{chargeLeaderId}</if>
+            <if test="teamChargeStatus != null  and teamChargeStatus != ''"> and team_charge_status = #{teamChargeStatus}</if>
+            <if test="teamBranchedStatus != null  and teamBranchedStatus != ''"> and team_branched_status = #{teamBranchedStatus}</if>
+            <if test="chargeLeaderStatus != null  and chargeLeaderStatus != ''"> and charge_leader_status = #{chargeLeaderStatus}</if>
+            <if test="teamChargeId != null  and teamChargeId != ''"> and team_charge_id = #{teamChargeId}</if>
+            <if test="securityTeamId != null  and securityTeamId != ''"> and security_team_id = #{securityTeamId}</if>
+            <if test="bigDataTeamId != null  and bigDataTeamId != ''"> and big_data_team_id = #{bigDataTeamId}</if>
+            <if test="reviewerStatus != null  and reviewerStatus != ''"> and reviewer_status = #{reviewerStatus}</if>
+            <if test="params.scienceChargeTeam != null and params.scienceChargeTeam != ''">
+                and science_charge_team like concat(concat('%', #{params.scienceChargeTeam}), '%')
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectUrgencyAlteratRegisterById" parameterType="Long" resultMap="UrgencyAlteratRegisterResult">
+        <include refid="selectUrgencyAlteratRegisterVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertUrgencyAlteratRegister" parameterType="UrgencyAlteratRegister">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_urgency_alterat_register.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into urgency_alterat_register
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="systemName != null  and systemName != ''">system_name,</if>
+            <if test="operatorId != null  and operatorId != ''">operator_id,</if>
+            <if test="operator != null  and operator != ''">operator,</if>
+            <if test="reviewerId != null  and reviewerId != ''">reviewer_id,</if>
+            <if test="reviewer != null  and reviewer != ''">reviewer,</if>
+            <if test="orderNum != null  and orderNum != ''">order_num,</if>
+            <if test="urgencyDate != null  and urgencyDate != ''">urgency_date,</if>
+            <if test="executor != null  and executor != ''">executor,</if>
+            <if test="startTime != null  and startTime != ''">start_time,</if>
+            <if test="endTime != null  and endTime != ''">end_time,</if>
+            <if test="urgencyFunDescribe != null  and urgencyFunDescribe != ''">urgency_fun_describe,</if>
+            <if test="cooperateItems != null  and cooperateItems != ''">cooperate_items,</if>
+            <if test="codeAudit != null  and codeAudit != ''">code_audit,</if>
+            <if test="finishTheTest != null  and finishTheTest != ''">finish_the_test,</if>
+            <if test="pressureTest != null  and pressureTest != ''">pressure_test,</if>
+            <if test="businessOperation != null  and businessOperation != ''">business_operation,</if>
+            <if test="handbookUpdate != null  and handbookUpdate != ''">handbook_update,</if>
+            <if test="riskDescribe != null  and riskDescribe != ''">risk_describe,</if>
+            <if test="sendBackScheme != null  and sendBackScheme != ''">send_back_scheme,</if>
+            <if test="urgencySponsorDept != null  and urgencySponsorDept != ''">urgency_sponsor_dept,</if>
+            <if test="internetUrgency != null  and internetUrgency != ''">internet_urgency,</if>
+            <if test="securityTeam != null  and securityTeam != ''">security_team,</if>
+            <if test="dataUrgency != null  and dataUrgency != ''">data_urgency,</if>
+            <if test="bigDataTeam != null  and bigDataTeam != ''">big_data_team,</if>
+            <if test="involveSystem != null  and involveSystem != ''">involve_system,</if>
+            <if test="involveSystemIllustrate != null  and involveSystemIllustrate != ''">involve_system_illustrate,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="orderNo != null  and orderNo != ''">order_no,</if>
+            <if test="teamCharge != null  and teamCharge != ''">team_charge,</if>
+            <if test="teamBranched != null  and teamBranched != ''">team_branched,</if>
+            <if test="chargeLeader != null  and chargeLeader != ''">charge_leader,</if>
+            <if test="manageStatus != null  and manageStatus != ''">manage_status,</if>
+            <if test="currentTask != null  and currentTask != ''">current_task,</if>
+            <if test="executorId != null  and executorId != ''">executor_id,</if>
+            <if test="teamBranchedId != null  and teamBranchedId != ''">team_branched_id,</if>
+            <if test="chargeLeaderId != null  and chargeLeaderId != ''">charge_leader_id,</if>
+            <if test="teamChargeStatus != null  and teamChargeStatus != ''">team_charge_status,</if>
+            <if test="teamBranchedStatus != null  and teamBranchedStatus != ''">team_branched_status,</if>
+            <if test="chargeLeaderStatus != null  and chargeLeaderStatus != ''">charge_leader_status,</if>
+            <if test="teamChargeId != null  and teamChargeId != ''">team_charge_id,</if>
+            <if test="securityTeamId != null  and securityTeamId != ''">security_team_id,</if>
+            <if test="bigDataTeamId != null  and bigDataTeamId != ''">big_data_team_id,</if>
+            <if test="reviewerStatus != null  and reviewerStatus != ''">reviewer_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="systemName != null  and systemName != ''">#{systemName},</if>
+            <if test="operatorId != null  and operatorId != ''">#{operatorId},</if>
+            <if test="operator != null  and operator != ''">#{operator},</if>
+            <if test="reviewerId != null  and reviewerId != ''">#{reviewerId},</if>
+            <if test="reviewer != null  and reviewer != ''">#{reviewer},</if>
+            <if test="orderNum != null  and orderNum != ''">#{orderNum},</if>
+            <if test="urgencyDate != null  and urgencyDate != ''">#{urgencyDate},</if>
+            <if test="executor != null  and executor != ''">#{executor},</if>
+            <if test="startTime != null  and startTime != ''">#{startTime},</if>
+            <if test="endTime != null  and endTime != ''">#{endTime},</if>
+            <if test="urgencyFunDescribe != null  and urgencyFunDescribe != ''">#{urgencyFunDescribe},</if>
+            <if test="cooperateItems != null  and cooperateItems != ''">#{cooperateItems},</if>
+            <if test="codeAudit != null  and codeAudit != ''">#{codeAudit},</if>
+            <if test="finishTheTest != null  and finishTheTest != ''">#{finishTheTest},</if>
+            <if test="pressureTest != null  and pressureTest != ''">#{pressureTest},</if>
+            <if test="businessOperation != null  and businessOperation != ''">#{businessOperation},</if>
+            <if test="handbookUpdate != null  and handbookUpdate != ''">#{handbookUpdate},</if>
+            <if test="riskDescribe != null  and riskDescribe != ''">#{riskDescribe},</if>
+            <if test="sendBackScheme != null  and sendBackScheme != ''">#{sendBackScheme},</if>
+            <if test="urgencySponsorDept != null  and urgencySponsorDept != ''">#{urgencySponsorDept},</if>
+            <if test="internetUrgency != null  and internetUrgency != ''">#{internetUrgency},</if>
+            <if test="securityTeam != null  and securityTeam != ''">#{securityTeam},</if>
+            <if test="dataUrgency != null  and dataUrgency != ''">#{dataUrgency},</if>
+            <if test="bigDataTeam != null  and bigDataTeam != ''">#{bigDataTeam},</if>
+            <if test="involveSystem != null  and involveSystem != ''">#{involveSystem},</if>
+            <if test="involveSystemIllustrate != null  and involveSystemIllustrate != ''">#{involveSystemIllustrate},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="orderNo != null  and orderNo != ''">#{orderNo},</if>
+            <if test="teamCharge != null  and teamCharge != ''">#{teamCharge},</if>
+            <if test="teamBranched != null  and teamBranched != ''">#{teamBranched},</if>
+            <if test="chargeLeader != null  and chargeLeader != ''">#{chargeLeader},</if>
+            <if test="manageStatus != null  and manageStatus != ''">#{manageStatus},</if>
+            <if test="currentTask != null  and currentTask != ''">#{currentTask},</if>
+            <if test="executorId != null  and executorId != ''">#{executorId},</if>
+            <if test="teamBranchedId != null  and teamBranchedId != ''">#{teamBranchedId},</if>
+            <if test="chargeLeaderId != null  and chargeLeaderId != ''">#{chargeLeaderId},</if>
+            <if test="teamChargeStatus != null  and teamChargeStatus != ''">#{teamChargeStatus},</if>
+            <if test="teamBranchedStatus != null  and teamBranchedStatus != ''">#{teamBranchedStatus},</if>
+            <if test="chargeLeaderStatus != null  and chargeLeaderStatus != ''">#{chargeLeaderStatus},</if>
+            <if test="teamChargeId != null  and teamChargeId != ''">#{teamChargeId},</if>
+            <if test="securityTeamId != null  and securityTeamId != ''">#{securityTeamId},</if>
+            <if test="bigDataTeamId != null  and bigDataTeamId != ''">#{bigDataTeamId},</if>
+            <if test="reviewerStatus != null  and reviewerStatus != ''">#{reviewerStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUrgencyAlteratRegister" parameterType="UrgencyAlteratRegister">
+        update urgency_alterat_register
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="systemName != null  and systemName != ''">system_name = #{systemName},</if>
+            <if test="operatorId != null  and operatorId != ''">operator_id = #{operatorId},</if>
+            <if test="operator != null  and operator != ''">operator = #{operator},</if>
+            <if test="reviewerId != null  and reviewerId != ''">reviewer_id = #{reviewerId},</if>
+            <if test="reviewer != null  and reviewer != ''">reviewer = #{reviewer},</if>
+            <if test="orderNum != null  and orderNum != ''">order_num = #{orderNum},</if>
+            <if test="urgencyDate != null  and urgencyDate != ''">urgency_date = #{urgencyDate},</if>
+            <if test="executor != null  and executor != ''">executor = #{executor},</if>
+            <if test="startTime != null  and startTime != ''">start_time = #{startTime},</if>
+            <if test="endTime != null  and endTime != ''">end_time = #{endTime},</if>
+            <if test="urgencyFunDescribe != null  and urgencyFunDescribe != ''">urgency_fun_describe = #{urgencyFunDescribe},</if>
+            <if test="cooperateItems != null  and cooperateItems != ''">cooperate_items = #{cooperateItems},</if>
+            <if test="codeAudit != null  and codeAudit != ''">code_audit = #{codeAudit},</if>
+            <if test="finishTheTest != null  and finishTheTest != ''">finish_the_test = #{finishTheTest},</if>
+            <if test="pressureTest != null  and pressureTest != ''">pressure_test = #{pressureTest},</if>
+            <if test="businessOperation != null  and businessOperation != ''">business_operation = #{businessOperation},</if>
+            <if test="handbookUpdate != null  and handbookUpdate != ''">handbook_update = #{handbookUpdate},</if>
+            <if test="riskDescribe != null  and riskDescribe != ''">risk_describe = #{riskDescribe},</if>
+            <if test="sendBackScheme != null  and sendBackScheme != ''">send_back_scheme = #{sendBackScheme},</if>
+            <if test="urgencySponsorDept != null  and urgencySponsorDept != ''">urgency_sponsor_dept = #{urgencySponsorDept},</if>
+            <if test="internetUrgency != null  and internetUrgency != ''">internet_urgency = #{internetUrgency},</if>
+            <if test="securityTeam != null  and securityTeam != ''">security_team = #{securityTeam},</if>
+            <if test="dataUrgency != null  and dataUrgency != ''">data_urgency = #{dataUrgency},</if>
+            <if test="bigDataTeam != null  and bigDataTeam != ''">big_data_team = #{bigDataTeam},</if>
+            <if test="involveSystem != null  and involveSystem != ''">involve_system = #{involveSystem},</if>
+            <if test="involveSystemIllustrate != null  and involveSystemIllustrate != ''">involve_system_illustrate = #{involveSystemIllustrate},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+            <if test="orderNo != null  and orderNo != ''">order_no = #{orderNo},</if>
+            <if test="teamCharge != null  and teamCharge != ''">team_charge = #{teamCharge},</if>
+            <if test="teamBranched != null  and teamBranched != ''">team_branched = #{teamBranched},</if>
+            <if test="chargeLeader != null  and chargeLeader != ''">charge_leader = #{chargeLeader},</if>
+            <if test="manageStatus != null  and manageStatus != ''">manage_status = #{manageStatus},</if>
+            <if test="currentTask != null  and currentTask != ''">current_task = #{currentTask},</if>
+            <if test="executorId != null  and executorId != ''">executor_id = #{executorId},</if>
+            <if test="teamBranchedId != null  and teamBranchedId != ''">team_branched_id = #{teamBranchedId},</if>
+            <if test="chargeLeaderId != null  and chargeLeaderId != ''">charge_leader_id = #{chargeLeaderId},</if>
+            <if test="teamChargeStatus != null  and teamChargeStatus != ''">team_charge_status = #{teamChargeStatus},</if>
+            <if test="teamBranchedStatus != null  and teamBranchedStatus != ''">team_branched_status = #{teamBranchedStatus},</if>
+            <if test="chargeLeaderStatus != null  and chargeLeaderStatus != ''">charge_leader_status = #{chargeLeaderStatus},</if>
+            <if test="teamChargeId != null  and teamChargeId != ''">team_charge_id = #{teamChargeId},</if>
+            <if test="securityTeamId != null  and securityTeamId != ''">security_team_id = #{securityTeamId},</if>
+            <if test="bigDataTeamId != null  and bigDataTeamId != ''">big_data_team_id = #{bigDataTeamId},</if>
+            <if test="reviewerStatus != null  and reviewerStatus != ''">reviewer_status = #{reviewerStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUrgencyAlteratRegisterById" parameterType="Long">
+        delete from urgency_alterat_register where id = #{id}
+    </delete>
+
+    <delete id="deleteUrgencyAlteratRegisterByIds" parameterType="String">
+        delete from urgency_alterat_register where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

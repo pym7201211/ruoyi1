@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增信科部员工')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-department-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">extend10：</label>
+                <div class="col-sm-8">
+                    <input name="extend10" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户号：</label>
+                <div class="col-sm-8">
+                    <input name="userId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户名：</label>
+                <div class="col-sm-8">
+                    <input name="userName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-8">
+                    <input name="sex" class="form-control" type="text">
+                    <!--<select name="sex" class="form-control m-b">
+                        <option value="">所有</option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>-->
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户类型：</label>
+                <div class="col-sm-8">
+                    <input name="userType" class="form-control" type="text">
+                    <!--<select name="userType" class="form-control m-b">
+                        <option value="">所有</option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>-->
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">身份证号：</label>
+                <div class="col-sm-8">
+                    <input name="idCard" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属机构：</label>
+                <div class="col-sm-8">
+                    <input name="orgCode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">一级部门：</label>
+                <div class="col-sm-8">
+                    <input name="oneDeptOrg" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">二级部门：</label>
+                <div class="col-sm-8">
+                    <input name="twoDeptOrg" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">岗位代码：</label>
+                <div class="col-sm-8">
+                    <input name="positionCode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">拼音名称：</label>
+                <div class="col-sm-8">
+                    <input name="pinyinName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">任职资格：</label>
+                <div class="col-sm-8">
+                    <input name="qualification" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">逻辑删除机构标志：</label>
+                <div class="col-sm-8">
+                    <input name="dFlag" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">维护人：</label>
+                <div class="col-sm-8">
+                    <input name="maintainOr" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">维护时间：</label>
+                <div class="col-sm-8">
+                    <input name="maintainDate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手机号码：</label>
+                <div class="col-sm-8">
+                    <input name="phone" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">职务：</label>
+                <div class="col-sm-8">
+                    <input name="duty" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">line_dept：</label>
+                <div class="col-sm-8">
+                    <input name="lineDept" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">离退休标志：</label>
+                <div class="col-sm-8">
+                    <input name="rFlag" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">人员状态：</label>
+                <div class="col-sm-8">
+                    <input name="extend1" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">政治面貌：</label>
+                <div class="col-sm-8">
+                    <input name="extend2" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">第一学历：</label>
+                <div class="col-sm-8">
+                    <input name="extend3" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最高学历：</label>
+                <div class="col-sm-8">
+                    <input name="extend4" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最高学位：</label>
+                <div class="col-sm-8">
+                    <input name="extend5" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">婚姻状况：</label>
+                <div class="col-sm-8">
+                    <input name="extend6" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">extend7：</label>
+                <div class="col-sm-8">
+                    <input name="extend7" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">extend8：</label>
+                <div class="col-sm-8">
+                    <input name="extend8" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">extend9：</label>
+                <div class="col-sm-8">
+                    <input name="extend9" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">id：</label>
+                <div class="col-sm-8">
+                    <input name="id" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "forts/department"
+        $("#form-department-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-department-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

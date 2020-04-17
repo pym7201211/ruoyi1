@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.detailedList.mapper.TokenSearchsystemUserMapper">
+    
+    <resultMap type="TokenSearchsystemUser" id="TokenSearchsystemUserResult">
+        <result property="id"    column="id"    />
+        <result property="teamId"    column="team_id"    />
+        <result property="teamName"    column="team_name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTokenSearchsystemUserVo">
+        select id, team_id, team_name, user_id, user_name, create_time, update_time from token_searchsystem_user
+    </sql>
+
+    <select id="selectTokenSearchsystemUserList" parameterType="TokenSearchsystemUser" resultMap="TokenSearchsystemUserResult">
+        <include refid="selectTokenSearchsystemUserVo"/>
+        <where>  
+            <if test="teamId != null  and teamId != ''"> and team_id = #{teamId}</if>
+            <if test="teamName != null  and teamName != ''"> and team_name like concat(concat('%', #{teamName}), '%')</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat(concat('%', #{userName}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTokenSearchsystemUserById" parameterType="Long" resultMap="TokenSearchsystemUserResult">
+        <include refid="selectTokenSearchsystemUserVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTokenSearchsystemUser" parameterType="TokenSearchsystemUser">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_token_searchsystem_user.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into token_searchsystem_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="teamId != null  and teamId != ''">team_id,</if>
+            <if test="teamName != null  and teamName != ''">team_name,</if>
+            <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="teamId != null  and teamId != ''">#{teamId},</if>
+            <if test="teamName != null  and teamName != ''">#{teamName},</if>
+            <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTokenSearchsystemUser" parameterType="TokenSearchsystemUser">
+        update token_searchsystem_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teamId != null  and teamId != ''">team_id = #{teamId},</if>
+            <if test="teamName != null  and teamName != ''">team_name = #{teamName},</if>
+            <if test="userId != null  and userId != ''">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTokenSearchsystemUserById" parameterType="Long">
+        delete from token_searchsystem_user where id = #{id}
+    </delete>
+
+    <delete id="deleteTokenSearchsystemUserByIds" parameterType="String">
+        delete from token_searchsystem_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

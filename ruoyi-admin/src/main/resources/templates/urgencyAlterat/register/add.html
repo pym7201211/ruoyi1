@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增紧急变更登记')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-register-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">系统名称：</label>
+                <div class="col-sm-8">
+                    <input name="systemName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">操作人id：</label>
+                <div class="col-sm-8">
+                    <input name="operatorId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">操作人：</label>
+                <div class="col-sm-8">
+                    <input name="operator" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">复核人id：</label>
+                <div class="col-sm-8">
+                    <input name="reviewerId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">复核人：</label>
+                <div class="col-sm-8">
+                    <input name="reviewer" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">序列：</label>
+                <div class="col-sm-8">
+                    <input name="orderNum" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">变更日期：</label>
+                <div class="col-sm-8">
+                    <input name="urgencyDate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">实施人：</label>
+                <div class="col-sm-8">
+                    <input name="executor" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开始时间：</label>
+                <div class="col-sm-8">
+                    <input name="startTime" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结束时间：</label>
+                <div class="col-sm-8">
+                    <input name="endTime" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">变更功能点描述：</label>
+                <div class="col-sm-8">
+                    <input name="urgencyFunDescribe" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">相关系统配合说明：</label>
+                <div class="col-sm-8">
+                    <input name="cooperateItems" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否代码已审核：</label>
+                <div class="col-sm-8">
+                    <input name="codeAudit" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否完成测试：</label>
+                <div class="col-sm-8">
+                    <input name="finishTheTest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否完成压力测试：</label>
+                <div class="col-sm-8">
+                    <input name="pressureTest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否业务投产申请：</label>
+                <div class="col-sm-8">
+                    <input name="businessOperation" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否操作手册更新：</label>
+                <div class="col-sm-8">
+                    <input name="handbookUpdate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">风险点描述：</label>
+                <div class="col-sm-8">
+                    <input name="riskDescribe" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否制定应急回退：</label>
+                <div class="col-sm-8">
+                    <input name="sendBackScheme" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">变更发起的业务部门：</label>
+                <div class="col-sm-8">
+                    <input name="urgencySponsorDept" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否涉及互联网系统变更：</label>
+                <div class="col-sm-8">
+                    <input name="internetUrgency" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">安全团队确认：</label>
+                <div class="col-sm-8">
+                    <input name="securityTeam" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否涉及数据变更：</label>
+                <div class="col-sm-8">
+                    <input name="dataUrgency" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">大数据管理团队确认：</label>
+                <div class="col-sm-8">
+                    <input name="bigDataTeam" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">涉及系统：</label>
+                <div class="col-sm-8">
+                    <input name="involveSystem" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">更步骤文字说明：</label>
+                <div class="col-sm-8">
+                    <input name="involveSystemIllustrate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">0：未认证：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="status" value="">
+                        <label th:for="status" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">订单流水号：</label>
+                <div class="col-sm-8">
+                    <input name="orderNo" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">团队主管签字：</label>
+                <div class="col-sm-8">
+                    <input name="teamCharge" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分管领导签字：</label>
+                <div class="col-sm-8">
+                    <input name="teamBranched" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">主管变更领导签字：</label>
+                <div class="col-sm-8">
+                    <input name="chargeLeader" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">处理状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="manageStatus" value="">
+                        <label th:for="manageStatus" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">当前任务：</label>
+                <div class="col-sm-8">
+                    <input name="currentTask" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">实施人id：</label>
+                <div class="col-sm-8">
+                    <input name="executorId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分管id：</label>
+                <div class="col-sm-8">
+                    <input name="teamBranchedId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">主管id：</label>
+                <div class="col-sm-8">
+                    <input name="chargeLeaderId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">团队主管签字：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="teamChargeStatus" value="">
+                        <label th:for="teamChargeStatus" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分管签字状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="teamBranchedStatus" value="">
+                        <label th:for="teamBranchedStatus" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">变更主管签字：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="chargeLeaderStatus" value="">
+                        <label th:for="chargeLeaderStatus" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">团队主管id：</label>
+                <div class="col-sm-8">
+                    <input name="teamChargeId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">安全团队id：</label>
+                <div class="col-sm-8">
+                    <input name="securityTeamId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">大数据团队id：</label>
+                <div class="col-sm-8">
+                    <input name="bigDataTeamId" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">复核人确认状态：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="reviewerStatus" value="">
+                        <label th:for="reviewerStatus" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "urgencyAlterat/register"
+        $("#form-register-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-register-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>
