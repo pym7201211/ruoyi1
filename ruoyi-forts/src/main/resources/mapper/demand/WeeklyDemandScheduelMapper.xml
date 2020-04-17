@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.weeklySchedule.backSystem.mapper.WeeklyDemandScheduelMapper">
+
+    <resultMap type="WeeklyDemandScheduel" id="WeeklyDemandScheduelResult">
+        <result property="finishedPhase"    column="finished_phase"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="planRdCompletionTime"    column="plan_rd_completion_time"    />
+        <result property="plannedProductionTime"    column="planned_production_time"    />
+        <result property="processingTime"    column="processing_time"    />
+        <result property="demandDeptId"    column="demand_dept_id"    />
+        <result property="demandDept"    column="demand_dept"    />
+        <result property="hostManagerId"    column="host_manager_id"    />
+        <result property="hostManager"    column="host_manager"    />
+        <result property="hostTeamId"    column="host_team_id"    />
+        <result property="hostTeam"    column="host_team"    />
+        <result property="demandName"    column="demand_name"    />
+        <result property="id"    column="id"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="demandDeptFullName"    column="demand_dept_full_name"    />
+        <result property="serialNo"    column="serial_no"    />
+        <result property="finishThisWeek"    column="finish_this_week"    />
+        <result property="risksDifficulties"    column="risks_difficulties"    />
+        <result property="currentGeneration"    column="current_generation"    />
+    </resultMap>
+
+    <sql id="selectWeeklyDemandScheduelVo">
+        select finished_phase, remarks, plan_rd_completion_time, planned_production_time, processing_time, demand_dept_id, demand_dept, host_manager_id, host_manager, host_team_id, host_team, demand_name, id, update_time, create_time, demand_dept_full_name, serial_no, finish_this_week, risks_difficulties, current_generation from weekly_demand_scheduel
+    </sql>
+    
+    <select id="selectWeeklyDemandScheduelListNew" parameterType="WeeklyDemandScheduel" resultMap="WeeklyDemandScheduelResult">
+        select finished_phase, remarks, plan_rd_completion_time, planned_production_time, processing_time,
+        demand_dept_id, demand_dept, host_manager_id, host_manager, host_team_id, host_team, demand_name, id,
+        update_time, create_time, demand_dept_full_name, serial_no, finish_this_week, risks_difficulties,
+        current_generation
+        from
+        (select w.*,row_number() over(partition by serial_no order by id desc) rn
+        from WEEKLY_DEMAND_SCHEDUEL w )
+        where rn = 1
+        <if test="params.beginPlannedProductionTime != null and params.beginPlannedProductionTime != ''"><!-- 开始时间检索 -->
+            and planned_production_time &gt;= #{params.beginPlannedProductionTime}
+        </if>
+        <if test="params.endPlannedProductionTime != null and params.endPlannedProductionTime != ''"><!-- 结束时间检索 -->
+            and planned_production_time &lt;= #{params.endPlannedProductionTime}
+        </if>
+        <if test="params.beginProcessingTime != null and params.beginProcessingTime != ''"><!-- 开始时间检索 -->
+            and processing_time &gt;= #{params.beginProcessingTime}
+        </if>
+        <if test="params.endProcessingTime != null and params.endProcessingTime != ''"><!-- 结束时间检索 -->
+            and processing_time &lt;= #{params.endProcessingTime}
+        </if>
+        <if test="hostTeam != null  and hostTeam != ''"> and host_team like concat(concat('%', #{hostTeam}), '%')</if>
+        <if test="demandName != null  and demandName != ''"> and demand_name like concat(concat('%', #{demandName}), '%')</if>
+    </select>
+
+    <select id="selectWeeklyDemandScheduelList" parameterType="WeeklyDemandScheduel" resultMap="WeeklyDemandScheduelResult">
+        <include refid="selectWeeklyDemandScheduelVo"/>
+        <where>
+            <if test="finishedPhase != null  and finishedPhase != ''"> and finished_phase = #{finishedPhase}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="planRdCompletionTime != null  and planRdCompletionTime != ''"> and plan_rd_completion_time = #{planRdCompletionTime}</if>
+            <if test="params.beginPlannedProductionTime != null and params.beginPlannedProductionTime != ''"><!-- 开始时间检索 -->
+                and planned_production_time &gt;= #{params.beginPlannedProductionTime}
+            </if>
+            <if test="params.endPlannedProductionTime != null and params.endPlannedProductionTime != ''"><!-- 结束时间检索 -->
+                and planned_production_time &lt;= #{params.endPlannedProductionTime}
+            </if>
+            <if test="params.beginProcessingTime != null and params.beginProcessingTime != ''"><!-- 开始时间检索 -->
+                and processing_time &gt;= #{params.beginProcessingTime}
+            </if>
+            <if test="params.endProcessingTime != null and params.endProcessingTime != ''"><!-- 结束时间检索 -->
+                and processing_time &lt;= #{params.endProcessingTime}
+            </if>
+            <if test="demandDeptId != null  and demandDeptId != ''"> and demand_dept_id = #{demandDeptId}</if>
+            <if test="demandDept != null  and demandDept != ''"> and demand_dept = #{demandDept}</if>
+            <if test="hostManagerId != null  and hostManagerId != ''"> and host_manager_id = #{hostManagerId}</if>
+            <if test="hostManager != null  and hostManager != ''"> and host_manager = #{hostManager}</if>
+            <if test="hostTeamId != null  and hostTeamId != ''"> and host_team_id = #{hostTeamId}</if>
+            <if test="hostTeam != null  and hostTeam != ''"> and host_team like concat(concat('%', #{hostTeam}), '%')</if>
+            <if test="demandName != null  and demandName != ''"> and demand_name like concat(concat('%', #{demandName}), '%')</if>
+            <if test="demandDeptFullName != null  and demandDeptFullName != ''"> and demand_dept_full_name like concat(concat('%', #{demandDeptFullName}), '%')</if>
+            <if test="serialNo != null  and serialNo != ''"> and serial_no = #{serialNo}</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''"> and finish_this_week = #{finishThisWeek}</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''"> and risks_difficulties = #{risksDifficulties}</if>
+            <if test="currentGeneration != null  and currentGeneration != ''"> and current_generation = #{currentGeneration}</if>
+        </where>
+    </select>
+
+    <select id="selectWeeklyDemandScheduelById" parameterType="Long" resultMap="WeeklyDemandScheduelResult">
+        <include refid="selectWeeklyDemandScheduelVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertWeeklyDemandScheduel" parameterType="WeeklyDemandScheduel">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_weekly_demand_scheduel.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into weekly_demand_scheduel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="finishedPhase != null  and finishedPhase != ''">finished_phase,</if>
+            <if test="remarks != null  and remarks != ''">remarks,</if>
+            <if test="planRdCompletionTime != null  and planRdCompletionTime != ''">plan_rd_completion_time,</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''">planned_production_time,</if>
+            <if test="processingTime != null  and processingTime != ''">processing_time,</if>
+            <if test="demandDeptId != null  and demandDeptId != ''">demand_dept_id,</if>
+            <if test="demandDept != null  and demandDept != ''">demand_dept,</if>
+            <if test="hostManagerId != null  and hostManagerId != ''">host_manager_id,</if>
+            <if test="hostManager != null  and hostManager != ''">host_manager,</if>
+            <if test="hostTeamId != null  and hostTeamId != ''">host_team_id,</if>
+            <if test="hostTeam != null  and hostTeam != ''">host_team,</if>
+            <if test="demandName != null  and demandName != ''">demand_name,</if>
+            <if test="id != null ">id,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="demandDeptFullName != null  and demandDeptFullName != ''">demand_dept_full_name,</if>
+            <if test="serialNo != null  and serialNo != ''">serial_no,</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''">finish_this_week,</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''">risks_difficulties,</if>
+            <if test="currentGeneration != null  and currentGeneration != ''">current_generation,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="finishedPhase != null  and finishedPhase != ''">#{finishedPhase},</if>
+            <if test="remarks != null  and remarks != ''">#{remarks},</if>
+            <if test="planRdCompletionTime != null  and planRdCompletionTime != ''">#{planRdCompletionTime},</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''">#{plannedProductionTime},</if>
+            <if test="processingTime != null  and processingTime != ''">#{processingTime},</if>
+            <if test="demandDeptId != null  and demandDeptId != ''">#{demandDeptId},</if>
+            <if test="demandDept != null  and demandDept != ''">#{demandDept},</if>
+            <if test="hostManagerId != null  and hostManagerId != ''">#{hostManagerId},</if>
+            <if test="hostManager != null  and hostManager != ''">#{hostManager},</if>
+            <if test="hostTeamId != null  and hostTeamId != ''">#{hostTeamId},</if>
+            <if test="hostTeam != null  and hostTeam != ''">#{hostTeam},</if>
+            <if test="demandName != null  and demandName != ''">#{demandName},</if>
+            <if test="id != null ">#{id},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="demandDeptFullName != null  and demandDeptFullName != ''">#{demandDeptFullName},</if>
+            <if test="serialNo != null  and serialNo != ''">#{serialNo},</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''">#{finishThisWeek},</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''">#{risksDifficulties},</if>
+            <if test="currentGeneration != null  and currentGeneration != ''">#{currentGeneration},</if>
+        </trim>
+    </insert>
+
+    <update id="updateWeeklyDemandScheduel" parameterType="WeeklyDemandScheduel">
+        update weekly_demand_scheduel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="finishedPhase != null  and finishedPhase != ''">finished_phase = #{finishedPhase},</if>
+            <if test="remarks != null  and remarks != ''">remarks = #{remarks},</if>
+            <if test="planRdCompletionTime != null  and planRdCompletionTime != ''">plan_rd_completion_time = #{planRdCompletionTime},</if>
+            <if test="plannedProductionTime != null  and plannedProductionTime != ''">planned_production_time = #{plannedProductionTime},</if>
+            <if test="processingTime != null  and processingTime != ''">processing_time = #{processingTime},</if>
+            <if test="demandDeptId != null  and demandDeptId != ''">demand_dept_id = #{demandDeptId},</if>
+            <if test="demandDept != null  and demandDept != ''">demand_dept = #{demandDept},</if>
+            <if test="hostManagerId != null  and hostManagerId != ''">host_manager_id = #{hostManagerId},</if>
+            <if test="hostManager != null  and hostManager != ''">host_manager = #{hostManager},</if>
+            <if test="hostTeamId != null  and hostTeamId != ''">host_team_id = #{hostTeamId},</if>
+            <if test="hostTeam != null  and hostTeam != ''">host_team = #{hostTeam},</if>
+            <if test="demandName != null  and demandName != ''">demand_name = #{demandName},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="demandDeptFullName != null  and demandDeptFullName != ''">demand_dept_full_name = #{demandDeptFullName},</if>
+            <if test="serialNo != null  and serialNo != ''">serial_no = #{serialNo},</if>
+            <if test="finishThisWeek != null  and finishThisWeek != ''">finish_this_week = #{finishThisWeek},</if>
+            <if test="risksDifficulties != null  and risksDifficulties != ''">risks_difficulties = #{risksDifficulties},</if>
+            <if test="currentGeneration != null  and currentGeneration != ''">current_generation = #{currentGeneration},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWeeklyDemandScheduelById" parameterType="Long">
+        delete from weekly_demand_scheduel where id = #{id}
+    </delete>
+
+    <delete id="deleteWeeklyDemandScheduelByIds" parameterType="String">
+        delete from weekly_demand_scheduel where id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

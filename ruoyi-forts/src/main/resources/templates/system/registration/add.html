@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增外包人员外出请假登记')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-registration-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外包人员姓名：</label>
+                <div class="col-sm-8">
+                    <input name="staffName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公司名：</label>
+                <div class="col-sm-8">
+                    <input name="companyName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属行方项目经理：</label>
+                <div class="col-sm-8">
+                    <input name="projectManager" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">出发地：</label>
+                <div class="col-sm-8">
+                    <input name="departureSite" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">目的地：</label>
+                <div class="col-sm-8">
+                    <input name="destination" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外出事由：</label>
+                <div class="col-sm-8">
+                    <input name="cause" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外出开始时间：</label>
+                <div class="col-sm-8">
+                    <input name="startTime" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外出结束时间：</label>
+                <div class="col-sm-8">
+                    <input name="endTime" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">时长：</label>
+                <div class="col-sm-8">
+                    <input name="burningTime" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他出发地：</label>
+                <div class="col-sm-8">
+                    <input name="otherDeparture" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他目的地：</label>
+                <div class="col-sm-8">
+                    <input name="otherDestination" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他外出事由：</label>
+                <div class="col-sm-8">
+                    <input name="otherCause" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请人ID：</label>
+                <div class="col-sm-8">
+                    <input name="operatorId" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/registration"
+        $("#form-registration-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-registration-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

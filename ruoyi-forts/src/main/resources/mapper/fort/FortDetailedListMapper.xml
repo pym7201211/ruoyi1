@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyiforts.mapper.FortDetailedListMapper">
+
+    <resultMap type="TokenApprovalProcesses" id="TokenApprovalProcessResult">
+        <result property="id"    column="id"    />
+        <result property="leaderId"    column="leader_id"    />
+        <result property="leaderName"    column="leader_name"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="employeeName"    column="employee_name"    />
+        <result property="applyContent"    column="apply_content"    />
+        <result property="seno"    column="seno"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="approvalStatus"    column="approval_status"    />
+        <result property="buttonType"    column="button_type"    />
+        <result property="transferId"    column="transfer_id"    />
+        <result property="transferName"    column="transfer_name"    />
+        <result property="systemId"    column="system_id"    />
+        <result property="systemName"    column="system_name"    />
+    </resultMap>
+
+    <sql id="selectTokenApprovalProcessVo">
+        select id, leader_id, leader_name, employee_id, employee_name, apply_content, seno, create_time,
+        update_time, approval_status, button_type, transfer_id, transfer_name, system_id, system_name from token_approval_process
+    </sql>
+
+    <select id="selectButton" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COUNT(1) from token_system_inventory where SYSTEM_NAME = #{systemName}
+        AND instr(','||maintain_user_id||',',concat(concat(',', #{userId}), ','))>0
+    </select>
+
+    <select id="selectApporvalStaus" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from TOKEN_APPROVAL_PROCESS where approval_status = '2' and
+        employee_id = #{userId} and system_name = #{systemName}
+    </select>
+    
+    <select id="selectInfo" resultType="java.util.HashMap">
+        select * from TOKEN_SYSTEM_INVENTORY where system_name = #{systemName}
+    </select>
+
+    <insert id="insertTokenApprovalProcess" parameterType="TokenApprovalProcess">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_token_approval_process.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into token_approval_process
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="leaderId != null  and leaderId != ''">leader_id,</if>
+            <if test="leaderName != null  and leaderName != ''">leader_name,</if>
+            <if test="employeeId != null  and employeeId != ''">employee_id,</if>
+            <if test="employeeName != null  and employeeName != ''">employee_name,</if>
+            <if test="applyContent != null  and applyContent != ''">apply_content,</if>
+            <if test="seno != null  and seno != ''">seno,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="approvalStatus != null  and approvalStatus != ''">approval_status,</if>
+            <if test="buttonType != null  and buttonType != ''">button_type,</if>
+            <if test="transferId != null  and transferId != ''">transfer_id,</if>
+            <if test="transferName != null  and transferName != ''">transfer_name,</if>
+            <if test="systemId != null  and systemId != ''">system_id,</if>
+            <if test="systemName != null  and systemName != ''">system_name,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="leaderId != null  and leaderId != ''">#{leaderId},</if>
+            <if test="leaderName != null  and leaderName != ''">#{leaderName},</if>
+            <if test="employeeId != null  and employeeId != ''">#{employeeId},</if>
+            <if test="employeeName != null  and employeeName != ''">#{employeeName},</if>
+            <if test="applyContent != null  and applyContent != ''">#{applyContent},</if>
+            <if test="seno != null  and seno != ''">#{seno},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="approvalStatus != null  and approvalStatus != ''">#{approvalStatus},</if>
+            <if test="buttonType != null  and buttonType != ''">#{buttonType},</if>
+            <if test="transferId != null  and transferId != ''">#{transferId},</if>
+            <if test="transferName != null  and transferName != ''">#{transferName},</if>
+            <if test="systemId != null  and systemId != ''">#{systemId},</if>
+            <if test="systemName != null  and systemName != ''">#{systemName},</if>
+        </trim>
+    </insert>
+    
+    <select id="selectApprovalInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from TOKEN_APPROVAL_PROCESS where SENO = #{seno}
+    </select>
+    
+    <update id="updateInventoryUser">
+        update TOKEN_SYSTEM_INVENTORY set use_maintain_staff =
+        nvl2(use_maintain_staff,use_maintain_staff || '、' || #{employeeName},#{employeeName}) ,
+        MAINTAIN_USER_ID = NVL2(MAINTAIN_USER_ID, MAINTAIN_USER_ID || ',' || #{userId}, #{userId})
+        where SYSTEM_NAME = #{systemName}
+    </update>
+    
+    <update id="updateApprovalStatus">
+        update TOKEN_APPROVAL_PROCESS set APPROVAL_STATUS = #{approvalStatus} where SENO = #{seNo}
+    </update>
+
+    <select id="selectInventoryUser" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from TOKEN_SYSTEM_INVENTORY where SYSTEM_NAME = #{systemName}
+    </select>
+    
+    <update id="updateInventoryUserId">
+        update TOKEN_SYSTEM_INVENTORY set maintain_user_id = #{maintainUserId},
+        use_maintain_staff = #{useMaintainStaff} where system_name = #{systemName}
+    </update>
+
+    <select id="selectIsApproval" parameterType="java.lang.String" resultType="java.lang.String">
+        select approval_status from TOKEN_APPROVAL_PROCESS where seno = #{seNo}
+    </select>
+
+    <select id="getIdAndName" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select use_maintain_staff as users,maintain_user_id as userIds from TOKEN_SYSTEM_INVENTORY where system_name != #{systemName}
+    </select>
+    
+    <update id="transferSystemName">
+        update TOKEN_SYSTEM_INVENTORY set use_maintain_staff = replace(use_maintain_staff,#{oldUser},#{newUser}),
+        maintain_user_id = replace(maintain_user_id,#{oldUserId},#{newUserId})
+        where SYSTEM_NAME = #{systemName}
+    </update>
+    
+</mapper>

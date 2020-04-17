@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改外包人员外出请假登记')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-registration-edit" th:object="${outRegistration}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外包人员姓名：</label>
+                <div class="col-sm-8">
+                    <input name="staffName" th:field="*{staffName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">公司名：</label>
+                <div class="col-sm-8">
+                    <input name="companyName" th:field="*{companyName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">所属行方项目经理：</label>
+                <div class="col-sm-8">
+                    <input name="projectManager" th:field="*{projectManager}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">出发地：</label>
+                <div class="col-sm-8">
+                    <input name="departureSite" th:field="*{departureSite}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">目的地：</label>
+                <div class="col-sm-8">
+                    <input name="destination" th:field="*{destination}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外出事由：</label>
+                <div class="col-sm-8">
+                    <input name="cause" th:field="*{cause}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外出开始时间：</label>
+                <div class="col-sm-8">
+                    <input name="startTime" th:field="*{startTime}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">外出结束时间：</label>
+                <div class="col-sm-8">
+                    <input name="endTime" th:field="*{endTime}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">时长：</label>
+                <div class="col-sm-8">
+                    <input name="burningTime" th:field="*{burningTime}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他出发地：</label>
+                <div class="col-sm-8">
+                    <input name="otherDeparture" th:field="*{otherDeparture}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他目的地：</label>
+                <div class="col-sm-8">
+                    <input name="otherDestination" th:field="*{otherDestination}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">其他外出事由：</label>
+                <div class="col-sm-8">
+                    <input name="otherCause" th:field="*{otherCause}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请人ID：</label>
+                <div class="col-sm-8">
+                    <input name="operatorId" th:field="*{operatorId}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/registration";
+        $("#form-registration-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-registration-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

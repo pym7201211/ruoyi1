@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('变更时点验证列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>订单流水号：</p>
+                                <input type="text" name="orderNum"/>
+                            </li>
+                            <li>
+                                <p>变更时间：</p>
+                                <input type="text" name="changeTime"/>
+                            </li>
+                            <!--<li>
+                                <p>是否停机：</p>
+                                <input type="text" name="isHalt"/>
+                            </li>
+                            <li>
+                                <p>停机影响范围：</p>
+                                <input type="text" name="haltRange"/>
+                            </li>-->
+                            <!--<li>
+                                <p>停机时间：</p>
+                                <input type="text" name="haltTime"/>
+                            </li>-->
+                            <li>
+                                <p>验证时间：</p>
+                                <input type="text" name="verifyDate"/>
+                            </li>
+                            <!--<li>
+                                <p>验证方案：</p>
+                                <input type="text" name="verifyScheme"/>
+                            </li>-->
+                            <!--<li>
+                                <p>信息科技部：</p>
+                                <input type="text" name="inforMost"/>
+                            </li>
+                            <li>
+                                <p>变更发起部门：</p>
+                                <input type="text" name="urgencySendDept"/>
+                            </li>-->
+                            <!--<li>
+                                <p>验证状态：</p>
+                                <select name="verifyStatus">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>-->
+                            <li>
+                                <p>停机开始 时间：</p>
+                                <input type="text" name="startTime"/>
+                            </li>
+                            <li>
+                                <p>停机结束时间：</p>
+                                <input type="text" name="endTime"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="urgencyAlterat:verify:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="urgencyAlterat:verify:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="urgencyAlterat:verify:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="urgencyAlterat:verify:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('urgencyAlterat:verify:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('urgencyAlterat:verify:remove')}]];
+        var prefix = ctx + "urgencyAlterat/verify";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "变更时点验证",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '主键seq_urgency_alterat_verify.nextval',
+                    visible: false
+                },
+                {
+                    field : 'orderNum', 
+                    title : '订单流水号'
+                },
+                {
+                    field : 'changeTime', 
+                    title : '变更时间'
+                },
+                {
+                    field : 'isHalt', 
+                    title : '是否停机'
+                },
+                {
+                    field : 'haltRange', 
+                    title : '停机影响范围'
+                },
+                {
+                    field : 'haltTime', 
+                    title : '停机时间'
+                },
+                {
+                    field : 'verifyDate', 
+                    title : '验证时间'
+                },
+                {
+                    field : 'verifyScheme', 
+                    title : '验证方案'
+                },
+                {
+                    field : 'inforMost', 
+                    title : '信息科技部'
+                },
+                {
+                    field : 'urgencySendDept', 
+                    title : '变更发起部门'
+                },
+                {
+                    field : 'verifyStatus', 
+                    title : '验证状态'
+                },
+                {
+                    field : 'startTime', 
+                    title : '停机开始 时间'
+                },
+                {
+                    field : 'endTime', 
+                    title : '停机结束时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

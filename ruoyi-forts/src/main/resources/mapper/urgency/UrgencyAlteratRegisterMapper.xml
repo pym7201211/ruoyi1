@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.urgencyforts.mapper.UrgencyMapper">
+    
+    <resultMap type="UrgencyAlteratRegisters" id="UrgencyAlteratRegisterResult">
+        <result property="id"    column="id"    />
+        <result property="systemName"    column="system_name"    />
+        <result property="operatorId"    column="operator_id"    />
+        <result property="operator"    column="operator"    />
+        <result property="reviewerId"    column="reviewer_id"    />
+        <result property="reviewer"    column="reviewer"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="urgencyDate"    column="urgency_date"    />
+        <result property="executor"    column="executor"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="urgencyFunDescribe"    column="urgency_fun_describe"    />
+        <result property="cooperateItems"    column="cooperate_items"    />
+        <result property="codeAudit"    column="code_audit"    />
+        <result property="finishTheTest"    column="finish_the_test"    />
+        <result property="pressureTest"    column="pressure_test"    />
+        <result property="businessOperation"    column="business_operation"    />
+        <result property="handbookUpdate"    column="handbook_update"    />
+        <result property="riskDescribe"    column="risk_describe"    />
+        <result property="sendBackScheme"    column="send_back_scheme"    />
+        <result property="urgencySponsorDept"    column="urgency_sponsor_dept"    />
+        <result property="internetUrgency"    column="internet_urgency"    />
+        <result property="securityTeam"    column="security_team"    />
+        <result property="dataUrgency"    column="data_urgency"    />
+        <result property="bigDataTeam"    column="big_data_team"    />
+        <result property="involveSystem"    column="involve_system"    />
+        <result property="involveSystemIllustrate"    column="involve_system_illustrate"    />
+        <result property="status"    column="status"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="teamCharge"    column="team_charge"    />
+        <result property="teamBranched"    column="team_branched"    />
+        <result property="chargeLeader"    column="charge_leader"    />
+        <result property="manageStatus"    column="manage_status"    />
+        <result property="currentTask"    column="current_task"    />
+        <result property="executorId"    column="executor_id"    />
+        <result property="teamBranchedId"    column="team_branched_id"    />
+        <result property="chargeLeaderId"    column="charge_leader_id"    />
+        <result property="teamChargeStatus"    column="team_charge_status"    />
+        <result property="teamBranchedStatus"    column="team_branched_status"    />
+        <result property="chargeLeaderStatus"    column="charge_leader_status"    />
+        <result property="teamChargeId"    column="team_charge_id"    />
+        <result property="securityTeamId"    column="security_team_id"    />
+        <result property="bigDataTeamId"    column="big_data_team_id"    />
+        <result property="reviewerStatus"    column="reviewer_status"    />
+    </resultMap>
+        
+    <insert id="insertUrgencyAlteratRegister" parameterType="UrgencyAlteratRegisters">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_urgency_alterat_register.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into urgency_alterat_register
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="systemName != null  and systemName != ''">system_name,</if>
+            <if test="operatorId != null  and operatorId != ''">operator_id,</if>
+            <if test="operator != null  and operator != ''">operator,</if>
+            <if test="reviewerId != null  and reviewerId != ''">reviewer_id,</if>
+            <if test="reviewer != null  and reviewer != ''">reviewer,</if>
+            <if test="orderNum != null  and orderNum != ''">order_num,</if>
+            <if test="urgencyDate != null  and urgencyDate != ''">urgency_date,</if>
+            <if test="executor != null  and executor != ''">executor,</if>
+            <if test="startTime != null  and startTime != ''">start_time,</if>
+            <if test="endTime != null  and endTime != ''">end_time,</if>
+            <if test="urgencyFunDescribe != null  and urgencyFunDescribe != ''">urgency_fun_describe,</if>
+            <if test="cooperateItems != null  and cooperateItems != ''">cooperate_items,</if>
+            <if test="codeAudit != null  and codeAudit != ''">code_audit,</if>
+            <if test="finishTheTest != null  and finishTheTest != ''">finish_the_test,</if>
+            <if test="pressureTest != null  and pressureTest != ''">pressure_test,</if>
+            <if test="businessOperation != null  and businessOperation != ''">business_operation,</if>
+            <if test="handbookUpdate != null  and handbookUpdate != ''">handbook_update,</if>
+            <if test="riskDescribe != null  and riskDescribe != ''">risk_describe,</if>
+            <if test="sendBackScheme != null  and sendBackScheme != ''">send_back_scheme,</if>
+            <if test="urgencySponsorDept != null  and urgencySponsorDept != ''">urgency_sponsor_dept,</if>
+            <if test="internetUrgency != null  and internetUrgency != ''">internet_urgency,</if>
+            <if test="securityTeam != null  and securityTeam != ''">security_team,</if>
+            <if test="dataUrgency != null  and dataUrgency != ''">data_urgency,</if>
+            <if test="bigDataTeam != null  and bigDataTeam != ''">big_data_team,</if>
+            <if test="involveSystem != null  and involveSystem != ''">involve_system,</if>
+            <if test="involveSystemIllustrate != null  and involveSystemIllustrate != ''">involve_system_illustrate,</if>
+            <if test="status != null  and status != ''">status,</if>
+            <if test="orderNo != null  and orderNo != ''">order_no,</if>
+            <if test="teamCharge != null  and teamCharge != ''">team_charge,</if>
+            <if test="teamBranched != null  and teamBranched != ''">team_branched,</if>
+            <if test="chargeLeader != null  and chargeLeader != ''">charge_leader,</if>
+            <if test="manageStatus != null  and manageStatus != ''">manage_status,</if>
+            <if test="currentTask != null  and currentTask != ''">current_task,</if>
+            <if test="executorId != null  and executorId != ''">executor_id,</if>
+            <if test="teamBranchedId != null  and teamBranchedId != ''">team_branched_id,</if>
+            <if test="chargeLeaderId != null  and chargeLeaderId != ''">charge_leader_id,</if>
+            <if test="teamChargeStatus != null  and teamChargeStatus != ''">team_charge_status,</if>
+            <if test="teamBranchedStatus != null  and teamBranchedStatus != ''">team_branched_status,</if>
+            <if test="chargeLeaderStatus != null  and chargeLeaderStatus != ''">charge_leader_status,</if>
+            <if test="teamChargeId != null  and teamChargeId != ''">team_charge_id,</if>
+            <if test="securityTeamId != null  and securityTeamId != ''">security_team_id,</if>
+            <if test="bigDataTeamId != null  and bigDataTeamId != ''">big_data_team_id,</if>
+            <if test="reviewerStatus != null  and reviewerStatus != ''">reviewer_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="systemName != null  and systemName != ''">#{systemName},</if>
+            <if test="operatorId != null  and operatorId != ''">#{operatorId},</if>
+            <if test="operator != null  and operator != ''">#{operator},</if>
+            <if test="reviewerId != null  and reviewerId != ''">#{reviewerId},</if>
+            <if test="reviewer != null  and reviewer != ''">#{reviewer},</if>
+            <if test="orderNum != null  and orderNum != ''">#{orderNum},</if>
+            <if test="urgencyDate != null  and urgencyDate != ''">#{urgencyDate},</if>
+            <if test="executor != null  and executor != ''">#{executor},</if>
+            <if test="startTime != null  and startTime != ''">#{startTime},</if>
+            <if test="endTime != null  and endTime != ''">#{endTime},</if>
+            <if test="urgencyFunDescribe != null  and urgencyFunDescribe != ''">#{urgencyFunDescribe},</if>
+            <if test="cooperateItems != null  and cooperateItems != ''">#{cooperateItems},</if>
+            <if test="codeAudit != null  and codeAudit != ''">#{codeAudit},</if>
+            <if test="finishTheTest != null  and finishTheTest != ''">#{finishTheTest},</if>
+            <if test="pressureTest != null  and pressureTest != ''">#{pressureTest},</if>
+            <if test="businessOperation != null  and businessOperation != ''">#{businessOperation},</if>
+            <if test="handbookUpdate != null  and handbookUpdate != ''">#{handbookUpdate},</if>
+            <if test="riskDescribe != null  and riskDescribe != ''">#{riskDescribe},</if>
+            <if test="sendBackScheme != null  and sendBackScheme != ''">#{sendBackScheme},</if>
+            <if test="urgencySponsorDept != null  and urgencySponsorDept != ''">#{urgencySponsorDept},</if>
+            <if test="internetUrgency != null  and internetUrgency != ''">#{internetUrgency},</if>
+            <if test="securityTeam != null  and securityTeam != ''">#{securityTeam},</if>
+            <if test="dataUrgency != null  and dataUrgency != ''">#{dataUrgency},</if>
+            <if test="bigDataTeam != null  and bigDataTeam != ''">#{bigDataTeam},</if>
+            <if test="involveSystem != null  and involveSystem != ''">#{involveSystem},</if>
+            <if test="involveSystemIllustrate != null  and involveSystemIllustrate != ''">#{involveSystemIllustrate},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+            <if test="orderNo != null  and orderNo != ''">#{orderNo},</if>
+            <if test="teamCharge != null  and teamCharge != ''">#{teamCharge},</if>
+            <if test="teamBranched != null  and teamBranched != ''">#{teamBranched},</if>
+            <if test="chargeLeader != null  and chargeLeader != ''">#{chargeLeader},</if>
+            <if test="manageStatus != null  and manageStatus != ''">#{manageStatus},</if>
+            <if test="currentTask != null  and currentTask != ''">#{currentTask},</if>
+            <if test="executorId != null  and executorId != ''">#{executorId},</if>
+            <if test="teamBranchedId != null  and teamBranchedId != ''">#{teamBranchedId},</if>
+            <if test="chargeLeaderId != null  and chargeLeaderId != ''">#{chargeLeaderId},</if>
+            <if test="teamChargeStatus != null  and teamChargeStatus != ''">#{teamChargeStatus},</if>
+            <if test="teamBranchedStatus != null  and teamBranchedStatus != ''">#{teamBranchedStatus},</if>
+            <if test="chargeLeaderStatus != null  and chargeLeaderStatus != ''">#{chargeLeaderStatus},</if>
+            <if test="teamChargeId != null  and teamChargeId != ''">#{teamChargeId},</if>
+            <if test="securityTeamId != null  and securityTeamId != ''">#{securityTeamId},</if>
+            <if test="bigDataTeamId != null  and bigDataTeamId != ''">#{bigDataTeamId},</if>
+            <if test="reviewerStatus != null  and reviewerStatus != ''">#{reviewerStatus},</if>
+        </trim>
+    </insert>
+
+    <select id = "getLikeSystem" parameterType="java.lang.String" resultType="java.lang.String">
+        select distinct system_name from TOKEN_SYSTEM_INVENTORY sy inner join TOKEN_XKSTAFF_DEPARTMENT xk
+        on sy.department_id = xk.two_dept_org
+        where xk.two_dept_org = (select two_dept_org from TOKEN_XKSTAFF_DEPARTMENT where user_id = #{userId})
+        <if test="systemName != null and systemName != ''">
+            and system_name like concat(concat('%', #{systemName}), '%')
+        </if>
+    </select>
+    
+    <select id="getUserInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+      select USER_ID,USER_NAME from TOKEN_XKSTAFF_DEPARTMENT where 1=1
+      <if test="userId != null and userId != ''">
+          and TWO_DEPT_ORG in (select TWO_DEPT_ORG from TOKEN_XKSTAFF_DEPARTMENT where USER_ID = #{userId})
+      </if>
+    </select>
+
+    <select id="getBusinessChargeDept" resultType="java.lang.String">
+        select business_charge_department from TOKEN_SYSTEM_INVENTORY group by business_charge_department
+    </select>
+
+    <select id="selectTwoDeptOrg" parameterType="java.lang.String" resultType="java.lang.String">
+        select two_dept_org from token_xkstaff_department where user_id = #{userId}
+    </select>
+
+    <select id = "teamLeaderInfomation" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select user_id,user_name,t.duty,t.two_dept_org from token_xkstaff_department t
+        where t.duty != '16015' and
+        two_dept_org =
+        (select two_dept_org from token_xkstaff_department where user_id = #{userId})
+        start with t.duty != (select duty from token_xkstaff_department where user_Id = #{userId})
+        connect by nocycle t.duty = prior t.duty
+    </select>
+
+    <select id="responsibleInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select leader_id,leader_name from URGENCY_RESPONSIBLE_LEADER where 1=1
+        <if test="dept_id != null and dept_id != ''">
+            and dept_id = #{dept_id}
+        </if>
+    </select>
+
+    <select id="chargeInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select leader_id,leader_name from URGENCY_CHARGE_LEADER where 1=1
+        <if test="dept_id != null and dept_id != ''">
+            and dept_id = #{dept_id}
+        </if>
+    </select>
+    
+    <select id="getMaxOrderNum" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT max(order_num) FROM URGENCY_ALTERAT_REGISTER where OPERATOR_ID = #{operatorId}
+    </select>
+
+    <select id="getApprovalData" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select * from URGENCY_ALTERAT_REGISTER where order_no = #{orderNo}
+        <!--<if test="teamChargeId !=null and teamChargeId != ''">
+            and team_charge_id = #{teamChargeId}
+        </if>
+        <if test="teamBranchedId !=null and teamBranchedId != ''">
+            and team_branched_id = #{teamBranchedId}
+        </if>
+        <if test="chargeLeaderId !=null and chargeLeaderId != ''">
+            and charge_leader_id = #{chargeLeaderId}
+        </if>-->
+    </select>
+    
+    <update id="updateSignStatus" parameterType="java.lang.String">
+        update URGENCY_ALTERAT_REGISTER
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teamChargeStatus != null  and teamChargeStatus != ''">TEAM_CHARGE_STATUS = #{teamChargeStatus},</if>
+            <if test="teamBranchedStatus != null  and teamBranchedStatus != ''">TEAM_BRANCHED_STATUS = #{teamBranchedStatus},</if>
+            <if test="chargeLeaderStatus != null  and chargeLeaderStatus != ''">CHARGE_LEADER_STATUS = #{chargeLeaderStatus},</if>
+            <if test="securityTeam != null  and securityTeam != ''">SECURITY_TEAM = #{securityTeam},</if>
+            <if test="bigDataTeam != null  and bigDataTeam != ''">BIG_DATA_TEAM = #{bigDataTeam},</if>
+            <if test="reviewerStatus != null  and reviewerStatus != ''">REVIEWER_STATUS = #{reviewerStatus},</if>
+        </trim>
+        where ORDER_NO = #{orderNo}
+    </update>
+    
+    <select id="getSecurityBigDataId" parameterType="java.lang.String" resultType="java.lang.String">
+        select user_id from TOKEN_XKSTAFF_DEPARTMENT where two_dept_org = #{twoDeptOrg} and duty != '16015'
+    </select>
+    
+    <select id="selectUrgencyHistory" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select a.*,verify_status,ORDER_NO
+        from URGENCY_ALTERAT_REGISTER a inner join URGENCY_ALTERAT_VERIFY b
+        on a.ORDER_NO = b.ORDER_NUM
+        where a.OPERATOR_ID = #{operatorId} order by a.id desc
+    </select>
+    
+    <select id="selectUrgencyProcessSpeed" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select rar.REVIEWER_STATUS,rar.TEAM_CHARGE_STATUS,rar.TEAM_BRANCHED_STATUS,rar.CHARGE_LEADER_STATUS,rar.SECURITY_TEAM,
+        rar.BIG_DATA_TEAM,rar.INTERNET_URGENCY,rar.DATA_URGENCY,rar.STATUS,rav.VERIFY_STATUS
+        from URGENCY_ALTERAT_REGISTER rar inner join URGENCY_ALTERAT_VERIFY rav
+        on rar.ORDER_NO = rav.ORDER_NUM
+        where rar.ORDER_NO = #{orderNo}
+    </select>
+    
+    <select id="selectRewSecBigStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from URGENCY_ALTERAT_REGISTER where ORDER_NO = #{orderNo}
+        <if test="securityTeam != null  and securityTeam != ''">
+            and SECURITY_TEAM = '1'
+        </if>
+        <if test="bigDataTeam != null  and bigDataTeam != ''">
+            and BIG_DATA_TEAM = '1'
+        </if>
+    </select>
+
+    <select id="selectSecurityTeam" parameterType="java.lang.String" resultType="java.lang.String">
+        select SECURITY_TEAM from URGENCY_ALTERAT_REGISTER where ORDER_NO = #{orderNo}
+    </select>
+
+    <select id="selectBigDataTeam" parameterType="java.lang.String" resultType="java.lang.String">
+        select BIG_DATA_TEAM from URGENCY_ALTERAT_REGISTER where ORDER_NO = #{orderNo}
+    </select>
+    
+    <select id="selectOperator" parameterType="java.lang.String" resultType="java.lang.String">
+        select operator from URGENCY_ALTERAT_REGISTER where order_no = #{orderNo}
+    </select>
+
+    <select id="selectRunTeam" parameterType="java.lang.String" resultType="java.lang.String">
+        select user_id from token_xkstaff_department t
+        where t.duty != '16015' and
+        two_dept_org = '10001170504'
+    </select>
+
+    <select id="viewPicture" parameterType="java.lang.String" resultType="java.lang.String">
+        select folder_name from URGENCY_IMAGE_SYSTEM where order_no = #{orderNo}
+    </select>
+    
+    <select id="selectAffiliatedTeam" parameterType="java.lang.String" resultType="java.lang.String">
+        select distinct science_charge_team from token_xkstaff_department x
+        inner join token_system_inventory s
+        on x.two_dept_org = s.department_id
+        where x.user_id = #{userId}
+    </select>
+
+    <update id="updateManageStatus" parameterType="java.lang.String">
+       update URGENCY_ALTERAT_REGISTER set manage_status = #{manageStatus}
+       where ORDER_NO = #{orderNo}
+    </update>
+
+    <select id="noApprovalData" resultType="java.util.HashMap">
+        select * from URGENCY_ALTERAT_REGISTER where manage_status = '1' order by id desc
+    </select>
+</mapper>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('紧急变更登记列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>系统名称：</p>
+                                <input type="text" name="systemName"/>
+                            </li>
+                            <!--<li>
+                                <p>操作人id：</p>
+                                <input type="text" name="operatorId"/>
+                            </li>-->
+                            <li>
+                                <p>操作人：</p>
+                                <input type="text" name="operator"/>
+                            </li>
+                           <!-- <li>
+                                <p>复核人id：</p>
+                                <input type="text" name="reviewerId"/>
+                            </li>
+                            <li>
+                                <p>复核人：</p>
+                                <input type="text" name="reviewer"/>
+                            </li>
+                            <li>
+                                <p>序列：</p>
+                                <input type="text" name="orderNum"/>
+                            </li>-->
+                            <li class="select-time">
+                                <p>申请日期：</p>
+                                <!--<input type="text" name="urgencyDate"/>-->
+                                <input type="text" class="time-input" id="startUrgencyDateTime" placeholder="开始时间" name="params[beginUrgencyDate]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endUrgencyDateTime" placeholder="结束时间" name="params[endUrgencyDate]"/>
+                            </li>
+                            <li>
+                                <p>所属团队</p>
+                                <input type="text" id="scienceChargeTeam" name="params[scienceChargeTeam]"/>
+                            </li>
+                            <!--<li>
+                                <p>实施人：</p>
+                                <input type="text" name="executor"/>
+                            </li>-->
+                            <!--<li>
+                                <p>开始时间：</p>
+                                &lt;!&ndash;<input type="text" name="startTime"/>&ndash;&gt;
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[startRegisterTime]"/>
+                            </li>
+                            <li>
+                                <p>结束时间：</p>
+                                &lt;!&ndash;<input type="text" name="endTime"/>&ndash;&gt;
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endRegisterTime]"/>
+                            </li>-->
+                            <!--<li>
+                                <p>变更功能点描述：</p>
+                                <input type="text" name="urgencyFunDescribe"/>
+                            </li>
+                            <li>
+                                <p>相关系统配合说明：</p>
+                                <input type="text" name="cooperateItems"/>
+                            </li>
+                            <li>
+                                <p>是否代码已审核：</p>
+                                <input type="text" name="codeAudit"/>
+                            </li>
+                            <li>
+                                <p>是否完成测试：</p>
+                                <input type="text" name="finishTheTest"/>
+                            </li>
+                            <li>
+                                <p>是否完成压力测试：</p>
+                                <input type="text" name="pressureTest"/>
+                            </li>
+                            <li>
+                                <p>是否业务投产申请：</p>
+                                <input type="text" name="businessOperation"/>
+                            </li>
+                            <li>
+                                <p>是否操作手册更新：</p>
+                                <input type="text" name="handbookUpdate"/>
+                            </li>
+                            <li>
+                                <p>风险点描述：</p>
+                                <input type="text" name="riskDescribe"/>
+                            </li>
+                            <li>
+                                <p>是否制定应急回退：</p>
+                                <input type="text" name="sendBackScheme"/>
+                            </li>
+                            <li>
+                                <p>变更发起的业务部门：</p>
+                                <input type="text" name="urgencySponsorDept"/>
+                            </li>
+                            <li>
+                                <p>是否涉及互联网系统变更：</p>
+                                <input type="text" name="internetUrgency"/>
+                            </li>
+                            <li>
+                                <p>安全团队确认：</p>
+                                <input type="text" name="securityTeam"/>
+                            </li>
+                            <li>
+                                <p>是否涉及数据变更：</p>
+                                <input type="text" name="dataUrgency"/>
+                            </li>
+                            <li>
+                                <p>大数据管理团队确认：</p>
+                                <input type="text" name="bigDataTeam"/>
+                            </li>
+                            <li>
+                                <p>涉及系统：</p>
+                                <input type="text" name="involveSystem"/>
+                            </li>
+                            <li>
+                                <p>更步骤文字说明：</p>
+                                <input type="text" name="involveSystemIllustrate"/>
+                            </li>
+                            <li>
+                                <p>0：未认证：</p>
+                                <select name="status">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>订单流水号：</p>
+                                <input type="text" name="orderNo"/>
+                            </li>-->
+                            <!--<li>
+                                <p>团队主管签字：</p>
+                                <input type="text" name="teamCharge"/>
+                            </li>
+                            <li>
+                                <p>分管领导签字：</p>
+                                <input type="text" name="teamBranched"/>
+                            </li>
+                            <li>
+                                <p>主管变更领导签字：</p>
+                                <input type="text" name="chargeLeader"/>
+                            </li>
+                            <li>
+                                <p>处理状态：</p>
+                                <select name="manageStatus">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>当前任务：</p>
+                                <input type="text" name="currentTask"/>
+                            </li>-->
+                            <!--<li>
+                                <p>实施人id：</p>
+                                <input type="text" name="executorId"/>
+                            </li>
+                            <li>
+                                <p>分管id：</p>
+                                <input type="text" name="teamBranchedId"/>
+                            </li>
+                            <li>
+                                <p>主管id：</p>
+                                <input type="text" name="chargeLeaderId"/>
+                            </li>-->
+                            <!--<li>
+                                <p>团队主管签字：</p>
+                                <select name="teamChargeStatus">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>分管签字状态：</p>
+                                <select name="teamBranchedStatus">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>-->
+                            <!--<li>
+                                <p>变更主管签字：</p>
+                                <select name="chargeLeaderStatus">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>-->
+                            <!--<li>
+                                <p>团队主管id：</p>
+                                <input type="text" name="teamChargeId"/>
+                            </li>
+                            <li>
+                                <p>安全团队id：</p>
+                                <input type="text" name="securityTeamId"/>
+                            </li>
+                            <li>
+                                <p>大数据团队id：</p>
+                                <input type="text" name="bigDataTeamId"/>
+                            </li>-->
+                            <!--<li>
+                                <p>复核人确认状态：</p>
+                                <select name="reviewerStatus">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>-->
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="urgencyAlterat:register:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="urgencyAlterat:register:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="urgencyAlterat:register:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="urgencyAlterat:register:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('urgencyAlterat:register:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('urgencyAlterat:register:remove')}]];
+        var prefix = ctx + "urgencyAlterat/register";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "紧急变更登记",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '主键seq_urgency_alterat_register.nextval',
+                    visible: false
+                },
+                {
+                    field : 'systemName', 
+                    title : '系统名称'
+                },
+                    {
+                        field : 'ip',
+                        title : 'ip'
+                    },
+                {
+                    field : 'operatorId', 
+                    title : '操作人id'
+                },
+                {
+                    field : 'operator', 
+                    title : '操作人'
+                },
+                {
+                    field : 'reviewerId', 
+                    title : '复核人id'
+                },
+                {
+                    field : 'reviewer', 
+                    title : '复核人'
+                },
+                {
+                    field : 'orderNum', 
+                    title : '序列'
+                },
+                {
+                    field : 'urgencyDate', 
+                    title : '申请日期'
+                },
+                {
+                    field : 'executor', 
+                    title : '实施人'
+                },
+                {
+                    field : 'startTime', 
+                    title : '申请开始时间'
+                },
+                {
+                    field : 'endTime', 
+                    title : '申请关闭时间'
+                },
+                {
+                    field : 'urgencyFunDescribe', 
+                    title : '变更功能点描述'
+                },
+                {
+                    field : 'cooperateItems', 
+                    title : '相关系统配合说明'
+                },
+                {
+                    field : 'codeAudit', 
+                    title : '是否代码已审核'
+                },
+                {
+                    field : 'finishTheTest', 
+                    title : '是否完成测试'
+                },
+                {
+                    field : 'pressureTest', 
+                    title : '是否完成压力测试'
+                },
+                {
+                    field : 'businessOperation', 
+                    title : '是否业务投产申请'
+                },
+                {
+                    field : 'handbookUpdate', 
+                    title : '是否操作手册更新'
+                },
+                {
+                    field : 'riskDescribe', 
+                    title : '风险点描述'
+                },
+                {
+                    field : 'sendBackScheme', 
+                    title : '是否制定应急回退'
+                },
+                {
+                    field : 'urgencySponsorDept', 
+                    title : '变更发起的业务部门'
+                },
+                {
+                    field : 'internetUrgency', 
+                    title : '是否涉及互联网系统变更'
+                },
+                {
+                    field : 'securityTeam', 
+                    title : '安全团队确认'
+                },
+                {
+                    field : 'dataUrgency', 
+                    title : '是否涉及数据变更'
+                },
+                {
+                    field : 'bigDataTeam', 
+                    title : '大数据管理团队确认'
+                },
+                {
+                    field : 'involveSystem', 
+                    title : '涉及系统'
+                },
+                {
+                    field : 'involveSystemIllustrate', 
+                    title : '更步骤文字说明'
+                },
+                {
+                    field : 'status', 
+                    title : '0：未认证'
+                },
+                {
+                    field : 'orderNo', 
+                    title : '订单流水号'
+                },
+                {
+                    field : 'teamCharge', 
+                    title : '团队主管签字'
+                },
+                {
+                    field : 'teamBranched', 
+                    title : '分管领导签字'
+                },
+                {
+                    field : 'chargeLeader', 
+                    title : '主管变更领导签字'
+                },
+                {
+                    field : 'manageStatus', 
+                    title : '处理状态'
+                },
+                {
+                    field : 'currentTask', 
+                    title : '当前任务'
+                },
+                {
+                    field : 'executorId', 
+                    title : '实施人id'
+                },
+                {
+                    field : 'teamBranchedId', 
+                    title : '分管id'
+                },
+                {
+                    field : 'chargeLeaderId', 
+                    title : '主管id'
+                },
+                {
+                    field : 'teamChargeStatus', 
+                    title : '团队主管签字'
+                },
+                {
+                    field : 'teamBranchedStatus', 
+                    title : '分管签字状态'
+                },
+                {
+                    field : 'chargeLeaderStatus', 
+                    title : '变更主管签字'
+                },
+                {
+                    field : 'teamChargeId', 
+                    title : '团队主管id'
+                },
+                {
+                    field : 'securityTeamId', 
+                    title : '安全团队id'
+                },
+                {
+                    field : 'bigDataTeamId', 
+                    title : '大数据团队id'
+                },
+                {
+                    field : 'reviewerStatus', 
+                    title : '复核人确认状态'
+                },
+                {
+                    field : 'scienceChargeTeam',
+                    title : '所属团队'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

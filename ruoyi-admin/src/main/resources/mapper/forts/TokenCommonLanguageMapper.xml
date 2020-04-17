@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.forts.mapper.TokenCommonLanguageMapper">
+    
+    <resultMap type="TokenCommonLanguage" id="TokenCommonLanguageResult">
+        <result property="id"    column="id"    />
+        <result property="content"    column="content"    />
+        <result property="incidentType"    column="incident_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="signId"    column="sign_id"    />
+    </resultMap>
+
+    <sql id="selectTokenCommonLanguageVo">
+        select id, content, incident_type, create_time, update_time, sign_id from token_common_language
+    </sql>
+
+    <select id="selectTokenCommonLanguageList" parameterType="TokenCommonLanguage" resultMap="TokenCommonLanguageResult">
+        <include refid="selectTokenCommonLanguageVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="incidentType != null  and incidentType != ''"> and incident_type = #{incidentType}</if>
+            <if test="signId != null  and signId != ''"> and sign_id = #{signId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTokenCommonLanguageById" parameterType="Long" resultMap="TokenCommonLanguageResult">
+        <include refid="selectTokenCommonLanguageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTokenCommonLanguage" parameterType="TokenCommonLanguage">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_token_common_language.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into token_common_language
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="incidentType != null  and incidentType != ''">incident_type,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="signId != null  and signId != ''">sign_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="incidentType != null  and incidentType != ''">#{incidentType},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="signId != null  and signId != ''">#{signId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTokenCommonLanguage" parameterType="TokenCommonLanguage">
+        update token_common_language
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="incidentType != null  and incidentType != ''">incident_type = #{incidentType},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="signId != null  and signId != ''">sign_id = #{signId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTokenCommonLanguageById" parameterType="Long">
+        delete from token_common_language where id = #{id}
+    </delete>
+
+    <delete id="deleteTokenCommonLanguageByIds" parameterType="String">
+        delete from token_common_language where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

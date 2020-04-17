@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.detailedList.mapper.TokenApprovalProcessMapper">
+    
+    <resultMap type="TokenApprovalProcess" id="TokenApprovalProcessResult">
+        <result property="id"    column="id"    />
+        <result property="leaderId"    column="leader_id"    />
+        <result property="leaderName"    column="leader_name"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="employeeName"    column="employee_name"    />
+        <result property="applyContent"    column="apply_content"    />
+        <result property="seno"    column="seno"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="approvalStatus"    column="approval_status"    />
+        <result property="buttonType"    column="button_type"    />
+        <result property="transferId"    column="transfer_id"    />
+        <result property="transferName"    column="transfer_name"    />
+        <result property="systemId"    column="system_id"    />
+        <result property="systemName"    column="system_name"    />
+    </resultMap>
+
+    <sql id="selectTokenApprovalProcessVo">
+        select id, leader_id, leader_name, employee_id, employee_name, apply_content, seno, create_time, update_time, approval_status, button_type, transfer_id, transfer_name, system_id, system_name from token_approval_process
+    </sql>
+
+    <select id="selectTokenApprovalProcessList" parameterType="TokenApprovalProcess" resultMap="TokenApprovalProcessResult">
+        <include refid="selectTokenApprovalProcessVo"/>
+        <where>  
+            <if test="leaderId != null  and leaderId != ''"> and leader_id = #{leaderId}</if>
+            <if test="leaderName != null  and leaderName != ''"> and leader_name like concat(concat('%', #{leaderName}), '%')</if>
+            <if test="employeeId != null  and employeeId != ''"> and employee_id = #{employeeId}</if>
+            <if test="employeeName != null  and employeeName != ''"> and employee_name like concat(concat('%', #{employeeName}), '%')</if>
+            <if test="applyContent != null  and applyContent != ''"> and apply_content = #{applyContent}</if>
+            <if test="seno != null  and seno != ''"> and seno = #{seno}</if>
+            <if test="approvalStatus != null  and approvalStatus != ''"> and approval_status = #{approvalStatus}</if>
+            <if test="buttonType != null  and buttonType != ''"> and button_type = #{buttonType}</if>
+            <if test="transferId != null  and transferId != ''"> and transfer_id = #{transferId}</if>
+            <if test="transferName != null  and transferName != ''"> and transfer_name like concat(concat('%', #{transferName}), '%')</if>
+            <if test="systemId != null  and systemId != ''"> and system_id = #{systemId}</if>
+            <if test="systemName != null  and systemName != ''"> and system_name like concat(concat('%', #{systemName}), '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTokenApprovalProcessById" parameterType="Long" resultMap="TokenApprovalProcessResult">
+        <include refid="selectTokenApprovalProcessVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTokenApprovalProcess" parameterType="TokenApprovalProcess">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT seq_token_approval_process.NEXTVAL as id FROM DUAL
+        </selectKey>
+        insert into token_approval_process
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="leaderId != null  and leaderId != ''">leader_id,</if>
+            <if test="leaderName != null  and leaderName != ''">leader_name,</if>
+            <if test="employeeId != null  and employeeId != ''">employee_id,</if>
+            <if test="employeeName != null  and employeeName != ''">employee_name,</if>
+            <if test="applyContent != null  and applyContent != ''">apply_content,</if>
+            <if test="seno != null  and seno != ''">seno,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="approvalStatus != null  and approvalStatus != ''">approval_status,</if>
+            <if test="buttonType != null  and buttonType != ''">button_type,</if>
+            <if test="transferId != null  and transferId != ''">transfer_id,</if>
+            <if test="transferName != null  and transferName != ''">transfer_name,</if>
+            <if test="systemId != null  and systemId != ''">system_id,</if>
+            <if test="systemName != null  and systemName != ''">system_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="leaderId != null  and leaderId != ''">#{leaderId},</if>
+            <if test="leaderName != null  and leaderName != ''">#{leaderName},</if>
+            <if test="employeeId != null  and employeeId != ''">#{employeeId},</if>
+            <if test="employeeName != null  and employeeName != ''">#{employeeName},</if>
+            <if test="applyContent != null  and applyContent != ''">#{applyContent},</if>
+            <if test="seno != null  and seno != ''">#{seno},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="approvalStatus != null  and approvalStatus != ''">#{approvalStatus},</if>
+            <if test="buttonType != null  and buttonType != ''">#{buttonType},</if>
+            <if test="transferId != null  and transferId != ''">#{transferId},</if>
+            <if test="transferName != null  and transferName != ''">#{transferName},</if>
+            <if test="systemId != null  and systemId != ''">#{systemId},</if>
+            <if test="systemName != null  and systemName != ''">#{systemName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTokenApprovalProcess" parameterType="TokenApprovalProcess">
+        update token_approval_process
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="leaderId != null  and leaderId != ''">leader_id = #{leaderId},</if>
+            <if test="leaderName != null  and leaderName != ''">leader_name = #{leaderName},</if>
+            <if test="employeeId != null  and employeeId != ''">employee_id = #{employeeId},</if>
+            <if test="employeeName != null  and employeeName != ''">employee_name = #{employeeName},</if>
+            <if test="applyContent != null  and applyContent != ''">apply_content = #{applyContent},</if>
+            <if test="seno != null  and seno != ''">seno = #{seno},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="approvalStatus != null  and approvalStatus != ''">approval_status = #{approvalStatus},</if>
+            <if test="buttonType != null  and buttonType != ''">button_type = #{buttonType},</if>
+            <if test="transferId != null  and transferId != ''">transfer_id = #{transferId},</if>
+            <if test="transferName != null  and transferName != ''">transfer_name = #{transferName},</if>
+            <if test="systemId != null  and systemId != ''">system_id = #{systemId},</if>
+            <if test="systemName != null  and systemName != ''">system_name = #{systemName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTokenApprovalProcessById" parameterType="Long">
+        delete from token_approval_process where id = #{id}
+    </delete>
+
+    <delete id="deleteTokenApprovalProcessByIds" parameterType="String">
+        delete from token_approval_process where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
