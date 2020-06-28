@@ -11,10 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 令牌登记impl层
@@ -33,8 +32,17 @@ public class FortServiceImpl implements FortService {
      * @return
      */
     @Override
-    public List<HashMap<String, String>> selectApplyAndResult(String employeeId) {
-        return fortMapper.selectApplyAndResult(employeeId);
+    public List<HashMap<String, String>> selectApplyAndResult(String employeeId,String ip) {
+        return fortMapper.selectApplyAndResult(employeeId,ip);
+    }
+
+    /**
+     * 联合告警令牌申请历史查询
+     * @return
+     */
+    @Override
+    public List<HashMap<String, String>> selectApplyAndIPResult(String systemName) {
+        return fortMapper.selectApplyAndIPResult(systemName);
     }
 
     /**
@@ -143,10 +151,10 @@ public class FortServiceImpl implements FortService {
     }
 
     @Override
-    public ModelMap getEmployeeNo(String systemId) throws Exception {
+    public ModelMap getEmployeeNo(String systemId, String ip) throws Exception {
         ModelMap modelMap = new ModelMap();
         try{
-            List<String> employeeNo = fortMapper.getEmployeeNo(systemId);
+            Map<String,Object> employeeNo = fortMapper.getEmployeeNo(systemId,ip);
             modelMap.put("code","0");
             modelMap.put("employeeNo",employeeNo);
             return modelMap;
@@ -154,4 +162,17 @@ public class FortServiceImpl implements FortService {
             throw new Exception(e);
         }
     }
+
+    @Override
+    public ModelMap getIndexName(String systemId, String ip) throws Exception {
+        ModelMap modelMap = new ModelMap();
+        try{
+            Map<String,Object> indexName = fortMapper.getIndexName(systemId,ip);
+            System.out.println("AAAAAAAAAAA:"+indexName.toString());
+            modelMap.put("code","0");
+            modelMap.put("indexName",indexName);
+            return modelMap;
+        }catch (Exception e){
+            throw new Exception(e);
+        }    }
 }

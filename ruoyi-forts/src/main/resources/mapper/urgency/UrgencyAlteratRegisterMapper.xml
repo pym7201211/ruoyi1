@@ -175,13 +175,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id = "teamLeaderInfomation" parameterType="java.lang.String" resultType="java.util.HashMap">
-        select user_id,user_name,t.duty,t.two_dept_org from token_xkstaff_department t
-        where t.duty != '16015' and
-        two_dept_org =
-        (select two_dept_org from token_xkstaff_department where user_id = #{userId})
-        start with t.duty != (select duty from token_xkstaff_department where user_Id = #{userId})
-        connect by nocycle t.duty = prior t.duty
-    </select>
+        select a.leader_id user_id, a.leader_name user_name, a.dept_id two_dept_org
+        from URGENCY_DIRECTOR_LEADER a
+        where a.dept_id = (select two_dept_org
+                           from token_xkstaff_department
+                           where user_id = #{userId})
+     </select>
 
     <select id="responsibleInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
         select leader_id,leader_name from URGENCY_RESPONSIBLE_LEADER where 1=1
@@ -235,7 +234,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select a.*,verify_status,ORDER_NO
         from URGENCY_ALTERAT_REGISTER a inner join URGENCY_ALTERAT_VERIFY b
         on a.ORDER_NO = b.ORDER_NUM
-        where a.OPERATOR_ID = #{operatorId} order by a.id desc
+        where 1=1
+        <if test="operatorId != null  and operatorId != ''">
+          and   a.OPERATOR_ID = #{operatorId}
+        </if>
+        <if test="ip != null  and ip != ''">
+          and a.ip=#{ip}
+        </if>
+        order by a.id desc
+    </select>
+
+    <select id="selectUrgencyIPHistory" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select a.*, verify_status, ORDER_NO
+        from URGENCY_ALTERAT_REGISTER a
+        inner join URGENCY_ALTERAT_VERIFY b
+        on a.ORDER_NO = b.ORDER_NUM
+          where 1 = 1
+          and a.operator_id in
+          (
+            SELECT REGEXP_SUBSTR(a.maintain_user_id, '[^,]+', 1, LEVEL)
+            FROM (select *
+                   from token_system_inventory a
+                   where a.system_name = #{systemName}) a
+                   CONNECT BY REGEXP_SUBSTR(a.maintain_user_id, '[^,]+', 1, LEVEL) IS NOT NULL)
+            and to_date(a.urgency_date,'yyyy-MM-dd HH24:mi') &gt;= to_date(to_char(sysdate-7,'yyyy-MM-dd HH24:mi'),'yyyy-MM-dd HH24:mi')
+          order by a.id desc
     </select>
     
     <select id="selectUrgencyProcessSpeed" parameterType="java.lang.String" resultType="java.util.HashMap">
@@ -283,6 +306,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         inner join token_system_inventory s
         on x.two_dept_org = s.department_id
         where x.user_id = #{userId}
+    </select>
+
+    <select id="selectAffiliatedIPTeam" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select distinct '0'||x.user_id user_id, science_charge_team
+        from token_xkstaff_department x
+        inner join token_system_inventory s
+        on x.two_dept_org = s.department_id
+        where x.user_id in
+       (
+        SELECT substr(REGEXP_SUBSTR(a.maintain_user_id, '[^,]+', 1, LEVEL), 2)
+          FROM (select *
+                   from token_system_inventory a
+                  where a.system_name = #{systemName}) a
+        CONNECT BY REGEXP_SUBSTR(a.maintain_user_id, '[^,]+', 1, LEVEL) IS NOT NULL)
     </select>
 
     <update id="updateManageStatus" parameterType="java.lang.String">

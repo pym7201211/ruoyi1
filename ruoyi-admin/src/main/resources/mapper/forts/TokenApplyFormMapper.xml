@@ -54,6 +54,8 @@
         <result property="applyEnvironment"    column="apply_environment"    />
     </resultMap>
 
+
+
     <sql id="selectTokenApplyFormVo">
         select apply_status,ip, open_date, end_date, addway, open_incident, open_incident_id,
         remark, applycount, uniquenesscode, seqno, other_system, approval_status, reserved1,
@@ -270,5 +272,6 @@
             #{tokenId}
         </foreach>
     </delete>
+
 
 </mapper>

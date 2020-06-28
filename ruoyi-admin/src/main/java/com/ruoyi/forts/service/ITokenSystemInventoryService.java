@@ -1,5 +1,6 @@
 package com.ruoyi.forts.service;
 
+import com.ruoyi.forts.domain.TokenSystemExhibition;
 import com.ruoyi.forts.domain.TokenSystemInventory;
 import com.ruoyi.forts.domain.TokenSystemInventorySo;
 
@@ -31,6 +32,15 @@ public interface ITokenSystemInventoryService
 
     //mengdehu
     public List<TokenSystemInventory> selectNameInventoryList(TokenSystemInventory tokenSystemInventory);
+
+    /**
+     * 查询江苏银行信息系统标准化清单（2019年四季度） 科技主管团队分组的系统详情
+     * 二代征信除外
+     * 2020-05-11 taochen
+     */
+    public List<TokenSystemInventory> selectIPInventoryList(String systemName);
+
+
     /**
      * 新增江苏银行信息系统标准化清单（2019年四季度）
      * 

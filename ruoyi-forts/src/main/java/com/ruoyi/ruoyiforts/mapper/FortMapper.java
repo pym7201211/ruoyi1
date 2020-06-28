@@ -7,8 +7,9 @@ import org.apache.shiro.crypto.hash.Hash;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-    /**
+/**
      * 令牌登记mapper层
      * @author mengdehu
      * @since  2019-11-11
@@ -16,10 +17,17 @@ import java.util.List;
     public interface FortMapper {
 
     /**
+     * 联合告警令牌申请历史查询
+     * @return
+     */
+    public List<HashMap<String,String>> selectApplyAndResult(@Param("employeeId") String employeeId,@Param("ip")String ip);
+
+    /**
      * 令牌首页查询和详情
      * @return
      */
-    public List<HashMap<String,String>> selectApplyAndResult(@Param("employeeId") String employeeId);
+    public List<HashMap<String,String>> selectApplyAndIPResult(@Param("systemName") String systemName);
+
 
     /**
      * 新增令牌登记申请
@@ -111,6 +119,9 @@ import java.util.List;
 
         public List<HashMap<String,String>> getSystemInfo(String[] ids);
 
-        public List<String> getEmployeeNo (@Param("systemId") String systemId);
+        public Map<String,Object> getEmployeeNo(@Param("systemId") String systemId, @Param("ip") String ip);
+
+        public Map<String,Object> getIndexName(@Param("systemId") String systemId, @Param("ip") String ip);
+
 
 }

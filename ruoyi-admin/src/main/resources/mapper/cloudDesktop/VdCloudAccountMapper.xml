@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.cloudDesktop.mapper.VdCloudAccountMapper">
+    
+    <resultMap type="VdCloudAccount" id="VdCloudAccountResult">
+        <result property="account"    column="account"    />
+        <result property="team"    column="team"    />
+        <result property="company"    column="company"    />
+        <result property="userName"    column="user_name"    />
+        <result property="claimantId"    column="claimant_id"    />
+        <result property="claimantName"    column="claimant_name"    />
+        <result property="time"    column="time"    />
+    </resultMap>
+
+    <resultMap type="UserDemo" id="UserDemoResult">
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <resultMap type="VdAccountData" id="VdAccountDataResult">
+        <result property="loginUser"    column="login_user"    />
+        <result property="updateDate"    column="update_time"    />
+        <result property="keyboardCount"    column="keyboard_count"    />
+        <result property="mouseClickCount"    column="mouse_click_count"    />
+        <result property="mouseRollCount"    column="mouse_roll_count"    />
+    </resultMap>
+
+    <sql id="selectVdCloudAccountVo">
+        select account, team, company, user_name, password, digit from vd_cloud_account
+    </sql>
+
+    <select id="selectVdCloudAccountList" parameterType="VdCloudAccount" resultMap="VdCloudAccountResult">
+        with userList as (
+        select a.account,to_char(wm_concat(a.claimant)) claimant,to_char(wm_concat(b.user_name)) claimant_name from VD_CLAIMANT_USER a
+        left join TOKEN_XKSTAFF_DEPARTMENT b on a.claimant = b.user_id
+        group by a.account
+        )
+        select a.account,a.team,a.company,a.user_name,b.claimant claimant_id,b.claimant_name,a.time from VD_CLOUD_ACCOUNT a
+        left join userList b on a.account = b.account
+        <where>
+            <if test="account != null  and account != ''"> and a.account in (
+                SELECT REGEXP_SUBSTR (#{account}, '[^,]+', 1,rownum)
+                from dual connect by rownum &lt;=LENGTH (#{account}) - LENGTH (regexp_replace(#{account}, ',', ''))+1
+                )</if>
+        </where>
+        order by a.account
+    </select>
+
+
+    <update id="updateVdCloudAccount" parameterType="VdCloudAccount">
+        update vd_cloud_account set team = #{team},company = #{company},user_name = #{userName},
+        time = sysdate
+        where account = #{account}
+    </update>
+
+    <select id="adfa" parameterType="VdCloudAccount" resultMap="VdCloudAccountResult">
+        select a.team,to_char(wm_concat(distinct a.account)) from VD_CLOUD_ACCOUNT a
+        left join VD_CLAIMANT_USER b on a.account = b.account
+        where b.claimant in ('1010314','1010244','1010370')
+        group by a.team
+    </select>
+
+    <select id="selectUser" parameterType="String" resultMap="UserDemoResult">
+        select a.user_id,a.user_name from TOKEN_XKSTAFF_DEPARTMENT a where a.two_dept_org = (
+        select a.two_dept_org from TOKEN_XKSTAFF_DEPARTMENT a where a.user_id = #{user_id}
+        )
+    </select>
+
+    <select id="selectAllUser" parameterType="String" resultMap="UserDemoResult">
+        select user_id,user_name from TOKEN_XKSTAFF_DEPARTMENT
+    </select>
+
+    <delete id="deleteVdCloudAccount" parameterType="String">
+        delete from VD_CLAIMANT_USER a where a.account = #{account}
+    </delete>
+
+    <insert id="insertVdCloudAccount" useGeneratedKeys="false">
+        insert all
+        <foreach item="item" index="index" collection="list">
+            into VD_CLAIMANT_USER(account, claimant) values (#{item.account},#{item.claimantId})
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+
+    <select id="selectUserInfo" parameterType="String" resultType="java.util.Map">
+        select a.two_dept_org from TOKEN_XKSTAFF_DEPARTMENT a where a.user_id = #{user_id}
+    </select>
+
+    <select id="selectTeamAccount" parameterType="String" resultMap="VdCloudAccountResult">
+        select a.team,to_char(wm_concat(distinct a.account)) accountList from VD_CLOUD_ACCOUNT a
+        left join VD_CLAIMANT_USER b on a.account = b.account
+        <where>
+            <if test="user_id != null  and user_id != ''"> and b.claimant = #{user_id}</if>
+        </where>
+        group by a.team
+    </select>
+
+    <select id="selectUserOutsourceInfo" parameterType="String" resultType="java.util.Map">
+        select nvl(max(a.user_level),' ') user_level from vd_outsource_leader a
+        where a.user_id = #{user_id} and a.category = '1'
+    </select>
+
+    <select id="selectTeamByLeader" parameterType="String" resultMap="VdCloudAccountResult">
+        select a.team,to_char(wm_concat(distinct a.account)) accountList from VD_CLOUD_ACCOUNT a
+        left join VD_CLAIMANT_USER b on a.account = b.account
+        where b.claimant in (
+        select a.user_id from TOKEN_XKSTAFF_DEPARTMENT a where a.two_dept_org in (
+        select a.two_dept_org from TOKEN_XKSTAFF_DEPARTMENT a where a.user_id = #{user_id})
+        )
+        group by a.team
+    </select>
+
+    <select id="selectUserByLeader" parameterType="String" resultType="java.util.Map">
+        select nvl(to_char(wm_concat(a.dept_id)),' ') two_dept_org from URGENCY_DIRECTOR_LEADER a where a.leader_id = #{user_id}
+    </select>
+
+    <select id="selectUserByLeaderDept" parameterType="String" resultMap="VdCloudAccountResult">
+        select a.team,to_char(wm_concat(distinct a.account)) accountList from VD_CLOUD_ACCOUNT a
+        left join VD_CLAIMANT_USER b on a.account = b.account
+        where b.claimant in (
+        select a.user_id from TOKEN_XKSTAFF_DEPARTMENT a where a.two_dept_org in (
+        select a.dept_id from URGENCY_DIRECTOR_LEADER a where a.leader_id = #{user_id})
+        )
+        group by a.team
+    </select>
+
+    <select id="SelectAccountData"  parameterType="String" resultMap="VdAccountDataResult" >
+        select a.login_user,a.update_time,a.keyboard_count,a.mouse_click_count,a.mouse_roll_count from zdhyw.cloud_desktop_key_listener a
+        where a.login_user = #{user}
+        <if test="day != null  and day != ''">
+        and a.update_time &gt;= to_char(sysdate-to_number(#{day}),'yyyy-MM-dd HH24:mi')
+        </if>
+
+        <if test="begin_time != null and begin_time != ''"><!-- 开始时间检索 -->
+            and a.update_time &gt;= #{begin_time}
+        </if>
+        <if test="end_time != null and end_time != ''"><!-- 结束时间检索 -->
+            and a.update_time &lt;= #{end_time}
+        </if>
+        order by a.login_user,a.update_time
+    </select>
+</mapper>

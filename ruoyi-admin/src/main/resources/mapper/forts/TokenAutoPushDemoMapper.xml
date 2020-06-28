@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.forts.mapper.TokenAutoPushDemoMapper">
+
+    <resultMap type="TokenAutoPushDemo" id="TokenAutoPushResultDemo">
+        <result property="time"    column="time"    />
+        <result property="account"    column="account"    />
+        <result property="cmd"    column="cmd"    />
+        <result property="identity"    column="identity"    />
+        <result property="detIp"    column="dst_ip"    />
+        <result property="srcIp"    column="src_ip"    />
+        <result property="isSend"    column="is_send"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userdep"    column="user_dep"    />
+        <result property="directorId"    column="director_id"    />
+        <result property="directorName"    column="director_name"    />
+        <result property="seqno"    column="seqno"    />
+    </resultMap>
+
+
+    <select id="selectTokenAutoList" parameterType="TokenAutoPushDemo" resultMap="TokenAutoPushResultDemo">
+        select a.*,
+        b.user_name,-- 员工姓名
+        b.two_dept_org user_dep, -- 员工部门
+        c.user_id director_id, -- 主管id
+        c.user_name director_name -- 主管姓名
+        from QIZHI_HISTORY_SERIE a
+        left join token_xkstaff_department b on a.identity = b.USER_ID
+        left join token_xkstaff_department c on b.two_dept_org = c.two_dept_org
+        where c.duty !=  '16015'
+        <if test="isSend != null  and isSend != ''">
+         and a.is_send = #{isSend}
+        </if>
+        <if test="seqno != null  and seqno != ''">
+            and a.seqno = #{seqno}
+        </if>
+        <if test="detIp != null  and detIp != ''">
+            and  instr(#{detIp},a.dst_ip) > 0
+            and to_date(a.time,'yyyy-MM-dd HH24:mi:ss') &gt;= to_date(to_char(sysdate-1,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+        </if>
+        <if test="identity != null  and identity != ''"> and a.identity = #{identity}
+          and to_date(a.time,'yyyy-MM-dd HH24:mi:ss') &gt;= to_date(to_char(sysdate-1,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
+        </if>
+        order by a.time desc
+    </select>
+
+    <update id="updateTokenAutoList" parameterType="java.lang.String">
+          update QIZHI_HISTORY_SERIE a set a.is_send = '1' ,a.seqno = #{seqno}
+          where  a.identity = #{identity} and a.time = #{time}
+    </update>
+
+
+</mapper>

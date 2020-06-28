@@ -49,9 +49,9 @@ public class UrgencyAlteratRegisterController extends BaseController
     public TableDataInfo list(UrgencyAlteratRegister urgencyAlteratRegister)
     {
         startPage();
-        List<UrgencyAlteratRegister> list = urgencyAlteratRegisterService.selectUrgencyAlteratRegisterList(urgencyAlteratRegister);
+    List<UrgencyAlteratRegister> list = urgencyAlteratRegisterService.selectUrgencyAlteratRegisterList(urgencyAlteratRegister);
         return getDataTable(list);
-    }
+}
 
     /**
      * 导出紧急变更登记列表

@@ -34,6 +34,11 @@ public class HttpJointAlarm {
     public ModelMap getSystemInfo(@RequestParam(required = true) String list){
         ModelMap modelMap = null;
         try{
+            if (StringUtils.isBlank(list)){
+                modelMap.put("code","1");
+                modelMap.put("msg","service_id 为必传项参数");
+                return modelMap;
+            }
             modelMap = fortService.getSystemInfo(list);
         }catch (Exception e){
             log.error("远程联合告警请求系统名称接口异常：",e);
@@ -48,15 +53,15 @@ public class HttpJointAlarm {
      * @return
      */
     @RequestMapping(value = "/getEmployeeNo",method = RequestMethod.POST,produces = chartset)
-    public ModelMap getEmployeeNo(@RequestParam(required = true) String service_id){
+    public ModelMap getEmployeeNo(@RequestParam(required = false) String service_id,@RequestParam(required = false) String ip){
         ModelMap modelMap = new ModelMap();
         try{
-            if (StringUtils.isBlank(service_id)){
+            if (StringUtils.isBlank(service_id) && StringUtils.isBlank(ip)){
                 modelMap.put("code","1");
                 modelMap.put("msg","service_id 为必传项参数");
                 return modelMap;
             }
-            modelMap = fortService.getEmployeeNo(service_id);
+            modelMap = fortService.getEmployeeNo(service_id,ip);
         }catch (Exception e){
             log.error("根据系统号查询员工号接口异常：",e);
         }
@@ -76,5 +81,25 @@ public class HttpJointAlarm {
 
     }
 
-
+    /**
+     * 根据系统号查询指标
+     * @param service_id
+     * @return
+     */
+    @RequestMapping(value = "/getIndexName",method = RequestMethod.POST,produces = chartset)
+    public ModelMap getIndexName(@RequestParam(required = false) String service_id,@RequestParam(required = false) String ip){
+        ModelMap modelMap = new ModelMap();
+        try{
+            if (StringUtils.isBlank(service_id) && StringUtils.isBlank(ip)){
+                modelMap.put("code","1");
+                modelMap.put("msg","service_id 为必传项参数");
+                return modelMap;
+            }
+            modelMap = fortService.getIndexName(service_id,ip);
+        }catch (Exception e){
+            log.error("根据系统号查询指标接口异常：",e);
+        }
+        log.info("getIndexName "+modelMap);
+        return modelMap;
+    }
 }

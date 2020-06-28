@@ -257,6 +257,9 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/login", "anon,captchaValidate");
         filterChainDefinitionMap.put("/TestFortController/**", "anon,captchaValidate");
         filterChainDefinitionMap.put("/FortController/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/DepNumberCategoryController/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/DepBrandCategoryController/**", "anon,captchaValidate");
+        filterChainDefinitionMap.put("/CloudDesktop/**", "anon,captchaValidate");
         filterChainDefinitionMap.put("/FortDetailedList/**", "anon,captchaValidate");
         filterChainDefinitionMap.put("/UrgencyController/**", "anon,captchaValidate");
         filterChainDefinitionMap.put("/AlarmController/**", "anon,captchaValidate");
@@ -266,6 +269,8 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/ProjectController/**","anon");
         filterChainDefinitionMap.put("/RegistrationController/**","anon");
         filterChainDefinitionMap.put("/HttpJointAlarm/**","anon");
+        filterChainDefinitionMap.put("/forts/auto/**","anon");
+
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
 

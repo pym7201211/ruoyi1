@@ -1,18 +1,21 @@
 package com.ruoyi.forts.service.impl;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
+import com.alibaba.fastjson.JSON;
+import com.ruoyi.forts.controller.FortController;
+import com.ruoyi.forts.domain.TokenSystemExhibition;
 import com.ruoyi.forts.domain.TokenSystemInventorySo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.forts.mapper.TokenSystemInventoryMapper;
 import com.ruoyi.forts.domain.TokenSystemInventory;
 import com.ruoyi.forts.service.ITokenSystemInventoryService;
 import com.ruoyi.common.core.text.Convert;
+import springfox.documentation.spring.web.json.Json;
 
 /**
  * 江苏银行信息系统标准化清单（2019年四季度）Service业务层处理
@@ -54,17 +57,79 @@ public class TokenSystemInventoryServiceImpl implements ITokenSystemInventorySer
     public List<TokenSystemInventory> selectNameInventoryList(TokenSystemInventory tokenSystemInventory) {
         List<TokenSystemInventory> list = tokenSystemInventoryMapper.selectNameInventoryList(tokenSystemInventory);
         List<Map<String, Object>> mapList = tokenSystemInventory.getIpList();
-        list.stream().forEach(tokenSystemInventory1 -> {
-            List<String> list1 = Arrays.asList(tokenSystemInventory1.getIp().split(","));
-            IntStream.range(0,list1.size()).forEach(i -> {
-                Map<String,Object> map = new HashMap<>();
-                map.put("name",list1.get(i));
-                map.put("id",i);
-                mapList.add(map);
+        if(list != null && list.size() > 0){
+            list.stream().forEach(tokenSystemInventory1 -> {
+                String systemId = tokenSystemInventory1.getSystemId();
+                String ip = tokenSystemInventory1.getIp();
+                if(ip != null){
+                List<String> list1 = Arrays.asList(ip.split(","));
+                if(list1 != null && list1.size() > 0){
+                    IntStream.range(0,list1.size()).forEach(i -> {
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("name",list1.get(i));
+                        map.put("id",i);
+                        map.put("symbol","circle");
+                        map.put("lineStyle", Collections.singletonMap("color","red"));
+                        map.put("symbolSize","[90,90]");
+                        mapList.add(map);
+                    });
+                }}
+
+                tokenSystemInventory1.setIpList(mapList);
             });
-            tokenSystemInventory1.setIpList(mapList);
-        });
-        return list;
+        }
+
+        return list == null ? Collections.emptyList() : list;
+    }
+
+    /**
+     * 查询江苏银行信息系统标准化清单（2019年四季度） 科技主管团队分组的系统详情
+     * 二代征信除外
+     * 2020-05-11 taochen
+     */
+    @Override
+    public List<TokenSystemInventory> selectIPInventoryList(String systemName) {
+        TokenSystemInventory tokenSystemInventory = new TokenSystemInventory();
+        tokenSystemInventory.setSystemName(systemName);
+        List<TokenSystemInventory> inventoryList = tokenSystemInventoryMapper.selectNameInventoryList(tokenSystemInventory);
+        //查询上下游系统
+        List<TokenSystemInventory> upDownSystemList = new ArrayList<>();
+        upDownSystemList = tokenSystemInventoryMapper.selectUpDownSystemList(systemName);
+        if(upDownSystemList.get(0) != null){
+            if(upDownSystemList.get(0).getUpName() != null){
+                inventoryList.get(0).setUpName(upDownSystemList.get(0).getUpName());
+            }
+            if(upDownSystemList.get(0).getDownName() != null){
+                inventoryList.get(0).setDownName(upDownSystemList.get(0).getDownName());
+            }
+        }
+        //查询数据库
+        List<HashMap<String,Object>> databaseList = tokenSystemInventoryMapper.selectDatabaseIp(systemName);
+        List<HashMap<String,Object>> dataList = new ArrayList<>();
+        if(databaseList.size()>0 && databaseList != null){
+            for (HashMap<String, Object> map : databaseList) {
+                HashMap<String,Object> result = new HashMap<>();
+                result.put("dataUser",map.get("DATA_USER"));
+                result.put("ipList",map.get("IP_LIST"));
+                dataList.add(result);
+            }
+        }
+        inventoryList.get(0).setDatabaseList(dataList);
+
+        List<TokenSystemExhibition> exhibitionList = tokenSystemInventoryMapper.selectIPInventoryList(systemName);
+        List<Map<String,Object>> ipList = new ArrayList<>();
+        if(inventoryList.size()>0 && inventoryList != null && exhibitionList.size()>0 && exhibitionList != null){
+            for (TokenSystemExhibition tokenSystemExhibition : exhibitionList) {
+                Map<String,Object> map = new HashMap<>();
+                map.put("purposePort",tokenSystemExhibition.getPurposePort());
+                map.put("ipList",tokenSystemExhibition.getIpList());
+                map.put("indexName",tokenSystemExhibition.getIndexName());
+                ipList.add(map);
+            }
+            inventoryList.get(0).setIpList(ipList);
+        }
+
+        return inventoryList;
     }
 
     /**

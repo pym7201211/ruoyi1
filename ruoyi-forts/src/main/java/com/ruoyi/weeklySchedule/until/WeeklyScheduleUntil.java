@@ -140,6 +140,10 @@ public class WeeklyScheduleUntil {
             String host_manager = jsonObject.getString("host_manager");
             String host_manager_id = jsonObject.getString("host_manager_id");
             String demand_dept = jsonObject.getString("demand_dept");
+            if (StringUtils.isNotBlank(demand_dept)){
+                String[] split = demand_dept.split(",");
+                demand_dept = split[0];
+            }
             String demand_dept_id = jsonObject.getString("demand_dept_id");
             String processing_time = jsonObject.getString("processing_time");
             String planned_production_time = jsonObject.getString("planned_production_time");
@@ -226,6 +230,10 @@ public class WeeklyScheduleUntil {
             String project_manager = jsonObject.getString("project_manager");
 //            String project_manager_id = jsonObject.getString("project_manager_id");
             String demand_dept = jsonObject.getString("demand_dept");
+            if (StringUtils.isNotBlank(demand_dept)){
+                String[] split = demand_dept.split(",");
+                demand_dept = split[0];
+            }
             String start_time = jsonObject.getString("start_time");
             String planned_production_time = jsonObject.getString("planned_production_time");
             String current_generation = jsonObject.getString("current_generation");

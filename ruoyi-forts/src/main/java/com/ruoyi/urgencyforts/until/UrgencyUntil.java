@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -138,7 +139,7 @@ public class UrgencyUntil {
                 return null;
             }
             for (HashMap<String,String> map:list) {
-                lists.add("0"+map.get("USER_ID")+","+map.get("USER_NAME"));
+                lists.add(map.get("USER_ID")+","+map.get("USER_NAME"));
             }
             String[] strings = new String[lists.size()];
             lists.toArray(strings);
@@ -163,7 +164,7 @@ public class UrgencyUntil {
             String operator = jsonClient.getString("operator");
             String reviewerId = jsonClient.getString("reviewerId");
             if (StringUtils.isNotBlank(reviewerId)){
-                reviewerId = reviewerId.startsWith("0") ? reviewerId : "0"+reviewerId;
+                reviewerId = reviewerId;
             }
             String reviewer = jsonClient.getString("reviewer");
             String orderNo = jsonClient.getString("orderNo");
@@ -188,7 +189,7 @@ public class UrgencyUntil {
             if ("1".equals(internetUrgency)){
                 securityTeamId = urgencyMapperBean.getSecurityBigDataId("100011702");
                 if (StringUtils.isNotBlank(securityTeamId)){
-                    securityTeamId = "0"+securityTeamId;
+                    securityTeamId = securityTeamId;
                 }
             }
             String securityTeam = jsonClient.getString("securityTeam");
@@ -197,7 +198,7 @@ public class UrgencyUntil {
             if ("1".equals(dataUrgency)){
                 bigDataTeamId = urgencyMapperBean.getSecurityBigDataId("10001170901");
                 if (StringUtils.isNotBlank(bigDataTeamId)){
-                    bigDataTeamId = "0"+bigDataTeamId;
+                    bigDataTeamId = bigDataTeamId;
                 }
             }
             String involveSystem = jsonClient.getString("involveSystem");
@@ -220,7 +221,7 @@ public class UrgencyUntil {
             String chargeLeaderId = jsonClient.getString("chargeLeaderId");
             String teamChargeId = jsonClient.getString("teamChargeId");
             if (StringUtils.isNotBlank(teamChargeId)){
-                teamChargeId = teamChargeId.startsWith("0") ? teamChargeId : "0"+teamChargeId;
+                teamChargeId = teamChargeId;
             }
 
             //String orderNo = getUuid(operatorId);
@@ -270,8 +271,8 @@ public class UrgencyUntil {
     }
 
     public static UrgencyAlteratVerifys newUrgencyAlteratVerifys(String orderNum, String changeTime, String isHalt, String haltRange,
-                                                          String haltTime, String verifyDate, String verifyScheme, String inforMost,
-                                                          String urgencySendDept, String verifyStatus,String startTime,String endTime){
+                                                                 String haltTime, String verifyDate, String verifyScheme, String inforMost,
+                                                                 String urgencySendDept, String verifyStatus,String startTime,String endTime){
         UrgencyAlteratVerifys urgencyAlteratVerifys = new UrgencyAlteratVerifys(orderNum, changeTime, isHalt, haltRange,
                 haltTime, verifyDate,  verifyScheme,  inforMost, urgencySendDept,  verifyStatus, startTime, endTime);
         return urgencyAlteratVerifys;
@@ -501,10 +502,23 @@ public class UrgencyUntil {
         }
     }
 
-    public static JSONObject requireOpenDistinct1(String employeeId,String openDate,String endDate,
-                                                 String tag,String content,String applyDate,String orderNo) throws Exception{
+    public static String beforeTime(String time) throws Exception{
+        SimpleDateFormat sd = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try{
-            JSONObject jsonObject = httpOpenDistinct(employeeId,getFormatDate(openDate), getFormatDate(endDate));
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(sd.parse(time));
+            cal.add(Calendar.MINUTE,-5);
+            return sdf.format(cal.getTime());
+        }catch (Exception e){
+            throw new Exception(e);
+        }
+    }
+
+    public static JSONObject requireOpenDistinct1(String employeeId,String openDate,String endDate,
+                                                  String tag,String content,String applyDate,String orderNo) throws Exception{
+        try{
+            JSONObject jsonObject = httpOpenDistinct(employeeId,beforeTime(openDate), getFormatDate(endDate));
             FortMapper fortMapper = SpringUtils.getBean("fortMapper");
             if (null != jsonObject && jsonObject.size() > 0){
                 if ("2000".equals(jsonObject.getString("code"))){
@@ -591,7 +605,6 @@ public class UrgencyUntil {
                 map.put("msg","查询无发送消息领导号");
                 return map;
             }
-            userId = userId.startsWith("0") ? userId.replaceFirst("0","") : userId;
             //FortService fortService = SpringUtils.getBean("fortService");
             FortMapper fortMapper = SpringUtils.getBean("fortMapper");
             List<HashMap<String, String>> twoOrgInfomation = fortMapper.getTwoOrgInfomation(userId);
@@ -604,7 +617,7 @@ public class UrgencyUntil {
             for (HashMap<String, String> hashMap:twoOrgInfomation) {
                 String ldUserId = hashMap.get("USER_ID");
                 if (StringUtils.isNotBlank(ldUserId)){
-                    ldUserId = ldUserId.startsWith("0") ? ldUserId : "0"+ldUserId;
+                    ldUserId = ldUserId;
                 }
                 nos.add(ldUserId);
                 log.info("sendmessage ldUserId : "+ldUserId);
@@ -716,7 +729,7 @@ public class UrgencyUntil {
             String urlGet = selectConfigByKey("token_fort_urlGet");
             String urlPut = selectConfigByKey("token_fort_urlPut");
             String hostname = selectConfigByKey("token_fort_hostname");
-            String resultPost = HttpUtil.doPost(urlPost, HttpHeader.headerMap(""), paramMaps(), "UTF-8", false);
+            String resultPost = HttpUtil.doPost1(urlPost, HttpHeader.headerMap(""), paramMaps(), "UTF-8", false);
             log.info("resultPost =======>>> "+resultPost);
             JSONObject jsonObject = JSON.parseObject(resultPost);
             String st_auth_token = jsonObject.getString("ST_AUTH_TOKEN");
@@ -805,7 +818,7 @@ public class UrgencyUntil {
      * @throws Exception
      */
     public static Map<String,String> sendsEmployeeAndLeaderMessage(String employeeId,
-                                                            String applyDate,String approvalStatus,String orderNo)throws Exception{
+                                                                   String applyDate,String approvalStatus,String orderNo)throws Exception{
         Map map = new HashMap<>();
         try{
             String tag = "紧急变更审批回复";
@@ -909,6 +922,49 @@ public class UrgencyUntil {
         return time;
     }
 
+    public static boolean newAndOldSwitch() throws Exception {
+        boolean bl = false;
+        try{
+            String token_date_switch = selectConfigByKey("token_date_switch");
+            if (StringUtils.isBlank(token_date_switch)){
+                return bl;
+            }
+            if ("off".equals(token_date_switch)){
+                return true;
+            }
+            SysDictDataMapper iSysDictDataService = SpringUtils.getBean("sysDictDataMapper");
+            String startDate = iSysDictDataService.selectDictLabel("token_newAndOld_date", "start_newToken_date");
+            String endDate = iSysDictDataService.selectDictLabel("token_newAndOld_date", "end_newToken_date");
+            if (StringUtils.isBlank(startDate) || StringUtils.isBlank(endDate)){
+                return bl;
+            }
+            return true == compTime(startDate,endDate) ? false : true;
+        }catch (Exception e){
+            throw new Exception(e);
+        }
+    }
+
+    public static boolean compTime(String startDate,String endDate) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        try {
+            Calendar date = Calendar.getInstance();
+            date.setTime(sdf.parse(sdf.format(new Date())));
+
+            Calendar begin = Calendar.getInstance();
+            begin.setTime(sdf.parse(startDate));
+
+            Calendar end = Calendar.getInstance();
+            end.setTime(sdf.parse(endDate));
+            if (date.after(begin) && date.before(end)){
+                return true;
+            }
+            return false;
+        } catch (ParseException e) {
+            throw new Exception(e);
+        }
+
+    }
+
     public static boolean belongDate(Date time) {
         boolean bl = false;
         if (time.before(beforeDate(30)) && time.after(beforeDate(-30))){
@@ -944,14 +1000,16 @@ public class UrgencyUntil {
         return outRegistration;
     }
 
-    public static void main(String[] args){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static void main(String[] args) throws Exception {
+        /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();  //得到日历
         calendar.setTime(new Date());//把当前时间赋给日历
         calendar.add(Calendar.MINUTE, -20);
         Date before7days = calendar.getTime();   //得到n前的时间
         boolean b = belongDate(before7days);
-        System.out.println(b);
+        System.out.println(b);*/
+        String s = beforeTime("20200202 14:25:00");
+        System.out.println(s);
     }
 
 }

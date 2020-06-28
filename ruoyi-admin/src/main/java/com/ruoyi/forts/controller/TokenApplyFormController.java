@@ -204,6 +204,7 @@ public class TokenApplyFormController extends BaseController
         return toAjax(tokenApplyFormService.deleteTokenApplyFormByIds(ids));
     }
 
+
     /**
      * 导入用户数据
      *
@@ -235,11 +236,15 @@ public class TokenApplyFormController extends BaseController
                 String endDate = taf.getEndDate();
                 String environment = "1".equals(taf.getApplyEnvironment()) ? "生产环境" : "办公环境";
                 logger.info("开始调用第三方保垒机"+openDate+" "+endDate);
-                /*JSONObject httpJson = fortController.httpOpenDistinct
-                        (taf.getEmployeeId(),sdf1.format(sdf.parse(openDate)),sdf1.format(sdf.parse(endDate)));*/
-                JSONObject httpJson = fortController.httpOpenDistinct
-                        (taf.getEmployeeId(),password,environment,
-                                sdf1.format(sdf.parse(openDate)),sdf1.format(sdf.parse(endDate)));
+                JSONObject httpJson = null;
+                if (fortController.newAndOldSwitch()){
+                    httpJson = fortController.httpOpenDistinct
+                            (taf.getEmployeeId(),password,environment,
+                                    sdf1.format(sdf.parse(openDate)),sdf1.format(sdf.parse(endDate)));
+                }else {
+                    httpJson = fortController.httpOpenDistinct
+                        (taf.getEmployeeId(),sdf1.format(sdf.parse(openDate)),sdf1.format(sdf.parse(endDate)));
+                }
                 logger.info("调用第三方保垒机成功");
                 if(null != httpJson && httpJson.containsKey("code")){
                     if("2000".equals(httpJson.getString("code"))){

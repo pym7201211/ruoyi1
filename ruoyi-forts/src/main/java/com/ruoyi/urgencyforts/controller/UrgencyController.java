@@ -1,5 +1,6 @@
 package com.ruoyi.urgencyforts.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.utils.StringUtils;
@@ -140,7 +141,7 @@ import java.util.regex.Pattern;
                 String responMap = responsibleCharge.getString("responMaps");
                 HashMap<String,String> responMaplist = null;
                 if (!"false".equals(responMap)){
-                    responMaplist =
+                            responMaplist =
                             (HashMap<String,String>)responsibleCharge.get("responMap");
                 }
                 HashMap<String,String> chargeMaplist =
@@ -237,6 +238,25 @@ import java.util.regex.Pattern;
             log.info("selectUrgencyHistory : "+modelMap);
             return modelMap;
         }
+
+        @ApiOperation("查询联合告警紧急变更历史")
+        @PostMapping("/selectUrgencyIPHistory")
+        @ResponseBody
+        public ModelMap selectUrgencyIPHistory(@RequestBody String json){
+            ModelMap modelMap = null;
+        try {
+            JSONObject jsonObject = urgencyService.selectUrgencyIPHistory(json);
+            modelMap = UrgencyUntil.resultModelMap(jsonObject);
+            if ("0".equals((String) modelMap.get("code"))){
+                modelMap.put("list",(List<HashMap<String,String>>)jsonObject.get("list"));
+                modelMap.put("affiliatedTeam",(List<HashMap<String,String>>)jsonObject.get("affiliatedTeam"));
+            }
+        }catch (Exception e){
+            log.error("审批更改状态接口异常：",e);
+        }
+            log.info("selectUrgencyHistory : "+modelMap);
+            return modelMap;
+    }
 
         @ApiOperation("查询验证信息")
         @PostMapping("/getVerifyData")

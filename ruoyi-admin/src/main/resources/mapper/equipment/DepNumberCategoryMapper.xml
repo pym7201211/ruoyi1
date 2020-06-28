@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.equipment.mapper.DepNumberCategoryMapper">
+    
+    <resultMap type="DepNumberCategory" id="DepNumberCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="identity"    column="identity"    />
+        <result property="name"    column="name"    />
+        <result property="inUse"    column="in_use"    />
+        <result property="newBrand"    column="new_brand"    />
+        <result property="oldBrand"    column="old_brand"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="time"    column="time"    />
+        <result property="twoDep"    column="two_dep"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="parentName"    column="parent_name"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <resultMap type="DepFeedback" id="DepFeedbackResult">
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="twoDep"    column="two_dep"    />
+        <result property="opinion"    column="opinion"    />
+        <result property="opinionTime"    column="opinion_time"    />
+        <result property="personId"    column="person_id"    />
+        <result property="personName"    column="person_name"    />
+        <result property="feedback"    column="feedback"    />
+        <result property="feedbackTime"    column="feedback_time"    />
+        <result property="seqNo"    column="seq_no"    />
+    </resultMap>
+
+
+    <sql id="selectDepNumberCategoryVo">
+        select identity, in_use, new_brand, old_brand, user_id, time, two_dep from dep_number_category
+    </sql>
+
+    <select id="selectDepNumberCategoryList" parameterType="DepNumberCategory" resultMap="DepNumberCategoryResult">
+        select a.*,b.name ,c.identity parent_id,c.name parent_name,t.user_name from dep_number_category a
+        left join dep_equip_classify b on a.identity = b.identity
+        left join dep_equip_category c on b.parent_identity = c.identity
+        left join token_xkstaff_department t on a.user_id = t.user_id
+        <where>  
+            <if test="identity != null  and identity != ''"> and a.identity = #{identity}</if>
+            <if test="time != null "> and a.time = #{time}</if>
+            <if test="twoDep != null  and twoDep != ''"> and a.two_dep = #{twoDep}</if>
+            <if test="id != null  and id != ''"> and a.id = #{id}</if>
+        </where>
+    </select>
+
+    <select id="selectDepNumberCategoryListHis" parameterType="String" resultMap="DepNumberCategoryResult">
+        select a.*,b.name ,c.identity parent_id,c.name parent_name,t.user_name from dep_number_category_his a
+        left join dep_equip_classify b on a.identity = b.identity
+        left join dep_equip_category c on b.parent_identity = c.identity
+        left join token_xkstaff_department t on a.user_id = t.user_id
+        <where>
+        <if test="id != null  and id != ''"> and a.id = #{id}</if>
+        </where>
+        order by a.time
+    </select>
+
+    <select id="selectUserDep" parameterType="String" resultType="java.util.Map">
+        select a.org_code,a.two_dept_org from token_xkstaff_department a
+        where a.user_id = #{user_id}
+    </select>
+
+    <select id="selectUserSpecial" parameterType="String" resultType="java.util.Map">
+        select nvl(max(a.user_level),' ') user_level from vd_outsource_leader a
+        where a.user_id = #{user_id} and a.category = '2'
+    </select>
+    
+    <select id="selectDepNumberCategoryById" parameterType="String" resultMap="DepNumberCategoryResult">
+        select a.*,b.name ,c.identity parent_id,c.name parent_name from dep_number_category a
+        left join dep_equip_classify b on a.identity = b.identity
+        left join dep_equip_category c on b.parent_identity = c.identity
+        where a.identity = #{identity}
+    </select>
+        
+    <insert id="insertDepNumberCategory" parameterType="DepNumberCategory">
+        insert into dep_number_category values(#{identity},#{inUse},#{newBrand},#{oldBrand},#{userId},sysdate,#{twoDep},#{id})
+    </insert>
+
+    <insert id="insertDepNumberCategoryHis" parameterType="DepNumberCategory">
+        insert into dep_number_category_his values(#{identity},#{inUse},#{newBrand},#{oldBrand},#{userId},sysdate,#{twoDep},#{id},#{status})
+    </insert>
+
+    <update id="updateDepNumberCategory" parameterType="DepNumberCategory">
+        update dep_number_category set in_use = #{inUse}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDepNumberCategoryById" parameterType="String">
+        delete from dep_number_category where identity = #{identity}
+    </delete>
+
+    <delete id="deleteDepNumberCategoryByIds" parameterType="String">
+        delete from dep_number_category where id = #{id}
+    </delete>
+
+    <select id="selectCategory" parameterType="String" resultMap="DepNumberCategoryResult">
+        select b.identity parent_id,b.name parent_name ,to_char(wm_concat(a.identity)) identity,to_char(wm_concat(a.name)) name from dep_equip_classify a
+        left join dep_equip_category b on a.parent_identity = b.identity
+        group by b.identity,b.name
+    </select>
+
+    <select id="selectNextId" parameterType="String" resultType="java.util.Map">
+        select nvl(to_char(max(id)+1),' ') id from dep_number_category_his  a where a.id like concat(concat('%', #{id}), '%')
+    </select>
+
+    <insert id="insertDepFeedback" parameterType="DepFeedback">
+        insert into dep_opinion_feedback values(#{userId},#{twoDep},#{opinion},to_char(sysdate,'yyyy-MM-dd HH24:mi:ss'),
+        nvl(#{personId,jdbcType=VARCHAR},' '),nvl(#{feedback,jdbcType=VARCHAR},' '),nvl(#{feedbackTime,jdbcType=VARCHAR},' '),#{seqNo})
+    </insert>
+
+    <update id="updateDepFeedback" parameterType="DepFeedback">
+        update dep_opinion_feedback a set a.person_id = #{personId},
+        a.feedback = #{feedback}, a.feedback_time = to_char(sysdate,'yyyy-MM-dd HH24:mi:ss') where a.seq_no = #{seqNo}
+    </update>
+
+    <select id="selectFeedback" parameterType="String" resultMap="DepFeedbackResult">
+        select a.*,b.user_name user_name,c.user_name person_name from dep_opinion_feedback a
+        left join token_xkstaff_department b on a.user_id = b.user_id
+        left join token_xkstaff_department c on a.person_id = c.user_id
+        <where>
+            <if test="twoDep != null  and twoDep != ''"> and a.two_dep = #{twoDep}</if>
+            <if test="seqNo != null  and seqNo != ''"> and a.seq_no = #{seqNo}</if>
+        </where>
+        order by a.opinion_time desc
+    </select>
+    
+</mapper>

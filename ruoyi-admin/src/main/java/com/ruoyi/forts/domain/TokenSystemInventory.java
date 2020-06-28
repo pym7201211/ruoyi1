@@ -24,6 +24,9 @@ public class TokenSystemInventory extends BaseEntity
 
     private List<Map<String,Object>> ipList = new ArrayList<>();
 
+    private List<HashMap<String,Object>> databaseList = new ArrayList<>();
+
+
     public List<Map<String,Object>> getIpList() {
         return ipList;
     }
@@ -31,6 +34,14 @@ public class TokenSystemInventory extends BaseEntity
     public void setIpList(List<Map<String,Object>> ipList) {
         this.ipList = new ArrayList<>();
         this.ipList = ipList;
+    }
+
+    public List<HashMap<String, Object>> getDatabaseList() {
+        return databaseList;
+    }
+
+    public void setDatabaseList(List<HashMap<String, Object>> databaseList) {
+        this.databaseList = databaseList;
     }
 
     /** 等级分类 */
@@ -87,8 +98,15 @@ public class TokenSystemInventory extends BaseEntity
 
     /** 主管姓名 */
     @Excel(name = "主管姓名")
-
     private String leaderName;
+
+    /** 上游系统 */
+    @Excel(name = "上游系统")
+    private String upName;
+
+    /** 下游系统 */
+    @Excel(name = "下游系统")
+    private String downName;
 
     public String getLeaderId() {
         return leaderId;
@@ -126,6 +144,22 @@ public class TokenSystemInventory extends BaseEntity
     /**记录查询信息属于哪个主管团队的下标*/
     private int num;
 
+    public String getUpName() {
+        return upName;
+    }
+
+    public void setUpName(String upName) {
+        this.upName = upName;
+    }
+
+    public String getDownName() {
+        return downName;
+    }
+
+    public void setDownName(String downName) {
+        this.downName = downName;
+    }
+
     public String[] getUseMaintainStaffs() {
         return useMaintainStaffs;
     }
@@ -158,7 +192,7 @@ public class TokenSystemInventory extends BaseEntity
              String systemAbbreviation, String businessChargeDepartment,
              String scienceChargeTeam, String useMaintainStaff,
              String serviceDate, Date productionDate, String maintainUserId,
-             String systemId,String leaderId,String leaderName) {
+             String systemId,String leaderId,String leaderName,String upName,String downName) {
         this.id = id;
         this.gradeClassify = gradeClassify;
         this.type = type;
@@ -173,6 +207,8 @@ public class TokenSystemInventory extends BaseEntity
         this.systemId = systemId;
         this.leaderId = leaderId;
         this.leaderName = leaderName;
+        this.leaderName = upName;
+        this.leaderName = downName;
     }
 
     public void setId(Long id)
@@ -311,6 +347,8 @@ public class TokenSystemInventory extends BaseEntity
                 ", systemId='" + systemId + '\'' +
                 ", leaderId='" + leaderId + '\'' +
                 ", leaderName='" + leaderName + '\'' +
+                ", leaderName='" + upName + '\'' +
+                ", leaderName='" + downName + '\'' +
                 ", useMaintainStaffs=" + Arrays.toString(useMaintainStaffs) +
                 ", maintainUserIds=" + Arrays.toString(maintainUserIds) +
                 ", num=" + num +

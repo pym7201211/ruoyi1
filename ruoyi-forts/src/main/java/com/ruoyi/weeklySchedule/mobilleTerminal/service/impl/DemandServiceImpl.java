@@ -63,7 +63,6 @@ public class DemandServiceImpl implements DemandService {
                 log.info("access =========>>>"+access);
             }
             List<HashMap<String, String>> hashMaps = demandMapper.selectHostTeam(hostTeamId);
-            userId = userId.startsWith("0") ? userId.replaceFirst("0","") : userId;
             List<String> twoDeptId = demandMapper.selectTwoDeptId(userId);
             JSONObject jsonObject = WeeklyScheduleUntil.resultStatus("0", "查询成功");
             jsonObject.put("list",hashMaps);
@@ -200,7 +199,6 @@ public class DemandServiceImpl implements DemandService {
             if (null == map || map.size() == 0){                                //员工或需求经理
                 String hostTeamId = demandMapper.selectManagerId(userId);
                 if (StringUtils.isBlank(hostTeamId)){                        //员工
-                    userId = userId.startsWith("0") ? userId.replaceFirst("0","") : userId;
                     List<String> twoDeptId = demandMapper.selectTwoDeptId(userId);
                     jsonObject.put("position","employee");
                     jsonObject.put("hostTeamId",twoDeptId);

@@ -62,7 +62,6 @@ public class UrgencyServiceImpl implements UrgencyService {
             }
             String userId = jsonClient.getString("userId");
             String systemName = jsonClient.getString("systemName");
-            userId = userId.startsWith("0") ? userId.replaceFirst("0","") : userId;
             List<String> likeSystems = urgencyMapper.getLikeSystem(userId, systemName);
             if (null == likeSystems || likeSystems.size() <= 0){
                 return UrgencyUntil.resultStatus("0","查询系统名称数据为空");
@@ -108,7 +107,6 @@ public class UrgencyServiceImpl implements UrgencyService {
                 return jsonClient;
             }
             String userId = jsonClient.getString("userId");
-            userId = userId.startsWith("0") ? userId.replaceFirst("0","") : userId;
             List<HashMap<String, String>> userInfo = urgencyMapper.getUserInfo(userId);
             List userLists = UrgencyUntil.getUserLists(userInfo);
             JSONObject jsonObject = UrgencyUntil.resultStatus("0", "查询成功");
@@ -164,7 +162,6 @@ public class UrgencyServiceImpl implements UrgencyService {
             if (StringUtils.isBlank(userId)){
                 return UrgencyUntil.resultStatus("1","客户端传入userId为空");
             }
-            userId = userId.startsWith("0") ? userId.replaceFirst("0","") : userId;
             List<HashMap<String,String>> hashMap = urgencyMapper.teamLeaderInfomation(userId);
             if (null == hashMap || hashMap.size() <= 0){
                 return UrgencyUntil.resultStatus("1","查询无团队领导数据");
@@ -197,7 +194,6 @@ public class UrgencyServiceImpl implements UrgencyService {
             if (StringUtils.isBlank(userId)){
                 return UrgencyUntil.resultStatus("1","客户端传入userId为空");
             }
-            userId = userId.startsWith("0") ? userId.replaceFirst("0","") : userId;
             List<HashMap<String,String>> hashMap = urgencyMapper.teamLeaderInfomation(userId);
             if (null == hashMap || hashMap.size() <= 0){
                 return UrgencyUntil.resultStatus("1","查询无团队领导数据");
@@ -257,7 +253,7 @@ public class UrgencyServiceImpl implements UrgencyService {
                 //发送团队领导审批
                 String position = "teamChargePos";
                 if (StringUtils.isNotBlank(operatorId)){
-                    operatorId = operatorId.startsWith("0") ? operatorId.replaceFirst("0","") : operatorId;
+                    operatorId = operatorId;
                 }
                 String affiliatedTeam = UrgencyUntil.selectAffiliatedTeam(operatorId);
                 Map<String, String> map = FortDetailedListUntil.esbSendMessage(list, affiliatedTeam+operator + "申请紧急变更", "紧急变更审批",
@@ -307,7 +303,6 @@ public class UrgencyServiceImpl implements UrgencyService {
                 //String involve_system = hashMap.get("involve_system");
                 String operator_id = hashMap.get("operator_id");
                 if (StringUtils.isNotBlank(operator_id)){
-                    operator_id = operator_id.replaceFirst("0","");
                     List<String> team = urgencyMapper.selectAffiliatedTeam(operator_id);
                     hashMap.put("affiliatedTeam",team.get(0));
                 }
@@ -397,7 +392,7 @@ public class UrgencyServiceImpl implements UrgencyService {
             String operator = urgencyMapper.selectOperator(orderNo);
             String operatorIds = "";
             if (StringUtils.isNotBlank(operatorId)){
-                operatorIds = operatorId.startsWith("0") ? operatorId.replaceFirst("0","") : operatorId;
+                operatorIds = operatorId;
             }
             String affiliatedTeam = UrgencyUntil.selectAffiliatedTeam(operatorIds);
                 //若是团队主管审批
@@ -542,7 +537,6 @@ public class UrgencyServiceImpl implements UrgencyService {
                                 }
                             }
                             String runTeam = urgencyMapper.selectRunTeam();
-                            runTeam = runTeam.startsWith("0") ? runTeam : "0"+runTeam;
                             JSONObject jsonRunTeam = UrgencyUntil.sendUrgencyMessage(runTeam, affiliatedTeam+operator+"申请的紧急变更申请已通过 审批人：" + userName,
                                     link_launchApp+"?position=runTeam?orderNo="+orderNo);
                             if ("1".equals(jsonRunTeam.getString("code"))) {
@@ -682,21 +676,47 @@ public class UrgencyServiceImpl implements UrgencyService {
     @Override
     public JSONObject selectUrgencyHistory(String json) throws Exception {
         try{
-            JSONObject jsonClient = UrgencyUntil.clientJsonParams(json);
-            if (!"0".equals(jsonClient.getString("code"))){
-                return jsonClient;
-            }
+            JSONObject jsonObject1 = JSON.parseObject(json);
+            JSONObject note = (JSONObject) jsonObject1.get("note");
 
-            String operatorId = jsonClient.getString("operatorId");
+            String operatorId = note.getString("operatorId");
+            String ip = "";
             if (StringUtils.isBlank(operatorId)){
                 return UrgencyUntil.resultStatus("1", "operatorId为null");
             }
-            List<HashMap<String, String>> hashMaps = urgencyMapper.selectUrgencyHistory(operatorId);
-            operatorId = operatorId.replaceFirst("0","");
+            List<HashMap<String, String>> hashMaps = urgencyMapper.selectUrgencyHistory(operatorId,ip);
+
             List<String> team = urgencyMapper.selectAffiliatedTeam(operatorId);
+
             JSONObject jsonObject = UrgencyUntil.resultStatus("0", "查询成功");
             jsonObject.put("list",hashMaps);
             jsonObject.put("affiliatedTeam",team.get(0));
+            return jsonObject;
+        }catch (Exception e){
+            throw new Exception(e);
+        }
+    }
+
+    /**
+     * 查询联合告警紧急变更历史
+     * @param json
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public JSONObject selectUrgencyIPHistory(String json) throws Exception {
+        try{
+            JSONObject jsonObject1 = JSON.parseObject(json);
+            JSONObject note = (JSONObject) jsonObject1.get("note");
+            String systemName = note.getString("service");
+            if (StringUtils.isBlank(systemName)){
+                return UrgencyUntil.resultStatus("1", "systemName为null");
+            }
+            List<HashMap<String, String>> urgencyIPList = urgencyMapper.selectUrgencyIPHistory(systemName);
+            List<HashMap<String, String>> teamList = urgencyMapper.selectAffiliatedIPTeam(systemName);
+            JSONObject jsonObject = UrgencyUntil.resultStatus("0", "查询成功");
+            jsonObject.put("list",urgencyIPList);
+            jsonObject.put("affiliatedTeam",teamList);
             return jsonObject;
         }catch (Exception e){
             throw new Exception(e);
@@ -788,7 +808,6 @@ public class UrgencyServiceImpl implements UrgencyService {
                 return jsonClient;
             }
             String userId = jsonClient.getString("userId");
-            userId = userId.startsWith("0") ? userId.replaceFirst("0","") : userId;
             String twoDeptOrg = urgencyMapper.selectTwoDeptOrg(userId);
             if (StringUtils.isBlank(twoDeptOrg)){
                 return UrgencyUntil.resultStatus("1","查询无部门号");
@@ -913,7 +932,6 @@ public class UrgencyServiceImpl implements UrgencyService {
             for (HashMap<String,String> hashMap : hashMaps) {
                 String operator_id = hashMap.get("OPERATOR_ID");
                 if (StringUtils.isNotBlank(operator_id)){
-                    operator_id = operator_id.replaceFirst("0","");
                     List<String> team = urgencyMapper.selectAffiliatedTeam(operator_id);
                     hashMap.put("affiliatedTeam",team.get(0));
                 }

@@ -1,7 +1,6 @@
 package com.ruoyi.ruoyiforts.service;
 
 import com.ruoyi.ruoyiforts.domain.TokenApplyForms;
-import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.ui.ModelMap;
 
 import java.math.BigDecimal;
@@ -17,7 +16,13 @@ public interface FortService {
      * 首页列表查询和详情
      * @return
      */
-    public List<HashMap<String,String>> selectApplyAndResult(String employeeId);
+    public List<HashMap<String,String>> selectApplyAndResult(String employeeId,String ip);
+
+    /**
+     * 联合告警令牌申请历史查询
+     * @return
+     */
+    public List<HashMap<String,String>> selectApplyAndIPResult(String systemName);
 
     /**
      * 新增令牌登记申请
@@ -93,7 +98,8 @@ public interface FortService {
 
     public ModelMap getSystemInfo(String list) throws Exception;
 
-    public ModelMap getEmployeeNo(String systemId) throws Exception;
+    public ModelMap getEmployeeNo(String systemId, String ip) throws Exception;
 
+    public ModelMap getIndexName(String systemId, String ip) throws Exception;
 
 }

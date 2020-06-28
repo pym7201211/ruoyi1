@@ -13,7 +13,7 @@ public interface UrgencyService {
      * @return
      * @throws Exception
      */
-    public JSONObject getSystemName(String json) throws Exception;
+    public JSONObject  getSystemName(String json) throws Exception;
 
     /**
      * 查询实施人
@@ -88,6 +88,14 @@ public interface UrgencyService {
      * @throws Exception
      */
     public JSONObject selectUrgencyHistory(String json) throws Exception;
+
+    /**
+     * 查询联合告警紧急变更历史
+     * @param json
+     * @return
+     * @throws Exception
+     */
+    public JSONObject selectUrgencyIPHistory(String json) throws Exception;
 
     /**
      * 查询验证接口信息

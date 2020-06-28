@@ -12,4 +12,11 @@
         SELECT count(*) FROM urgency_alterat_register where ip = #{ip}
     </select>
 
+    <select id="getIPList" parameterType="string" resultType="java.util.Map">
+        select LISTAGG(ip,',') WITHIN group(ORDER BY ip) as ipList,SYSTEM_ID as systemId
+        from token_system_inventory
+        where system_id =
+        (select system_id from token_system_inventory where instr(ip,#{ip}) > 0 GROUP BY SYSTEM_ID)
+        GROUP BY SYSTEM_ID
+    </select>
 </mapper>

@@ -206,7 +206,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SUM (valueNum - cum) AS chat,
         ROUND (
         (
-        (SUM(cum) + SUM(week)) / SUM (valueNum)
+        SUM(cum)  / SUM (valueNum)
         ),
         2
         ) * 100 AS pro

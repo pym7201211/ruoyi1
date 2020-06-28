@@ -34,6 +34,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select af.*, dv.user_name, dv.password from token_apply_form af
       left join token_distinct_vpn dv on af.uniquenesscode = dv.uniquenesscode
       where af.EMPLOYEE_ID = #{employeeId}
+            <if test="ip=null and ip != ''" >and af.ip=#{ip}</if>
+
+      order by af.token_id desc
+    </select>
+
+    <select id="selectApplyAndIPResult" parameterType="java.lang.String" resultType="java.util.HashMap">
+       select af.*, dv.user_name, dv.password from token_apply_form af
+       left join token_distinct_vpn dv on af.uniquenesscode = dv.uniquenesscode
+       where af.EMPLOYEE_ID in (
+       SELECT REGEXP_SUBSTR(a.maintain_user_id, '[^,]+', 1, LEVEL)
+       FROM (select *
+             from token_system_inventory a
+             where a.system_name = #{systemName}) a
+             CONNECT BY REGEXP_SUBSTR(a.maintain_user_id, '[^,]+', 1, LEVEL) IS NOT NULL
+       )
+        and to_date(to_char(af.apply_date,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss') &gt;= to_date(to_char(sysdate-7,'yyyy-MM-dd HH24:mi:ss'),'yyyy-MM-dd HH24:mi:ss')
       order by af.token_id desc
     </select>
 
@@ -205,7 +221,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       </foreach>
     </select>
 
-    <select id="getEmployeeNo" parameterType="java.lang.String" resultType="java.lang.String">
-        select maintain_user_id from token_system_inventory where system_id = #{systemId}
+    <select id="getEmployeeNo" parameterType="java.lang.String" resultType="map">
+        select maintain_user_id, LEADER_ID as leaderId,a.system_name systemName
+        from token_system_inventory a
+        left join token_ip_address b
+        on a.identity = b.parent_id
+        where 1=1
+        <if test="ip != null and ip !=''">
+            and b.ip = #{ip}
+        </if>
+        <if test="systemId != null and systemId !=''">
+            and a.identity = #{systemId}
+        </if>
+
+    </select>
+
+    <select id="getIndexName" parameterType="java.lang.String" resultType="map">
+        select to_char(wm_concat(distinct b.index_name)) indexName from token_ip_address a
+        left join token_index_level b on a.level_id = b.level_id
+        where a.parent_id = #{systemId} and a.ip = #{ip}
     </select>
 </mapper>

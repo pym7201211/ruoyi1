@@ -38,8 +38,8 @@ public class ECIFMSGTASCTLMsgSendSOAPQSService
         URL url = null;
         WebServiceException e = null;
         try {//66.0.42.6
-            url = new URL("http://88.0.89.101:8001/EsbService/ECIFMSGTAS_CTL_MsgSendProxyService");
-            //url = new URL("http://66.1.43.15:8001/EsbService/ECIFMSGTAS_CTL_MsgSendProxyService");
+            //url = new URL("http://88.0.89.101:8001/EsbService/ECIFMSGTAS_CTL_MsgSendProxyService");
+            url = new URL("http://66.1.43.15:8001/EsbService/ECIFMSGTAS_CTL_MsgSendProxyService");
             log.info("地址为："+ url);
 //            url = new URL("file:/C:/Users/\u9ec4\u6210\u535a/Desktop/\u65b0\u5efa\u6587\u4ef6\u5939 (2)/ECIFMSGTAS_CTL_MsgSendProxyService.wsdl");
         } catch (MalformedURLException ex) {

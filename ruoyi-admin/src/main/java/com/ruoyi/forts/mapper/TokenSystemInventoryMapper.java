@@ -1,9 +1,11 @@
 package com.ruoyi.forts.mapper;
 
+import com.ruoyi.forts.domain.TokenSystemExhibition;
 import com.ruoyi.forts.domain.TokenSystemInventory;
 import com.ruoyi.forts.domain.TokenSystemInventorySo;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -108,4 +110,24 @@ public interface TokenSystemInventoryMapper
      */
     List<TokenSystemInventory>selectTokenSystemInventoryLi(TokenSystemInventorySo tokenSystemInventorySo);
 
+    /**
+     * 根据系统名称查询ip
+     * @param systemName
+     * @return
+     */
+    List<TokenSystemExhibition> selectIPInventoryList(String systemName);
+
+    /**
+     * 根据系统名称查询上下游系统
+     * @param systemName
+     * @return
+     */
+    List<TokenSystemInventory> selectUpDownSystemList(String systemName);
+
+    /**
+     * 根据系统名查询数据库
+     * @param systemName
+     * @return
+     */
+    List<HashMap<String,Object>> selectDatabaseIp(String systemName);
 }

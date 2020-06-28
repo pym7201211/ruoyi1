@@ -72,7 +72,7 @@ public class TokenSystemInventoryController extends BaseController
                 "中台","综合业务系统","核心SOP",
                 "运营管理部","核心应用",
                 "高露、滕国浩","7*24", new Date(),
-                "200,200","8224","01010245","主管姓名");
+                "200,200","8224","01010245","主管姓名","","");
         List<TokenSystemInventory> defaultData = Arrays.asList(tokenSystemInventory);
         return util.exportExcel(defaultData, "用户数据");
     }
